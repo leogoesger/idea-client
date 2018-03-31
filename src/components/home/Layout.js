@@ -2,13 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
-import Snackbar from 'material-ui/Snackbar';
 import {find} from 'lodash';
 import Divider from 'material-ui/Divider';
-
-import Loader from './Loader.js';
-import Overview from './Overview';
-import Plot from './Plot';
 
 export default class Layout extends React.Component {
   constructor(props) {
@@ -27,11 +22,6 @@ export default class Layout extends React.Component {
 
   handleChange(e) {
     this.setState({input: e.target.value});
-  }
-
-  handleSnackBarClose() {
-    this.setState({open: false});
-    this.props.createUserError();
   }
 
   createUser(input) {
@@ -73,36 +63,6 @@ export default class Layout extends React.Component {
         </div>
 
         <Divider style={{width: '90%', margin: '10px auto'}} />
-
-        <div
-          className="row col-lg-10 col-md-10 col-xs-12"
-          style={{
-            margin: '30px auto',
-            display: 'flex',
-            justifyContent: 'space-between',
-          }}
-        >
-          <div style={{width: '45%'}}>
-            <Plot currentUser={this.props.currentUser} />
-          </div>
-          <div style={{margin: '0px', width: '50%'}}>
-            <Overview
-              users={this.props.users}
-              fetchUser={userName => this.props.fetchUser(userName)}
-            />
-          </div>
-        </div>
-
-        <Snackbar
-          anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
-          open={this.state.open}
-          onClose={() => this.handleSnackBarClose()}
-          SnackbarContentProps={{
-            'aria-describedby': 'message-id',
-          }}
-          message={this.props.error}
-        />
-        <Loader loading={this.props.fetchingStatus} />
       </div>
     );
   }
