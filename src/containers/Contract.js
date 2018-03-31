@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 
 import Layout from '../components/contract/Layout';
 
@@ -14,12 +13,4 @@ Contract.propTypes = {
   users: PropTypes.array,
 };
 
-const mapStateToProps = state => {
-  return null;
-};
-
-const mapDispatchToProps = dispatch => {
-  return null;
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Contract);
+export default Contract;

@@ -130,12 +130,6 @@ body {
   background-color: #f5f6f7;
   min-height: 400px;
 }
-
-.tick line,
-.domain {
-  stroke: #bdbdbd;
-}
-
-.xAxis .tick text {
-  transform: rotate(-60deg) translate(-20px, 0px);
+.content {
+  right: 0;
 }

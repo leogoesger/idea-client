@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TextField from 'material-ui/TextField';
-import Button from 'material-ui/Button';
-import {find} from 'lodash';
-import Divider from 'material-ui/Divider';
+import Paper from 'material-ui/Paper';
+import Typography from 'material-ui/Typography';
 
 export default class Layout extends React.Component {
   constructor(props) {
@@ -14,56 +12,20 @@ export default class Layout extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.error) {
-      this.setState({open: true});
-    }
-  }
-
-  handleChange(e) {
-    this.setState({input: e.target.value});
-  }
-
-  createUser(input) {
-    const searchUser = find(
-      this.props.users,
-      user => user.username === input.toLowerCase()
-    );
-
-    if (searchUser) {
-      this.props.createUserError('User already exists!');
-    } else {
-      this.props.createUser(input);
-    }
-  }
-
   render() {
     return (
-      <div style={{marginBottom: '100px'}}>
-        <div
-          className="row col-lg-8 col-md-8 col-xs-12"
-          style={styles.inputContainer}
-        >
-          <div className="col-lg-9 col-md-9 col-xs-9">
-            <TextField
-              label="Enter FCC User Name to Compete!"
-              onChange={e => this.handleChange(e)}
-              fullWidth
-            />
-          </div>
-          <div className="col-lg-2 col-md-2 col-xs-2">
-            <Button
-              variant="raised"
-              color="primary"
-              onClick={() => this.createUser(this.state.input)}
-            >
-              Enter!
-            </Button>
-          </div>
-        </div>
-
-        <Divider style={{width: '90%', margin: '10px auto'}} />
-      </div>
+      <Paper
+        className="col-lg-10 col-md-10 col-xs-12"
+        style={styles.mainContainer}
+      >
+        <Typography variant="headline" component="h3">
+          Home
+        </Typography>
+        <Typography component="p">
+          Paper can be used to build surface or other elements for your
+          application.
+        </Typography>
+      </Paper>
     );
   }
 }
@@ -79,9 +41,9 @@ Layout.propTypes = {
 };
 
 const styles = {
-  inputContainer: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    margin: '80px auto 30px auto',
+  mainContainer: {
+    marginLeft: '100px',
+    minHeight: '400px',
+    marginTop: '120px',
   },
 };
