@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import Layout from '../components/team/Layout';
+import Layout from '../components/portfolio/Layout';
 
-export class Team extends React.Component {
+export class Portfolio extends React.Component {
   render() {
     return <Layout />;
   }
 }
 
-Team.propTypes = {
+Portfolio.propTypes = {
   users: PropTypes.array,
 };
 
@@ -22,4 +22,4 @@ const mapDispatchToProps = dispatch => {
   return null;
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Team);
+export default connect(mapStateToProps, mapDispatchToProps)(Portfolio);
