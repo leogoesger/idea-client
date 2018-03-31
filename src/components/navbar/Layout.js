@@ -1,22 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Drawer from 'material-ui/Drawer';
-import List from 'material-ui/List';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 
 export default class Layout extends React.Component {
   render() {
     return (
       <Drawer variant="permanent" anchor="left">
-        <div />
         <Divider />
-        <List>{'hello'}</List>
-        <List>{'hello'}</List>
-        <List>{'hello'}</List>
+        <List>
+          <ListItem>
+            <ListItemText primary="About Us" />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Services" />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Contracts" />
+          </ListItem>
+        </List>
         <Divider />
-        <List>{'hello'}</List>
-        <List>{'hello'}</List>
-        <List>{'hello'}</List>
       </Drawer>
     );
   }
