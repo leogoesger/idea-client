@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
+import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
+
+import Paragraph from './Paragraph';
+import {Colors} from '../../styles';
 
 export default class Layout extends React.Component {
   constructor(props) {
@@ -12,6 +16,12 @@ export default class Layout extends React.Component {
     };
   }
 
+  _renderParagraphs(paragraphs) {
+    return paragraphs.map((paragraph, index) => (
+      <Paragraph key={index} paragraph={paragraph} />
+    ));
+  }
+
   render() {
     return (
       <Paper
@@ -19,31 +29,38 @@ export default class Layout extends React.Component {
         style={styles.mainContainer}
       >
         <Typography variant="headline" component="h3">
-          Home
+          {'About Us'}
         </Typography>
-        <Typography component="p">
-          Paper can be used to build surface or other elements for your
-          application.
-        </Typography>
+        {this._renderParagraphs(this.props.paragraphs)}
+        <div style={styles.btnContainer}>
+          <Button variant="raised" style={styles.addBtn} size="small">
+            {'Add New Paragraph'}
+          </Button>
+        </div>
       </Paper>
     );
   }
 }
 
 Layout.propTypes = {
-  error: PropTypes.string,
-  users: PropTypes.array,
-  createUser: PropTypes.func,
-  createUserError: PropTypes.func,
-  fetchingStatus: PropTypes.bool,
-  currentUser: PropTypes.object,
-  fetchUser: PropTypes.func,
+  paragraphs: PropTypes.array,
 };
 
 const styles = {
   mainContainer: {
     marginLeft: '100px',
-    minHeight: '400px',
+    minHeight: '450px',
     marginTop: '120px',
+    paddingTop: '20px',
+  },
+
+  addBtn: {
+    backgroundColor: Colors.red,
+    color: 'white',
+  },
+  btnContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginTop: '20px',
   },
 };
