@@ -10,23 +10,28 @@ export default class Layout extends React.Component {
       <Drawer variant="permanent" anchor="left">
         <Divider />
         <List>
-          <ListItem>
-            <ListItemText primary="About Us" />
+          <ListItem button>
+            <ListItemText primary="Home" />
           </ListItem>
-          <ListItem>
+          <ListItem button>
             <ListItemText primary="Services" />
           </ListItem>
-          <ListItem>
+          <ListItem button>
             <ListItemText primary="Contracts" />
           </ListItem>
-          <ListItem>
+          <ListItem button>
             <ListItemText primary="Portfolio" />
           </ListItem>
-          <ListItem>
+          <ListItem button>
             <ListItemText primary="Contact Us" />
           </ListItem>
         </List>
         <Divider />
+        <List>
+          <ListItem button>
+            <ListItemText primary="Login" />
+          </ListItem>
+        </List>
       </Drawer>
     );
   }
