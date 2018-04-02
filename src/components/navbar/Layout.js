@@ -19,6 +19,12 @@ export default class Layout extends React.Component {
           <ListItem>
             <ListItemText primary="Contracts" />
           </ListItem>
+          <ListItem>
+            <ListItemText primary="Portfolio" />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Contact Us" />
+          </ListItem>
         </List>
         <Divider />
       </Drawer>
