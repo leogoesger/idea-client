@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
+import Tabs, {Tab} from 'material-ui/Tabs'
 
 export default class Layout extends React.Component {
   constructor(props) {
@@ -18,6 +19,10 @@ export default class Layout extends React.Component {
         className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
+        <Tabs>
+          <Tab label="State" />
+          <Tab label="County" />
+        </Tabs>
         <Typography variant="headline" component="h3">
           {'Contract'}
         </Typography>
