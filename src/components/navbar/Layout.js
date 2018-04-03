@@ -11,28 +11,28 @@ export default class Layout extends React.Component {
       <Paper style={styles.sideBar}>
         <Divider />
         <List>
-          <ListItem button onClick={navigateTo.bind(this, "/", "")}>
+          <ListItem button onClick={()=>navigateTo("/", "")}>
             <ListItemText primary="Home"  />
           </ListItem>
-          <ListItem button onClick={navigateTo.bind(this, "/team", "")}>
+          <ListItem button onClick={()=>navigateTo("/team", "")}>
             <ListItemText primary="Team"  />
           </ListItem>
-          <ListItem button onClick={navigateTo.bind(this, "/service", "")}>
+          <ListItem button onClick={()=>navigateTo("/service", "")}>
             <ListItemText primary="Services" />
           </ListItem>
-          <ListItem button onClick={navigateTo.bind(this, "/contract", "")}>
+          <ListItem button onClick={()=>navigateTo("/contract", "")}>
             <ListItemText primary="Contracts" />
           </ListItem>
-          <ListItem button onClick={navigateTo.bind(this, "/portfolio", "")}>
+          <ListItem button onClick={()=>navigateTo("/portfolio", "")}>
             <ListItemText primary="Portfolio" />
           </ListItem>
-          <ListItem button onClick={navigateTo.bind(this, "/contact", "")}>
+          <ListItem button onClick={()=>navigateTo("/contract", "")}>
             <ListItemText primary="Contact Us" />
           </ListItem>
         </List>
         <Divider />
         <List>
-          <ListItem button onClick={navigateTo.bind(this, "/login", "")}>
+          <ListItem button onClick={()=>navigateTo("/login", "")}>
             <ListItemText primary="Login" />
           </ListItem>
         </List>
