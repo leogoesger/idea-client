@@ -1,8 +1,8 @@
 import {ContractTypes as types} from '../action-types';
 
-const fetchContractObjects = ({state, county}) => {
+const updateContractObjects = ({state, county}) => {
   return {
-    type: types.FEATCH_CONTRACT_OBJECTS,
+    type: types.UPDATE_CONTRACT_OBJECTS,
     state,
     county,
   };
@@ -10,6 +10,18 @@ const fetchContractObjects = ({state, county}) => {
 
 export function fetchContracts(contracts) {
   return dispatch => {
-    dispatch(fetchContractObjects(contracts));
+    dispatch(updateContractObjects(contracts));
+  };
+}
+
+export function editContracts(contracts) {
+  return dispatch => {
+    dispatch(updateContractObjects(contracts));
+  };
+}
+
+export function deleteContracts(contracts) {
+  return dispatch => {
+    dispatch(updateContractObjects(contracts));
   };
 }

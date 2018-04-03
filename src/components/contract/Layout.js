@@ -4,6 +4,7 @@ import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import Tabs, {Tab} from 'material-ui/Tabs'
 import Button from 'material-ui/Button';
+import {cloneDeep} from 'lodash';
 
 import Paragraph from './Paragraph'
 import {Colors} from '../../styles';
@@ -20,11 +21,44 @@ export default class Layout extends React.Component {
     this.setState({tab: v});
   }
 
-  _renderParagraphs(paragraphs) {
-    return paragraphs.map((paragraph, index) => (
-      <Paragraph key={index} paragraph={paragraph} />
-    ));
+  _renderParagraph(paragraph, index) {
+    return (
+      <Paragraph
+        key={index}
+        number={index}
+        paragraph={paragraph}
+        editParagraphs={(paragraph, index) =>
+          this._editParagraphs(paragraph, index)
+        }
+        deleteParagraph={index => this._deleteParagraph(index)}
+      />
+    );
   }
+
+  _editParagraphs(paragraph, index) {
+    const {tab} = this.state;
+    const {state, county} = this.props;
+    const updatedParagraphs = cloneDeep(tab === 0 ? state : county);
+    const otherParagraphs = cloneDeep(tab === 1 ? state : county);
+    updatedParagraphs[index] = paragraph;
+    if(tab === 0)
+      this.props.editContracts({state: updatedParagraphs, county: otherParagraphs});
+    else
+      this.props.editContracts({county: updatedParagraphs, state: otherParagraphs});
+      
+  }
+
+  _deleteParagraph(index) {
+    const {tab} = this.state;
+    const {state, county} = this.props;
+    const updatedParagraphs = cloneDeep(tab === 0 ? state : county);
+    const otherParagraphs = cloneDeep(tab === 1 ? state : county);
+    updatedParagraphs.splice(index, 1);
+    if(tab === 0)
+      this.props.deleteContracts({state: updatedParagraphs, county: otherParagraphs});
+    else
+      this.props.deleteContracts({county: updatedParagraphs, state: otherParagraphs});
+        }
 
   render() {
     const {tab} = this.state;
@@ -40,9 +74,12 @@ export default class Layout extends React.Component {
           <Tab label="County" />
         </Tabs>
         </Typography>
-        {tab === 0 && this._renderParagraphs(this.props.state)}
-        {tab === 1 && this._renderParagraphs(this.props.county)}
-        {}
+        {tab === 0 && this.props.state.map((paragraph, index) =>
+          this._renderParagraph(paragraph, index)
+        )}
+        {tab === 1 && this.props.county.map((paragraph, index) =>
+          this._renderParagraph(paragraph, index)
+        )}
         <div style={styles.btnContainer}>
           <Button variant="raised" style={styles.addBtn} size="small">
             {'Add New Paragraph'}
@@ -54,13 +91,10 @@ export default class Layout extends React.Component {
 }
 
 Layout.propTypes = {
-  error: PropTypes.string,
-  users: PropTypes.array,
-  createUser: PropTypes.func,
-  createUserError: PropTypes.func,
-  fetchingStatus: PropTypes.bool,
-  currentUser: PropTypes.object,
-  fetchUser: PropTypes.func,
+  state: PropTypes.array,
+  county: PropTypes.array,
+  editContracts: PropTypes.func,
+  deleteContracts: PropTypes.func,
 };
 
 const styles = {

@@ -10,7 +10,7 @@ const initialState: STATE = {
 
 export default function(state: STATE = initialState, action: ACTION) {
   switch (action.type) {
-    case types.FEATCH_CONTRACT_OBJECTS:
+    case types.UPDATE_CONTRACT_OBJECTS:
       return objectAssign({}, state, {state: action.state, county: action.county});
 
     default:
