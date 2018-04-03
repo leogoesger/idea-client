@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
+import {fetchContracts} from '../actions/contract';
 import Layout from '../components/contract/Layout';
 
 export class Contract extends React.Component {
-  render() {
+  componentWillMount(){
     const state = [
       'California Department of Mental Health',
       'Nevada Department of Mental Health',
@@ -19,12 +21,30 @@ export class Contract extends React.Component {
       'Butte County Behavioral Health',
       'Colusa County',
     ]
-    return <Layout state={state} county={county} />;
+    this.props.fetchContracts({state, county})
+  }
+  render() {
+    return <Layout state={this.props.state} county={this.props.county} />;
   }
 }
 
 Contract.propTypes = {
-  users: PropTypes.array,
+  state: PropTypes.array,
+  county: PropTypes.array,
+  fetchContracts: PropTypes.func,
 };
 
-export default Contract;
+const mapStateToProps = state => {
+  return {
+    state: state.contract.state,
+    county: state.contract.county,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchContracts: contracts => dispatch(fetchContracts(contracts)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Contract);
