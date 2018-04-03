@@ -15,7 +15,14 @@ import Team from '../containers/Team';
 class App extends React.Component {
   render() {
     return (
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          width: '90%',
+          margin: '120px auto',
+        }}
+      >
         <Navbar />
         <Switch>
           <Route exact path="/" component={Home} />

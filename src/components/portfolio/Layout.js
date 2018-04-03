@@ -15,15 +15,11 @@ export default class Layout extends React.Component {
   render() {
     return (
       <Paper
-        className="col-lg-10 col-md-10 col-xs-12"
+        className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
         <Typography variant="headline" component="h3">
-          Portfolio
-        </Typography>
-        <Typography component="p">
-          Paper can be used to build surface or other elements for your
-          application.
+          {'Portfolio'}
         </Typography>
       </Paper>
     );
@@ -42,8 +38,7 @@ Layout.propTypes = {
 
 const styles = {
   mainContainer: {
-    marginLeft: '100px',
-    minHeight: '400px',
-    marginTop: '120px',
+    minHeight: '600px',
+    paddingTop: '20px',
   },
 };
