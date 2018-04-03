@@ -17,7 +17,6 @@ export default class Layout extends React.Component {
   }
 
   _tabChange(v){
-    console.log(v);
     this.setState({tab: v});
   }
 
