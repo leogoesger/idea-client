@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
+import {cloneDeep} from 'lodash';
 
 import Paragraph from './Paragraph';
 import {Colors} from '../../styles';
@@ -16,10 +17,38 @@ export default class Layout extends React.Component {
     };
   }
 
-  _renderParagraphs(paragraphs) {
-    return paragraphs.map((paragraph, index) => (
-      <Paragraph key={index} paragraph={paragraph} />
-    ));
+  _editParagraphs(paragraph, index) {
+    const updatedParagraphs = cloneDeep(this.props.paragraphs);
+    updatedParagraphs[index] = paragraph;
+    this.props.editParagraphs(updatedParagraphs);
+  }
+
+  _deleteParagraph(index) {
+    const updatedParagraphs = cloneDeep(this.props.paragraphs);
+    updatedParagraphs.splice(index, 1);
+    this.props.deleteParagraph(updatedParagraphs);
+  }
+
+  _addParagraph() {
+    const updatedParagraphs = cloneDeep(this.props.paragraphs);
+    updatedParagraphs.push(
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+    );
+    this.props.addParagraph(updatedParagraphs);
+  }
+
+  _renderParagraph(paragraph, index) {
+    return (
+      <Paragraph
+        key={index}
+        number={index}
+        paragraph={paragraph}
+        editParagraphs={(paragraph, index) =>
+          this._editParagraphs(paragraph, index)
+        }
+        deleteParagraph={index => this._deleteParagraph(index)}
+      />
+    );
   }
 
   render() {
@@ -31,9 +60,16 @@ export default class Layout extends React.Component {
         <Typography variant="headline" component="h3">
           {'About Us'}
         </Typography>
-        {this._renderParagraphs(this.props.paragraphs)}
+        {this.props.paragraphs.map((paragraph, index) =>
+          this._renderParagraph(paragraph, index)
+        )}
         <div style={styles.btnContainer}>
-          <Button variant="raised" style={styles.addBtn} size="small">
+          <Button
+            variant="raised"
+            style={styles.addBtn}
+            size="small"
+            onClick={() => this._addParagraph()}
+          >
             {'Add New Paragraph'}
           </Button>
         </div>
@@ -44,12 +80,17 @@ export default class Layout extends React.Component {
 
 Layout.propTypes = {
   paragraphs: PropTypes.array,
+  editParagraphs: PropTypes.func,
+  deleteParagraph: PropTypes.func,
+  addParagraph: PropTypes.func,
 };
 
 const styles = {
   mainContainer: {
-    minHeight: '600px',
+    height: '600px',
     paddingTop: '20px',
+    overflow: 'scroll',
+    paddingBottom: '20px',
   },
 
   addBtn: {

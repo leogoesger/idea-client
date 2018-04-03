@@ -9,7 +9,7 @@ const initialState: STATE = {
 
 export default function(state: STATE = initialState, action: ACTION) {
   switch (action.type) {
-    case types.FEATCH_PARAGRAPH_OBJECTS:
+    case types.UPDATE_PARAGRAPH_OBJECTS:
       return objectAssign({}, state, {paragraphs: action.paragraphs});
 
     default:

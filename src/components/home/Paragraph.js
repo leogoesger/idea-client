@@ -18,7 +18,14 @@ export default class Paragraph extends React.Component {
   }
 
   componentDidMount() {
+    if (this.props.paragraph.includes('Lorem ipsum')) {
+      this.setState({paragraph: this.props.paragraph, edit: true});
+    }
     this.setState({paragraph: this.props.paragraph});
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({paragraph: nextProps.paragraph});
   }
 
   _handleTextChange(e) {
@@ -34,10 +41,16 @@ export default class Paragraph extends React.Component {
     this._handleSave();
   }
 
-  _handleSave() {}
+  _handleSave() {
+    this.props.editParagraphs(this.state.paragraph, this.props.number);
+  }
 
   _handleRedo() {
     this.setState({paragraph: this.props.paragraph});
+  }
+
+  _handleDelete() {
+    this.props.deleteParagraph(this.props.number);
   }
 
   _renderBtns() {
@@ -50,7 +63,10 @@ export default class Paragraph extends React.Component {
         </Tooltip>
         <Tooltip title="Delete Paragraph">
           <IconButton style={styles.iconBtn}>
-            <DeleteIcon style={styles.editIcon} />
+            <DeleteIcon
+              style={styles.editIcon}
+              onClick={() => this._handleDelete()}
+            />
           </IconButton>
         </Tooltip>
       </span>
@@ -120,7 +136,10 @@ export default class Paragraph extends React.Component {
 }
 
 Paragraph.propTypes = {
+  number: PropTypes.number,
   paragraph: PropTypes.string,
+  editParagraphs: PropTypes.func,
+  deleteParagraph: PropTypes.func,
 };
 
 const styles = {

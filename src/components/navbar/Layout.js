@@ -1,35 +1,58 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import List, {ListItem, ListItemText} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import {navigateTo} from '../../utils/helpers';
 import Paper from 'material-ui/Paper';
+import Colors from '../../styles/Colors';
 
 export default class Layout extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tabs: [
+        {url: '/', name: 'Home'},
+        {url: '/service', name: 'Services'},
+        {url: '/contract', name: 'Contracts'},
+        {url: '/portfolio', name: 'Portfolio'},
+        {url: '/team', name: 'Team'},
+        {url: '/contact', name: 'Contact'},
+      ],
+      currentTab: 'Home',
+    };
+  }
+
+  _navigateTo(location, name) {
+    this.setState({currentTab: name});
+    navigateTo(location);
+  }
+
+  _getTabStyle(name) {
+    if (this.state.currentTab === name) {
+      return styles.activeTab;
+    }
+    return null;
+  }
+
+  _renderListItems() {
+    return this.state.tabs.map(tab => {
+      return (
+        <ListItem
+          key={tab.name}
+          button
+          onClick={() => this._navigateTo(tab.url, tab.name)}
+          style={this._getTabStyle(tab.name)}
+        >
+          <ListItemText primary={tab.name} />
+        </ListItem>
+      );
+    });
+  }
+
   render() {
     return (
       <Paper style={styles.sideBar} className="col-lg-2 col-md-2 col-xs-2">
-        <div style={{width: '100%'}}>
-          <List>
-            <ListItem button onClick={() => navigateTo('/')}>
-              <ListItemText primary="Home" />
-            </ListItem>
-            <ListItem button onClick={() => navigateTo('/service')}>
-              <ListItemText primary="Services" />
-            </ListItem>
-            <ListItem button onClick={() => navigateTo('/contract')}>
-              <ListItemText primary="Contracts" />
-            </ListItem>
-            <ListItem button onClick={() => navigateTo('/portfolio')}>
-              <ListItemText primary="Portfolio" />
-            </ListItem>
-            <ListItem button onClick={() => navigateTo('/team')}>
-              <ListItemText primary="Team" />
-            </ListItem>
-            <ListItem button onClick={() => navigateTo('/contact')}>
-              <ListItemText primary="Contact Us" />
-            </ListItem>
-          </List>
+        <div style={{width: '100%', padding: '0px'}}>
+          <List style={{padding: '0px'}}>{this._renderListItems()}</List>
         </div>
         <div>
           <Divider />
@@ -53,5 +76,10 @@ const styles = {
     justifyContent: 'space-between',
     height: '600px',
     padding: '0px',
+  },
+  activeTab: {
+    borderLeftWidth: '5px',
+    borderLeftStyle: 'solid',
+    borderLeftColor: Colors.red,
   },
 };
