@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Drawer from 'material-ui/Drawer';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import {navigateTo} from '../../utils/helpers'
+import Paper from 'material-ui/Paper'
 
 export default class Layout extends React.Component {
   render() {
     return (
-      <Drawer variant="permanent" anchor="left">
+      <Paper style={styles.sideBar}>
         <Divider />
         <List>
           <ListItem button onClick={navigateTo.bind(this, "/", "")}>
@@ -36,7 +36,7 @@ export default class Layout extends React.Component {
             <ListItemText primary="Login" />
           </ListItem>
         </List>
-      </Drawer>
+      </Paper>
     );
   }
 }
@@ -44,9 +44,11 @@ export default class Layout extends React.Component {
 Layout.propTypes = {};
 
 const styles = {
-  inputContainer: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    margin: '80px auto 30px auto',
+  sideBar: {
+    float: 'left',
+    marginLeft: '50px',
+    marginRight: '50px',
+    minHeight: '400px',
+    marginTop: '120px',
   },
 };
