@@ -18,6 +18,9 @@ export default class Paragraph extends React.Component {
   }
 
   componentDidMount() {
+    if (this.props.paragraph.includes('Lorem ipsum')) {
+      this.setState({paragraph: this.props.paragraph, edit: true});
+    }
     this.setState({paragraph: this.props.paragraph});
   }
 

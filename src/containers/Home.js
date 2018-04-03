@@ -6,6 +6,7 @@ import {
   fetchParagraphs,
   editParagraphs,
   deleteParagraph,
+  addParagraph,
 } from '../actions/home';
 import Layout from '../components/home/Layout';
 
@@ -24,6 +25,7 @@ export class Home extends React.Component {
         paragraphs={this.props.paragraphs}
         editParagraphs={paragraphs => this.props.editParagraphs(paragraphs)}
         deleteParagraph={paragraphs => this.props.deleteParagraph(paragraphs)}
+        addParagraph={paragraphs => this.props.addParagraph(paragraphs)}
       />
     );
   }
@@ -34,6 +36,7 @@ Home.propTypes = {
   fetchParagraphs: PropTypes.func,
   editParagraphs: PropTypes.func,
   deleteParagraph: PropTypes.func,
+  addParagraph: PropTypes.func,
 };
 
 const mapStateToProps = state => {
@@ -47,6 +50,7 @@ const mapDispatchToProps = dispatch => {
     fetchParagraphs: () => dispatch(fetchParagraphs()),
     editParagraphs: paragraphs => dispatch(editParagraphs(paragraphs)),
     deleteParagraph: paragraphs => dispatch(deleteParagraph(paragraphs)),
+    addParagraph: paragraphs => dispatch(addParagraph(paragraphs)),
   };
 };
 

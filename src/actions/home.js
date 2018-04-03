@@ -29,3 +29,9 @@ export function deleteParagraph(paragraphs) {
     dispatch(updateParagraphObjects(paragraphs));
   };
 }
+
+export function addParagraph(paragraphs) {
+  return dispatch => {
+    dispatch(updateParagraphObjects(paragraphs));
+  };
+}

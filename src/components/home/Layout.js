@@ -29,6 +29,14 @@ export default class Layout extends React.Component {
     this.props.deleteParagraph(updatedParagraphs);
   }
 
+  _addParagraph() {
+    const updatedParagraphs = cloneDeep(this.props.paragraphs);
+    updatedParagraphs.push(
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+    );
+    this.props.addParagraph(updatedParagraphs);
+  }
+
   _renderParagraph(paragraph, index) {
     return (
       <Paragraph
@@ -56,7 +64,12 @@ export default class Layout extends React.Component {
           this._renderParagraph(paragraph, index)
         )}
         <div style={styles.btnContainer}>
-          <Button variant="raised" style={styles.addBtn} size="small">
+          <Button
+            variant="raised"
+            style={styles.addBtn}
+            size="small"
+            onClick={() => this._addParagraph()}
+          >
             {'Add New Paragraph'}
           </Button>
         </div>
@@ -69,12 +82,15 @@ Layout.propTypes = {
   paragraphs: PropTypes.array,
   editParagraphs: PropTypes.func,
   deleteParagraph: PropTypes.func,
+  addParagraph: PropTypes.func,
 };
 
 const styles = {
   mainContainer: {
-    minHeight: '600px',
+    height: '600px',
     paddingTop: '20px',
+    overflow: 'scroll',
+    paddingBottom: '20px',
   },
 
   addBtn: {
