@@ -25,7 +25,7 @@ export default class Layout extends React.Component {
   render() {
     return (
       <Paper
-        className="col-lg-10 col-md-10 col-xs-12"
+        className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
         <Typography variant="headline" component="h3">
@@ -48,9 +48,7 @@ Layout.propTypes = {
 
 const styles = {
   mainContainer: {
-    marginLeft: '100px',
-    minHeight: '450px',
-    marginTop: '120px',
+    minHeight: '600px',
     paddingTop: '20px',
   },
 
