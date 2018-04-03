@@ -5,6 +5,7 @@ import Typography from 'material-ui/Typography';
 import Tabs, {Tab} from 'material-ui/Tabs'
 import Button from 'material-ui/Button';
 
+import Paragraph from './Paragraph'
 import {Colors} from '../../styles';
 
 export default class Layout extends React.Component {
@@ -18,6 +19,12 @@ export default class Layout extends React.Component {
   _tabChange(v){
     console.log(v);
     this.setState({tab: v});
+  }
+
+  _renderParagraphs(paragraphs) {
+    return paragraphs.map((paragraph, index) => (
+      <Paragraph key={index} paragraph={paragraph} />
+    ));
   }
 
   render() {
@@ -34,7 +41,8 @@ export default class Layout extends React.Component {
           <Tab label="County" />
         </Tabs>
         </Typography>
-        {/* {this._renderParagraphs(this.props.paragraphs)} */}
+        {tab === 0 && this._renderParagraphs(this.props.state)}
+        {tab === 1 && this._renderParagraphs(this.props.county)}
         {}
         <div style={styles.btnContainer}>
           <Button variant="raised" style={styles.addBtn} size="small">
