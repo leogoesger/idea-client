@@ -21,6 +21,10 @@ export default class Paragraph extends React.Component {
     this.setState({paragraph: this.props.paragraph});
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({paragraph: nextProps.paragraph});
+  }
+
   _handleTextChange(e) {
     this.setState({paragraph: e.target.value});
   }
