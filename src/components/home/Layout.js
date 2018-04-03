@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
+import {cloneDeep} from 'lodash';
 
 import Paragraph from './Paragraph';
 import {Colors} from '../../styles';
@@ -16,10 +17,30 @@ export default class Layout extends React.Component {
     };
   }
 
-  _renderParagraphs(paragraphs) {
-    return paragraphs.map((paragraph, index) => (
-      <Paragraph key={index} paragraph={paragraph} />
-    ));
+  _editParagraphs(paragraph, index) {
+    const updatedParagraphs = cloneDeep(this.props.paragraphs);
+    updatedParagraphs[index] = paragraph;
+    this.props.editParagraphs(updatedParagraphs);
+  }
+
+  _deleteParagraph(index) {
+    const updatedParagraphs = cloneDeep(this.props.paragraphs);
+    updatedParagraphs.splice(index, 1);
+    this.props.deleteParagraph(updatedParagraphs);
+  }
+
+  _renderParagraph(paragraph, index) {
+    return (
+      <Paragraph
+        key={index}
+        number={index}
+        paragraph={paragraph}
+        editParagraphs={(paragraph, index) =>
+          this._editParagraphs(paragraph, index)
+        }
+        deleteParagraph={index => this._deleteParagraph(index)}
+      />
+    );
   }
 
   render() {
@@ -31,7 +52,9 @@ export default class Layout extends React.Component {
         <Typography variant="headline" component="h3">
           {'About Us'}
         </Typography>
-        {this._renderParagraphs(this.props.paragraphs)}
+        {this.props.paragraphs.map((paragraph, index) =>
+          this._renderParagraph(paragraph, index)
+        )}
         <div style={styles.btnContainer}>
           <Button variant="raised" style={styles.addBtn} size="small">
             {'Add New Paragraph'}
@@ -44,6 +67,8 @@ export default class Layout extends React.Component {
 
 Layout.propTypes = {
   paragraphs: PropTypes.array,
+  editParagraphs: PropTypes.func,
+  deleteParagraph: PropTypes.func,
 };
 
 const styles = {
