@@ -1,23 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Drawer from 'material-ui/Drawer';
-import List from 'material-ui/List';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
+import {navigateTo} from '../../utils/helpers'
+import Paper from 'material-ui/Paper'
 
 export default class Layout extends React.Component {
   render() {
     return (
-      <Drawer variant="permanent" anchor="left">
-        <div />
+      <Paper style={styles.sideBar}>
         <Divider />
-        <List>{'hello'}</List>
-        <List>{'hello'}</List>
-        <List>{'hello'}</List>
+        <List>
+          <ListItem button onClick={()=>navigateTo("/")}>
+            <ListItemText primary="Home"  />
+          </ListItem>
+          <ListItem button onClick={()=>navigateTo("/team")}>
+            <ListItemText primary="Team"  />
+          </ListItem>
+          <ListItem button onClick={()=>navigateTo("/service")}>
+            <ListItemText primary="Services" />
+          </ListItem>
+          <ListItem button onClick={()=>navigateTo("/contract")}>
+            <ListItemText primary="Contracts" />
+          </ListItem>
+          <ListItem button onClick={()=>navigateTo("/portfolio")}>
+            <ListItemText primary="Portfolio" />
+          </ListItem>
+          <ListItem button onClick={()=>navigateTo("/contract")}>
+            <ListItemText primary="Contact Us" />
+          </ListItem>
+        </List>
         <Divider />
-        <List>{'hello'}</List>
-        <List>{'hello'}</List>
-        <List>{'hello'}</List>
-      </Drawer>
+        <List>
+          <ListItem button onClick={()=>navigateTo("/login")}>
+            <ListItemText primary="Login" />
+          </ListItem>
+        </List>
+      </Paper>
     );
   }
 }
@@ -25,9 +44,11 @@ export default class Layout extends React.Component {
 Layout.propTypes = {};
 
 const styles = {
-  inputContainer: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    margin: '80px auto 30px auto',
+  sideBar: {
+    float: 'left',
+    marginLeft: '50px',
+    marginRight: '50px',
+    minHeight: '400px',
+    marginTop: '120px',
   },
 };
