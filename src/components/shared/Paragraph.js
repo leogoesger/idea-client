@@ -18,6 +18,9 @@ export default class Paragraph extends React.Component {
   }
 
   componentDidMount() {
+    if (this.props.paragraph.includes('Lorem ipsum')) {
+      this.setState({paragraph: this.props.paragraph, edit: true});
+    }
     this.setState({paragraph: this.props.paragraph});
   }
 
@@ -33,16 +36,13 @@ export default class Paragraph extends React.Component {
     this.setState({edit: true});
   }
 
-  _onBlur() {
-    this.setState({edit: false});
-    this._handleSave();
-  }
-
   _handleSave() {
+    this.setState({edit: false});
     this.props.editParagraphs(this.state.paragraph, this.props.number);
   }
 
   _handleRedo() {
+    this.setState({edit: false});
     this.setState({paragraph: this.props.paragraph});
   }
 
@@ -51,14 +51,17 @@ export default class Paragraph extends React.Component {
   }
 
   _renderBtns() {
+    if (!this.props.currentUser) {
+      return null;
+    }
     return (
       <span style={{marginLeft: '5px'}}>
-        <Tooltip title="Edit Paragraph">
+        <Tooltip title="Edit">
           <IconButton style={styles.iconBtn} onClick={() => this._handleEdit()}>
             <EditIcon style={styles.editIcon} />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Delete Paragraph">
+        <Tooltip title="Delete">
           <IconButton style={styles.iconBtn}>
             <DeleteIcon
               style={styles.editIcon}
@@ -73,10 +76,10 @@ export default class Paragraph extends React.Component {
   _renderText() {
     if (!this.state.edit) {
       return (
-        <div>
+        <Typography variant="body1" component="div">
           {this.state.paragraph}
           {this._renderBtns()}
-        </div>
+        </Typography>
       );
     }
     return (
@@ -85,11 +88,10 @@ export default class Paragraph extends React.Component {
         multiline
         fullWidth
         autoFocus
-        label="Edit Paragraph"
+        label="Edit"
         onChange={e => this._handleTextChange(e)}
         margin="normal"
         helperText="Click anywhere to save!"
-        onBlur={() => this._onBlur()}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end" style={{}}>
@@ -102,15 +104,15 @@ export default class Paragraph extends React.Component {
               >
                 <Tooltip title="Undo Changes">
                   <IconButton
-                    onClick={() => this._handleSave()}
+                    onClick={() => this._handleRedo()}
                     style={styles.iconBtn}
                   >
                     <UndoIcon />
                   </IconButton>
                 </Tooltip>
-                <Tooltip title="Save Save">
+                <Tooltip title="Save">
                   <IconButton
-                    onClick={() => this._handleRedo()}
+                    onClick={() => this._handleSave()}
                     style={styles.iconBtn}
                   >
                     <SaveIcon />
@@ -124,15 +126,12 @@ export default class Paragraph extends React.Component {
     );
   }
   render() {
-    return (
-      <Typography component="div" style={styles.typograph}>
-        {this._renderText()}
-      </Typography>
-    );
+    return <div>{this._renderText()}</div>;
   }
 }
 
 Paragraph.propTypes = {
+  currentUser: PropTypes.object,
   number: PropTypes.number,
   paragraph: PropTypes.string,
   editParagraphs: PropTypes.func,
@@ -140,10 +139,6 @@ Paragraph.propTypes = {
 };
 
 const styles = {
-  typograph: {
-    marginTop: '20px',
-    lineHeight: '20px',
-  },
   iconBtn: {
     height: '25px',
     width: '25px',

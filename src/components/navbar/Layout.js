@@ -1,9 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import List, {ListItem, ListItemText} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import {navigateTo} from '../../utils/helpers';
 import Paper from 'material-ui/Paper';
-import Colors from '../../styles/Colors';
+import red from 'material-ui/colors/red';
+import {find} from 'lodash';
 
 export default class Layout extends React.Component {
   constructor(props) {
@@ -21,9 +23,21 @@ export default class Layout extends React.Component {
     };
   }
 
-  _navigateTo(location, name) {
-    this.setState({currentTab: name});
-    navigateTo(location);
+  componentDidMount() {
+    this._updateTab(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this._updateTab(nextProps);
+  }
+
+  _updateTab(props) {
+    if (props.path === '/login') {
+      return this.setState({currentTab: 'Login'});
+    }
+    const currentTab = find(this.state.tabs, tab => tab.url === props.path)
+      .name;
+    this.setState({currentTab});
   }
 
   _getTabStyle(name) {
@@ -39,13 +53,32 @@ export default class Layout extends React.Component {
         <ListItem
           key={tab.name}
           button
-          onClick={() => this._navigateTo(tab.url, tab.name)}
+          onClick={() => navigateTo(tab.url)}
           style={this._getTabStyle(tab.name)}
         >
           <ListItemText primary={tab.name} />
         </ListItem>
       );
     });
+  }
+
+  _renderLogButton() {
+    if (this.props.currentUser) {
+      return (
+        <ListItem button onClick={() => this.props.logOutUser()}>
+          <ListItemText primary="Log Out" />
+        </ListItem>
+      );
+    }
+    return (
+      <ListItem
+        button
+        onClick={() => navigateTo('/login')}
+        style={this._getTabStyle('Login')}
+      >
+        <ListItemText primary="Login" />
+      </ListItem>
+    );
   }
 
   render() {
@@ -56,22 +89,18 @@ export default class Layout extends React.Component {
         </div>
         <div>
           <Divider />
-          <List style={{padding: '0px'}}>
-            <ListItem
-              button
-              onClick={() => this._navigateTo('/login', 'Login')}
-              style={this._getTabStyle('Login')}
-            >
-              <ListItemText primary="Login" />
-            </ListItem>
-          </List>
+          {this._renderLogButton()}
         </div>
       </Paper>
     );
   }
 }
 
-Layout.propTypes = {};
+Layout.propTypes = {
+  currentUser: PropTypes.object,
+  path: PropTypes.string,
+  logOutUser: PropTypes.func,
+};
 
 const styles = {
   sideBar: {
@@ -84,6 +113,6 @@ const styles = {
   activeTab: {
     borderLeftWidth: '5px',
     borderLeftStyle: 'solid',
-    borderLeftColor: Colors.red,
+    borderLeftColor: red[400],
   },
 };

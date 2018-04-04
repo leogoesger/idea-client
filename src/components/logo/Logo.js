@@ -1,12 +1,13 @@
 import React from 'react';
 import Typography from 'material-ui/Typography';
-import Colors from '../../styles/Colors';
+import red from 'material-ui/colors/red';
 
+import {navigateTo} from '../../utils/helpers';
 import CompanyLogo from '../../static/logo.png';
 
 const Logo = () => {
   return (
-    <div style={styles.logoContainer}>
+    <div style={styles.logoContainer} onClick={() => navigateTo('/')}>
       <div style={styles.imgContainer}>
         <img src={CompanyLogo} height="72" width="72" />
       </div>
@@ -18,7 +19,7 @@ const Logo = () => {
             component="h1"
             style={{fontSize: '30px'}}
           >
-            {'I.D.E.A Consulting'}
+            {'I.D.E.A. Consulting'}
           </Typography>
         </div>
 
@@ -37,6 +38,7 @@ const styles = {
     left: '0px',
     display: 'flex',
     justifyContent: 'space-between',
+    cursor: 'pointer',
   },
   imgContainer: {
     margin: '10px 15px 0px 0px',
@@ -45,7 +47,7 @@ const styles = {
     width: '480px',
     borderBottomWidth: '3px',
     borderBottomStyle: 'solid',
-    borderBottomColor: Colors.red,
+    borderBottomColor: red[400],
     marginBottom: '10px',
   },
 };

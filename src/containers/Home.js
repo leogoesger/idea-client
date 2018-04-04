@@ -23,6 +23,7 @@ export class Home extends React.Component {
     return (
       <Layout
         paragraphs={this.props.paragraphs}
+        currentUser={this.props.currentUser}
         editParagraphs={paragraphs => this.props.editParagraphs(paragraphs)}
         deleteParagraph={paragraphs => this.props.deleteParagraph(paragraphs)}
         addParagraph={paragraphs => this.props.addParagraph(paragraphs)}
@@ -33,6 +34,7 @@ export class Home extends React.Component {
 
 Home.propTypes = {
   paragraphs: PropTypes.array,
+  currentUser: PropTypes.object,
   fetchParagraphs: PropTypes.func,
   editParagraphs: PropTypes.func,
   deleteParagraph: PropTypes.func,
@@ -41,6 +43,7 @@ Home.propTypes = {
 
 const mapStateToProps = state => {
   return {
+    currentUser: state.user.currentUser,
     paragraphs: state.home.paragraphs,
   };
 };

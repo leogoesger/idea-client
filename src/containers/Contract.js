@@ -11,7 +11,7 @@ import {
 import Layout from '../components/contract/Layout';
 
 export class Contract extends React.Component {
-  componentWillMount(){
+  componentWillMount() {
     const state = [
       'California Department of Mental Health',
       'Nevada Department of Mental Health',
@@ -25,17 +25,20 @@ export class Contract extends React.Component {
       'Butte County Department of Employment and Social Services',
       'Butte County Behavioral Health',
       'Colusa County',
-    ]
-    this.props.fetchContracts({state, county})
+    ];
+    this.props.fetchContracts({state, county});
   }
   render() {
-    return <Layout 
-      state={this.props.state} 
-      county={this.props.county}
-      editContracts={paragraphs => this.props.editContracts(paragraphs)}
-      deleteContracts={paragraphs => this.props.deleteContracts(paragraphs)}
-      addContracts={paragraphs => this.props.addContracts(paragraphs)}
-    />;
+    return (
+      <Layout
+        currentUser={this.props.currentUser}
+        state={this.props.state}
+        county={this.props.county}
+        editContracts={paragraphs => this.props.editContracts(paragraphs)}
+        deleteContracts={paragraphs => this.props.deleteContracts(paragraphs)}
+        addContracts={paragraphs => this.props.addContracts(paragraphs)}
+      />
+    );
   }
 }
 
@@ -46,12 +49,14 @@ Contract.propTypes = {
   editContracts: PropTypes.func,
   deleteContracts: PropTypes.func,
   addContracts: PropTypes.func,
+  currentUser: PropTypes.object,
 };
 
 const mapStateToProps = state => {
   return {
     state: state.contract.state,
     county: state.contract.county,
+    currentUser: state.user.currentUser,
   };
 };
 

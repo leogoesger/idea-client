@@ -1,16 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
+import {loginUser} from '../actions/user';
 import Layout from '../components/login/Layout';
 
 export class Login extends React.Component {
   render() {
-    return <Layout />;
+    return (
+      <Layout
+        loginUser={user => this.props.loginUser(user)}
+        error={this.props.error}
+      />
+    );
   }
 }
 
 Login.propTypes = {
-  users: PropTypes.array,
+  loginUser: PropTypes.func,
+  error: PropTypes.object,
 };
 
-export default Login;
+const mapStateToProps = state => {
+  return {
+    error: state.user.error,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loginUser: user => dispatch(loginUser(user)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
