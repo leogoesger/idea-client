@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {fetchContracts} from '../actions/contract';
+import {
+  fetchContracts,
+  editContracts,
+  deleteContracts,
+  addContracts,
+} from '../actions/contract';
 import Layout from '../components/contract/Layout';
 
 export class Contract extends React.Component {
@@ -24,7 +29,13 @@ export class Contract extends React.Component {
     this.props.fetchContracts({state, county})
   }
   render() {
-    return <Layout state={this.props.state} county={this.props.county} />;
+    return <Layout 
+      state={this.props.state} 
+      county={this.props.county}
+      editContracts={paragraphs => this.props.editContracts(paragraphs)}
+      deleteContracts={paragraphs => this.props.deleteContracts(paragraphs)}
+      addContracts={paragraphs => this.props.addContracts(paragraphs)}
+    />;
   }
 }
 
@@ -32,6 +43,9 @@ Contract.propTypes = {
   state: PropTypes.array,
   county: PropTypes.array,
   fetchContracts: PropTypes.func,
+  editContracts: PropTypes.func,
+  deleteContracts: PropTypes.func,
+  addContracts: PropTypes.func,
 };
 
 const mapStateToProps = state => {
@@ -44,6 +58,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchContracts: contracts => dispatch(fetchContracts(contracts)),
+    editContracts: contracts => dispatch(editContracts(contracts)),
+    deleteContracts: contracts => dispatch(deleteContracts(contracts)),
+    addContracts: contracts => dispatch(addContracts(contracts)),
   };
 };
 
