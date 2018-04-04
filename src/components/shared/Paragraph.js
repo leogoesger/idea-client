@@ -74,6 +74,7 @@ export default class Paragraph extends React.Component {
   }
 
   _renderText() {
+    const split = this.state.paragraph.split('\n');
     if (!this.state.edit) {
       return (
         <Typography variant="body1" component="div">
