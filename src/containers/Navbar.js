@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {fetchCurrentUser} from '../actions/user';
+import {fetchCurrentUser, logOutUser} from '../actions/user';
 import Layout from '../components/navbar/Layout';
 
 export class Navbar extends React.Component {
@@ -13,7 +13,13 @@ export class Navbar extends React.Component {
   }
 
   render() {
-    return <Layout path={this.props.location.pathname} />;
+    return (
+      <Layout
+        path={this.props.location.pathname}
+        logOutUser={() => this.props.logOutUser()}
+        currentUser={this.props.currentUser}
+      />
+    );
   }
 }
 
@@ -26,6 +32,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchCurrentUser: () => dispatch(fetchCurrentUser()),
+    logOutUser: () => dispatch(logOutUser()),
   };
 };
 
@@ -33,6 +40,7 @@ Navbar.propTypes = {
   location: PropTypes.object,
   fetchCurrentUser: PropTypes.func,
   currentUser: PropTypes.object,
+  logOutUser: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

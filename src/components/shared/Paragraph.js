@@ -51,6 +51,9 @@ export default class Paragraph extends React.Component {
   }
 
   _renderBtns() {
+    if (!this.props.currentUser) {
+      return null;
+    }
     return (
       <span style={{marginLeft: '5px'}}>
         <Tooltip title="Edit">
@@ -128,6 +131,7 @@ export default class Paragraph extends React.Component {
 }
 
 Paragraph.propTypes = {
+  currentUser: PropTypes.object,
   number: PropTypes.number,
   paragraph: PropTypes.string,
   editParagraphs: PropTypes.func,

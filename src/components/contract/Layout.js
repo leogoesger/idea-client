@@ -5,7 +5,7 @@ import Tabs, {Tab} from 'material-ui/Tabs';
 import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/Button';
 import {cloneDeep} from 'lodash';
-import teal from 'material-ui/colors/teal';
+import cyan from 'material-ui/colors/cyan';
 
 import Paragraph from '../shared/Paragraph';
 
@@ -19,20 +19,6 @@ export default class Layout extends React.Component {
 
   _tabChange(v) {
     this.setState({tab: v});
-  }
-
-  _renderParagraph(paragraph, index) {
-    return (
-      <Paragraph
-        key={index}
-        number={index}
-        paragraph={paragraph}
-        editParagraphs={(paragraph, index) =>
-          this._editParagraphs(paragraph, index)
-        }
-        deleteParagraph={index => this._deleteParagraph(index)}
-      />
-    );
   }
 
   _editParagraphs(paragraph, index) {
@@ -91,6 +77,50 @@ export default class Layout extends React.Component {
       });
   }
 
+  _renderBtn() {
+    if (!this.props.currentUser) {
+      return (
+        <div style={styles.btnContainer}>
+          <Button
+            variant="raised"
+            style={styles.addBtn}
+            size="small"
+            onClick={() => this._addParagraph()}
+          >
+            {'Contact Us'}
+          </Button>
+        </div>
+      );
+    }
+    return (
+      <div style={styles.btnContainer}>
+        <Button
+          variant="raised"
+          style={styles.addBtn}
+          size="small"
+          onClick={() => this._addParagraph()}
+        >
+          {'Add New Contract'}
+        </Button>
+      </div>
+    );
+  }
+
+  _renderParagraph(paragraph, index) {
+    return (
+      <Paragraph
+        currentUser={this.props.currentUser}
+        key={index}
+        number={index}
+        paragraph={paragraph}
+        editParagraphs={(paragraph, index) =>
+          this._editParagraphs(paragraph, index)
+        }
+        deleteParagraph={index => this._deleteParagraph(index)}
+      />
+    );
+  }
+
   render() {
     if (!this.props.state || !this.props.county) {
       return null;
@@ -107,13 +137,13 @@ export default class Layout extends React.Component {
               value={tab}
               onChange={(e, v) => this._tabChange(v)}
               fullWidth
-              indicatorColor={teal[200]}
+              indicatorColor={cyan[300]}
             >
               <Tab label="State" />
               <Tab label="County" />
             </Tabs>
           </AppBar>
-          <div style={{marginTop: '10px', padding: '20px'}}>
+          <div style={styles.paragraphContainer}>
             {tab === 0 &&
               this.props.state.map((paragraph, index) =>
                 this._renderParagraph(paragraph, index)
@@ -123,17 +153,7 @@ export default class Layout extends React.Component {
                 this._renderParagraph(paragraph, index)
               )}
           </div>
-
-          <div style={styles.btnContainer}>
-            <Button
-              variant="raised"
-              style={styles.addBtn}
-              size="small"
-              onClick={() => this._addParagraph()}
-            >
-              {'Add New Contract'}
-            </Button>
-          </div>
+          {this._renderBtn()}
         </Paper>
       </Paper>
     );
@@ -141,6 +161,7 @@ export default class Layout extends React.Component {
 }
 
 Layout.propTypes = {
+  currentUser: PropTypes.object,
   state: PropTypes.array,
   county: PropTypes.array,
   editContracts: PropTypes.func,
@@ -158,7 +179,8 @@ const styles = {
 
   btnContainer: {
     display: 'flex',
-    justifyContent: 'flex-end',
-    margin: '20px',
+    justifyContent: 'space-around',
   },
+
+  paragraphContainer: {marginTop: '10px', padding: '20px', minHeight: '170px'},
 };

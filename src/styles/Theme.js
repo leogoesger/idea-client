@@ -28,6 +28,9 @@ const Theme = createMuiTheme({
         marginTop: '5px',
         lineHeight: '20px',
       },
+      display1: {
+        fontSize: '14px',
+      },
     },
     MuiTab: {
       root: {

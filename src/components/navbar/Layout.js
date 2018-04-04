@@ -40,11 +40,6 @@ export default class Layout extends React.Component {
     this.setState({currentTab});
   }
 
-  _navigateTo(location, name) {
-    this.setState({currentTab: name});
-    navigateTo(location);
-  }
-
   _getTabStyle(name) {
     if (this.state.currentTab === name) {
       return styles.activeTab;
@@ -58,13 +53,32 @@ export default class Layout extends React.Component {
         <ListItem
           key={tab.name}
           button
-          onClick={() => this._navigateTo(tab.url, tab.name)}
+          onClick={() => navigateTo(tab.url)}
           style={this._getTabStyle(tab.name)}
         >
           <ListItemText primary={tab.name} />
         </ListItem>
       );
     });
+  }
+
+  _renderLogButton() {
+    if (this.props.currentUser) {
+      return (
+        <ListItem button onClick={() => this.props.logOutUser()}>
+          <ListItemText primary="Log Out" />
+        </ListItem>
+      );
+    }
+    return (
+      <ListItem
+        button
+        onClick={() => navigateTo('/login')}
+        style={this._getTabStyle('Login')}
+      >
+        <ListItemText primary="Login" />
+      </ListItem>
+    );
   }
 
   render() {
@@ -75,22 +89,18 @@ export default class Layout extends React.Component {
         </div>
         <div>
           <Divider />
-          <List style={{padding: '0px'}}>
-            <ListItem
-              button
-              onClick={() => this._navigateTo('/login', 'Login')}
-              style={this._getTabStyle('Login')}
-            >
-              <ListItemText primary="Login" />
-            </ListItem>
-          </List>
+          {this._renderLogButton()}
         </div>
       </Paper>
     );
   }
 }
 
-Layout.propTypes = {path: PropTypes.string};
+Layout.propTypes = {
+  currentUser: PropTypes.object,
+  path: PropTypes.string,
+  logOutUser: PropTypes.func,
+};
 
 const styles = {
   sideBar: {

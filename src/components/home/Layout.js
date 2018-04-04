@@ -40,6 +40,7 @@ export default class Layout extends React.Component {
   _renderParagraph(paragraph, index) {
     return (
       <Paragraph
+        currentUser={this.props.currentUser}
         key={index}
         number={index}
         paragraph={paragraph}
@@ -48,6 +49,33 @@ export default class Layout extends React.Component {
         }
         deleteParagraph={index => this._deleteParagraph(index)}
       />
+    );
+  }
+
+  _renderBtn() {
+    if (!this.props.currentUser) {
+      return (
+        <div style={styles.btnContainer}>
+          <Button
+            variant="raised"
+            size="small"
+            onClick={() => this._addParagraph()}
+          >
+            {'Contact Us'}
+          </Button>
+        </div>
+      );
+    }
+    return (
+      <div style={styles.btnContainer}>
+        <Button
+          variant="raised"
+          size="small"
+          onClick={() => this._addParagraph()}
+        >
+          {'Add New Paragraph'}
+        </Button>
+      </div>
     );
   }
 
@@ -65,15 +93,7 @@ export default class Layout extends React.Component {
             this._renderParagraph(paragraph, index)
           )}
         </div>
-        <div style={styles.btnContainer}>
-          <Button
-            variant="raised"
-            size="small"
-            onClick={() => this._addParagraph()}
-          >
-            {'Add New Paragraph'}
-          </Button>
-        </div>
+        {this._renderBtn()}
       </Paper>
     );
   }
@@ -81,6 +101,7 @@ export default class Layout extends React.Component {
 
 Layout.propTypes = {
   paragraphs: PropTypes.array,
+  currentUser: PropTypes.object,
   editParagraphs: PropTypes.func,
   deleteParagraph: PropTypes.func,
   addParagraph: PropTypes.func,
@@ -100,7 +121,7 @@ const styles = {
   },
   btnContainer: {
     display: 'flex',
-    justifyContent: 'flex-end',
-    marginTop: '20px',
+    justifyContent: 'space-around',
+    marginTop: '40px',
   },
 };

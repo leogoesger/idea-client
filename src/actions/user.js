@@ -34,6 +34,7 @@ export function loginUser(userInfo) {
     try {
       set(window.localStorage, 'ideaJWT', 'abcdefgSecret');
       dispatch(loginUserObject(userInfo));
+      navigateTo('/');
     } catch (e) {
       const message = {message: 'You suck!'};
       dispatch(loginUserErrorObject(message));
