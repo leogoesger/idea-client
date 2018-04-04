@@ -6,6 +6,7 @@ import {
   fetchContracts,
   editContracts,
   deleteContracts,
+  addContracts,
 } from '../actions/contract';
 import Layout from '../components/contract/Layout';
 
@@ -33,6 +34,7 @@ export class Contract extends React.Component {
       county={this.props.county}
       editContracts={paragraphs => this.props.editContracts(paragraphs)}
       deleteContracts={paragraphs => this.props.deleteContracts(paragraphs)}
+      addContracts={paragraphs => this.props.addContracts(paragraphs)}
     />;
   }
 }
@@ -43,6 +45,7 @@ Contract.propTypes = {
   fetchContracts: PropTypes.func,
   editContracts: PropTypes.func,
   deleteContracts: PropTypes.func,
+  addContracts: PropTypes.func,
 };
 
 const mapStateToProps = state => {
@@ -57,6 +60,7 @@ const mapDispatchToProps = dispatch => {
     fetchContracts: contracts => dispatch(fetchContracts(contracts)),
     editContracts: contracts => dispatch(editContracts(contracts)),
     deleteContracts: contracts => dispatch(deleteContracts(contracts)),
+    addContracts: contracts => dispatch(addContracts(contracts)),
   };
 };
 

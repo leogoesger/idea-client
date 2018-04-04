@@ -6,7 +6,7 @@ import Tabs, {Tab} from 'material-ui/Tabs'
 import Button from 'material-ui/Button';
 import {cloneDeep} from 'lodash';
 
-import Paragraph from './Paragraph'
+import Paragraph from '../home/Paragraph'
 import {Colors} from '../../styles';
 
 export default class Layout extends React.Component {
@@ -58,7 +58,24 @@ export default class Layout extends React.Component {
       this.props.deleteContracts({state: updatedParagraphs, county: otherParagraphs});
     else
       this.props.deleteContracts({county: updatedParagraphs, state: otherParagraphs});
-        }
+    }
+
+  _addParagraph() {
+    const {tab} = this.state;
+    const {state, county} = this.props;
+    const updatedParagraphs = cloneDeep(tab === 0 ? state : county);
+    const otherParagraphs = cloneDeep(tab === 1 ? state : county);
+    updatedParagraphs.push(
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+    );
+    if(tab === 0)
+      this.props.addContracts({state: updatedParagraphs, county: otherParagraphs});
+    else
+      this.props.addContracts({county: updatedParagraphs, state: otherParagraphs});
+      
+  }
+
+        
 
   render() {
     const {tab} = this.state;
@@ -81,8 +98,13 @@ export default class Layout extends React.Component {
           this._renderParagraph(paragraph, index)
         )}
         <div style={styles.btnContainer}>
-          <Button variant="raised" style={styles.addBtn} size="small">
-            {'Add New Paragraph'}
+          <Button
+            variant="raised"
+            style={styles.addBtn}
+            size="small"
+            onClick={() => this._addParagraph()}
+          >
+            {'Add New Contract'}
           </Button>
         </div>
       </Paper>
@@ -95,13 +117,17 @@ Layout.propTypes = {
   county: PropTypes.array,
   editContracts: PropTypes.func,
   deleteContracts: PropTypes.func,
+  addContracts: PropTypes.func,
 };
 
 const styles = {
   mainContainer: {
-    minHeight: '600px',
+    height: '600px',
     paddingTop: '20px',
+    overflow: 'scroll',
+    paddingBottom: '20px',
   },
+
   addBtn: {
     backgroundColor: Colors.red,
     color: 'white',
@@ -112,3 +138,4 @@ const styles = {
     marginTop: '20px',
   },
 };
+

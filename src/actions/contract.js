@@ -25,3 +25,9 @@ export function deleteContracts(contracts) {
     dispatch(updateContractObjects(contracts));
   };
 }
+
+export function addContracts(contracts) {
+  return dispatch => {
+    dispatch(updateContractObjects(contracts));
+  };
+}
