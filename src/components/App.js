@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Switch, Route} from 'react-router-dom';
+import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 
 import Home from '../containers/Home';
 import Contact from '../containers/Contact';
@@ -12,6 +13,13 @@ import Portfolio from '../containers/Portfolio';
 import Service from '../containers/Service';
 import Team from '../containers/Team';
 import Logo from './logo/Logo';
+import red from 'material-ui/colors/red';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {main: red[400]}, // Purple and green play nicely together.
+  },
+});
 
 class App extends React.Component {
   render() {
@@ -25,17 +33,19 @@ class App extends React.Component {
           position: 'relative',
         }}
       >
-        <Navbar />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/contact" component={Contact} />
-          <Route exact path="/contract" component={Contract} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/portfolio" component={Portfolio} />
-          <Route exact path="/service" component={Service} />
-          <Route exact path="/team" component={Team} />
-        </Switch>
-        <Logo />
+        <MuiThemeProvider theme={theme}>
+          <Navbar />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/contact" component={Contact} />
+            <Route exact path="/contract" component={Contract} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/portfolio" component={Portfolio} />
+            <Route exact path="/service" component={Service} />
+            <Route exact path="/team" component={Team} />
+          </Switch>
+          <Logo />
+        </MuiThemeProvider>
       </div>
     );
   }
