@@ -66,12 +66,15 @@ export default class Paragraph extends React.Component {
   }
 
   _renderText() {
+    const split = this.state.paragraph.split('\n');
     if (!this.state.edit) {
       return (
-        <span>
-          {this.state.paragraph}
+        <div>
+          {split.map(e => {
+            return (<span><br />{e}</span>)
+          })}
           {this._renderBtns()}
-        </span>
+        </div>
       );
     }
     return (
@@ -120,7 +123,7 @@ export default class Paragraph extends React.Component {
   }
   render() {
     return (
-      <Typography component="span" style={styles.typograph}>
+      <Typography component="div" style={styles.typograph}>
         {this._renderText()}
       </Typography>
     );
@@ -137,7 +140,7 @@ Paragraph.propTypes = {
 const styles = {
   typograph: {
     marginTop: '-6px',
-    lineHeight: '10px',
+    // lineHeight: '10px',
   },
   iconBtn: {
     height: '25px',
