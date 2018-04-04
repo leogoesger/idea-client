@@ -3,7 +3,7 @@ import List, {ListItem, ListItemText} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import {navigateTo} from '../../utils/helpers';
 import Paper from 'material-ui/Paper';
-import Colors from '../../styles/Colors';
+import red from 'material-ui/colors/red';
 
 export default class Layout extends React.Component {
   constructor(props) {
@@ -84,6 +84,6 @@ const styles = {
   activeTab: {
     borderLeftWidth: '5px',
     borderLeftStyle: 'solid',
-    borderLeftColor: Colors.red,
+    borderLeftColor: red[400],
   },
 };

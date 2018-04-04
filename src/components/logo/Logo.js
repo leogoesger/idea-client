@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from 'material-ui/Typography';
-import Colors from '../../styles/Colors';
 
+import red from 'material-ui/colors/red';
 import CompanyLogo from '../../static/logo.png';
 
 const Logo = () => {
@@ -18,7 +18,7 @@ const Logo = () => {
             component="h1"
             style={{fontSize: '30px'}}
           >
-            {'I.D.E.A Consulting'}
+            {'I.D.E.A. Consulting'}
           </Typography>
         </div>
 
@@ -45,7 +45,7 @@ const styles = {
     width: '480px',
     borderBottomWidth: '3px',
     borderBottomStyle: 'solid',
-    borderBottomColor: Colors.red,
+    borderBottomColor: red[400],
     marginBottom: '10px',
   },
 };

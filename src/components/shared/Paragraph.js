@@ -18,6 +18,9 @@ export default class Paragraph extends React.Component {
   }
 
   componentDidMount() {
+    if (this.props.paragraph.includes('Lorem ipsum')) {
+      this.setState({paragraph: this.props.paragraph, edit: true});
+    }
     this.setState({paragraph: this.props.paragraph});
   }
 
@@ -53,12 +56,12 @@ export default class Paragraph extends React.Component {
   _renderBtns() {
     return (
       <span style={{marginLeft: '5px'}}>
-        <Tooltip title="Edit Paragraph">
+        <Tooltip title="Edit">
           <IconButton style={styles.iconBtn} onClick={() => this._handleEdit()}>
             <EditIcon style={styles.editIcon} />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Delete Paragraph">
+        <Tooltip title="Delete">
           <IconButton style={styles.iconBtn}>
             <DeleteIcon
               style={styles.editIcon}
@@ -73,10 +76,10 @@ export default class Paragraph extends React.Component {
   _renderText() {
     if (!this.state.edit) {
       return (
-        <div>
+        <Typography variant="body1" component="div">
           {this.state.paragraph}
           {this._renderBtns()}
-        </div>
+        </Typography>
       );
     }
     return (
@@ -85,7 +88,7 @@ export default class Paragraph extends React.Component {
         multiline
         fullWidth
         autoFocus
-        label="Edit Paragraph"
+        label="Edit"
         onChange={e => this._handleTextChange(e)}
         margin="normal"
         helperText="Click anywhere to save!"
@@ -124,11 +127,7 @@ export default class Paragraph extends React.Component {
     );
   }
   render() {
-    return (
-      <Typography component="div" style={styles.typograph}>
-        {this._renderText()}
-      </Typography>
-    );
+    return <div>{this._renderText()}</div>;
   }
 }
 
@@ -140,10 +139,6 @@ Paragraph.propTypes = {
 };
 
 const styles = {
-  typograph: {
-    marginTop: '20px',
-    lineHeight: '20px',
-  },
   iconBtn: {
     height: '25px',
     width: '25px',

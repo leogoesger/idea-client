@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
-import Typography from 'material-ui/Typography';
-import Tabs, {Tab} from 'material-ui/Tabs'
+import Tabs, {Tab} from 'material-ui/Tabs';
+import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/Button';
 import {cloneDeep} from 'lodash';
+import teal from 'material-ui/colors/teal';
 
-import Paragraph from '../home/Paragraph'
-import {Colors} from '../../styles';
+import Paragraph from '../shared/Paragraph';
 
 export default class Layout extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ export default class Layout extends React.Component {
     };
   }
 
-  _tabChange(v){
+  _tabChange(v) {
     this.setState({tab: v});
   }
 
@@ -41,11 +41,16 @@ export default class Layout extends React.Component {
     const updatedParagraphs = cloneDeep(tab === 0 ? state : county);
     const otherParagraphs = cloneDeep(tab === 1 ? state : county);
     updatedParagraphs[index] = paragraph;
-    if(tab === 0)
-      this.props.editContracts({state: updatedParagraphs, county: otherParagraphs});
+    if (tab === 0)
+      this.props.editContracts({
+        state: updatedParagraphs,
+        county: otherParagraphs,
+      });
     else
-      this.props.editContracts({county: updatedParagraphs, state: otherParagraphs});
-      
+      this.props.editContracts({
+        county: updatedParagraphs,
+        state: otherParagraphs,
+      });
   }
 
   _deleteParagraph(index) {
@@ -54,11 +59,17 @@ export default class Layout extends React.Component {
     const updatedParagraphs = cloneDeep(tab === 0 ? state : county);
     const otherParagraphs = cloneDeep(tab === 1 ? state : county);
     updatedParagraphs.splice(index, 1);
-    if(tab === 0)
-      this.props.deleteContracts({state: updatedParagraphs, county: otherParagraphs});
+    if (tab === 0)
+      this.props.deleteContracts({
+        state: updatedParagraphs,
+        county: otherParagraphs,
+      });
     else
-      this.props.deleteContracts({county: updatedParagraphs, state: otherParagraphs});
-    }
+      this.props.deleteContracts({
+        county: updatedParagraphs,
+        state: otherParagraphs,
+      });
+  }
 
   _addParagraph() {
     const {tab} = this.state;
@@ -68,45 +79,62 @@ export default class Layout extends React.Component {
     updatedParagraphs.push(
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
     );
-    if(tab === 0)
-      this.props.addContracts({state: updatedParagraphs, county: otherParagraphs});
+    if (tab === 0)
+      this.props.addContracts({
+        state: updatedParagraphs,
+        county: otherParagraphs,
+      });
     else
-      this.props.addContracts({county: updatedParagraphs, state: otherParagraphs});
-      
+      this.props.addContracts({
+        county: updatedParagraphs,
+        state: otherParagraphs,
+      });
   }
 
-        
-
   render() {
+    if (!this.props.state || !this.props.county) {
+      return null;
+    }
     const {tab} = this.state;
     return (
       <Paper
         className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
-        <Typography variant="headline" component="h3">
-          {'Contracts'}
-        <Tabs value={tab} onChange={(e, v) => this._tabChange(v)}>
-          <Tab label="State" />
-          <Tab label="County" />
-        </Tabs>
-        </Typography>
-        {tab === 0 && this.props.state.map((paragraph, index) =>
-          this._renderParagraph(paragraph, index)
-        )}
-        {tab === 1 && this.props.county.map((paragraph, index) =>
-          this._renderParagraph(paragraph, index)
-        )}
-        <div style={styles.btnContainer}>
-          <Button
-            variant="raised"
-            style={styles.addBtn}
-            size="small"
-            onClick={() => this._addParagraph()}
-          >
-            {'Add New Contract'}
-          </Button>
-        </div>
+        <Paper style={{minHeight: '400px'}}>
+          <AppBar position="static" color="primary">
+            <Tabs
+              value={tab}
+              onChange={(e, v) => this._tabChange(v)}
+              fullWidth
+              indicatorColor={teal[200]}
+            >
+              <Tab label="State" />
+              <Tab label="County" />
+            </Tabs>
+          </AppBar>
+          <div style={{marginTop: '10px', padding: '20px'}}>
+            {tab === 0 &&
+              this.props.state.map((paragraph, index) =>
+                this._renderParagraph(paragraph, index)
+              )}
+            {tab === 1 &&
+              this.props.county.map((paragraph, index) =>
+                this._renderParagraph(paragraph, index)
+              )}
+          </div>
+
+          <div style={styles.btnContainer}>
+            <Button
+              variant="raised"
+              style={styles.addBtn}
+              size="small"
+              onClick={() => this._addParagraph()}
+            >
+              {'Add New Contract'}
+            </Button>
+          </div>
+        </Paper>
       </Paper>
     );
   }
@@ -128,14 +156,9 @@ const styles = {
     paddingBottom: '20px',
   },
 
-  addBtn: {
-    backgroundColor: Colors.red,
-    color: 'white',
-  },
   btnContainer: {
     display: 'flex',
     justifyContent: 'flex-end',
-    marginTop: '20px',
+    margin: '20px',
   },
 };
-

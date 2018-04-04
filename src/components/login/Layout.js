@@ -33,7 +33,6 @@ export default class Layout extends React.Component {
           <div style={styles.btnContainer}>
             <Button
               variant="raised"
-              style={styles.addBtn}
               size="small"
               onClick={() => this._addParagraph()}
             >
@@ -71,9 +70,5 @@ const styles = {
     display: 'flex',
     justifyContent: 'flex-end',
     marginTop: '20px',
-  },
-  addBtn: {
-    backgroundColor: Colors.red,
-    color: 'white',
   },
 };
