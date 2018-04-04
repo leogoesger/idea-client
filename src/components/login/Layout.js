@@ -22,12 +22,15 @@ export default class Layout extends React.Component {
         className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
-        <div style={{marginTop: '40px'}}>
+        <div
+          style={{marginTop: '40px'}}
+          className="col-lg-5 col-md-5 col-xs-10"
+        >
           <Typography variant="headline" component="h3">
             {'Login'}
           </Typography>
           <Typography style={styles.subTitle}>
-            {'Please enter in your email and password'}
+            {'Please enter in with email and password'}
           </Typography>
           <LoginForm />
           <div style={styles.btnContainer}>

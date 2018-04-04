@@ -2,9 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Switch, Route} from 'react-router-dom';
-import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
-import red from 'material-ui/colors/red';
-import teal from 'material-ui/colors/teal';
+import {MuiThemeProvider} from 'material-ui/styles';
 
 import Home from '../containers/Home';
 import Contact from '../containers/Contact';
@@ -15,58 +13,7 @@ import Portfolio from '../containers/Portfolio';
 import Service from '../containers/Service';
 import Team from '../containers/Team';
 import Logo from './logo/Logo';
-
-const theme = createMuiTheme({
-  overrides: {
-    MuiButton: {
-      root: {
-        borderRadius: 3,
-        border: 0,
-        color: 'white',
-        height: 35,
-        padding: '0 30px',
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .30)',
-      },
-      label: {
-        padding: '0 10px',
-        color: 'white',
-      },
-      raised: {
-        backgroundColor: red[400],
-        '&:hover': {
-          backgroundColor: red[700],
-        },
-      },
-    },
-    MuiTypography: {
-      body1: {
-        marginTop: '5px',
-        lineHeight: '20px',
-      },
-    },
-    MuiTab: {
-      root: {
-        width: '100%',
-      },
-      label: {
-        color: 'white',
-        fontWeight: '700',
-      },
-    },
-    MuiTabs: {
-      root: {
-        boxShadow: 'none',
-      },
-      indicator: {
-        height: '3px',
-      },
-    },
-    MuiAppBar: {
-      root: {backgroundColor: 'pink', boxShadow: 'none'},
-      colorPrimary: {backgroundColor: red[400]},
-    },
-  },
-});
+import Theme from '../styles/Theme';
 
 class App extends React.Component {
   render() {
@@ -80,8 +27,8 @@ class App extends React.Component {
           position: 'relative',
         }}
       >
-        <MuiThemeProvider theme={theme}>
-          <Navbar />
+        <MuiThemeProvider theme={Theme}>
+          <Route path="*" render={props => <Navbar {...props} />} />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/contact" component={Contact} />

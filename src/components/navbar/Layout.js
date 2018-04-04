@@ -1,9 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import List, {ListItem, ListItemText} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import {navigateTo} from '../../utils/helpers';
 import Paper from 'material-ui/Paper';
 import red from 'material-ui/colors/red';
+import {find} from 'lodash';
 
 export default class Layout extends React.Component {
   constructor(props) {
@@ -19,6 +21,23 @@ export default class Layout extends React.Component {
       ],
       currentTab: 'Home',
     };
+  }
+
+  componentDidMount() {
+    this._updateTab(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this._updateTab(nextProps);
+  }
+
+  _updateTab(props) {
+    if (props.path === '/login') {
+      return this.setState({currentTab: 'Login'});
+    }
+    const currentTab = find(this.state.tabs, tab => tab.url === props.path)
+      .name;
+    this.setState({currentTab});
   }
 
   _navigateTo(location, name) {
@@ -71,7 +90,7 @@ export default class Layout extends React.Component {
   }
 }
 
-Layout.propTypes = {};
+Layout.propTypes = {path: PropTypes.string};
 
 const styles = {
   sideBar: {

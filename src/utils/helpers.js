@@ -56,3 +56,30 @@ export function isFlexNotSupported() {
     return false;
   }
 }
+
+export function validatePassword(password) {
+  if (password.length >= 4 && password.length <= 20) {
+    return true;
+  }
+  return false;
+}
+
+export function validateEmail(email) {
+  const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  return regex.test(email);
+}
+
+export function getEmailErrorMessage(email) {
+  if (email && !validateEmail(email)) {
+    return 'Invalid Email address';
+  }
+}
+
+export function getPasswordErrorMessage(password) {
+  if (!password || validatePassword(password)) {
+    return ' ';
+  }
+  if (!validatePassword(password)) {
+    return 'Should be between 4 to 20 characters';
+  }
+}

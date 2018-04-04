@@ -1,89 +1,62 @@
-import request from 'superagent';
+import {set, unset} from 'lodash';
+import {navigateTo} from '../utils/helpers';
 import {UserTypes as types} from '../action-types';
 
-const createUserObject = user => {
+const loginUserObject = userInfo => {
   return {
-    type: types.CREATE_USER_OBJECT,
-    user,
+    type: types.LOGIN_USER_OBJECT,
+    userInfo,
   };
 };
 
-const createUserErrorObject = message => {
+const loginUserErrorObject = message => {
   return {
-    type: types.CREATE_USER_ERROR_OBJECT,
+    type: types.LOGIN_USER_ERROR_OBJECT,
     message,
   };
 };
 
-const fetchUserObjects = users => {
+const fetchCurrentUserSuccess = currentUser => {
   return {
-    type: types.FETCH_USER_OBJECTS,
-    users,
+    type: types.FETCH_CURRENT_USER_SUCCESS,
+    currentUser,
   };
 };
 
-const fetchUserObject = user => {
+const logOutUserObject = () => {
   return {
-    type: types.FEATCH_USER_OBJECT,
-    user,
+    type: types.LOG_OUT_USER,
   };
 };
 
-const fetchingObject = fetchingStatus => {
-  return {
-    type: types.FETCHING_OBJECT,
-    fetchingStatus,
-  };
-};
-
-export function createUser(userName) {
+export function loginUser(userInfo) {
   return async dispatch => {
     try {
-      dispatch(fetchingObject(true));
-      const user = await request
-        .post(`${process.env.SERVER_ADDRESS}/users`)
-        .send({username: userName});
-      dispatch(createUserObject(user.body));
-      const users = await request.get(`${process.env.SERVER_ADDRESS}/users`);
-      dispatch(fetchUserObjects(users.body));
-      dispatch(fetchUserObject(user.body));
-      dispatch(createUserErrorObject());
-      dispatch(fetchingObject(false));
+      set(window.localStorage, 'ideaJWT', 'abcdefgSecret');
+      dispatch(loginUserObject(userInfo));
     } catch (e) {
-      dispatch(createUserErrorObject(e.response.body.message));
-      dispatch(fetchingObject(false));
+      const message = {message: 'You suck!'};
+      dispatch(loginUserErrorObject(message));
     }
   };
 }
 
-export function createUserError(message) {
+export function fetchCurrentUser() {
+  return async dispatch => {
+    try {
+      const user = {userName: 'leogoesger', email: 'leoq91@gmail.com'};
+      dispatch(fetchCurrentUserSuccess(user));
+    } catch (e) {
+      unset(window.localStorage, 'ideaJWT');
+      navigateTo('/');
+    }
+  };
+}
+
+export function logOutUser() {
   return dispatch => {
-    dispatch(createUserErrorObject(message));
-  };
-}
-
-export function fetchUsers() {
-  return async dispatch => {
-    try {
-      dispatch(fetchingObject(true));
-
-      const users = await request.get(`${process.env.SERVER_ADDRESS}/users`);
-      dispatch(fetchUserObjects(users.body));
-      dispatch(fetchUserObject(users.body[0]));
-      dispatch(fetchingObject(false));
-    } catch (e) {
-      dispatch(fetchingObject(false));
-      throw e;
-    }
-  };
-}
-
-export function fetchUser(user) {
-  return async dispatch => {
-    try {
-      dispatch(fetchUserObject(user));
-    } catch (e) {
-      throw e;
-    }
+    unset(window.localStorage, 'ideaJWT');
+    dispatch(logOutUserObject());
+    navigateTo('/');
   };
 }

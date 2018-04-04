@@ -1,12 +1,13 @@
 import React from 'react';
 import Typography from 'material-ui/Typography';
-
 import red from 'material-ui/colors/red';
+
+import {navigateTo} from '../../utils/helpers';
 import CompanyLogo from '../../static/logo.png';
 
 const Logo = () => {
   return (
-    <div style={styles.logoContainer}>
+    <div style={styles.logoContainer} onClick={() => navigateTo('/')}>
       <div style={styles.imgContainer}>
         <img src={CompanyLogo} height="72" width="72" />
       </div>
@@ -37,6 +38,7 @@ const styles = {
     left: '0px',
     display: 'flex',
     justifyContent: 'space-between',
+    cursor: 'pointer',
   },
   imgContainer: {
     margin: '10px 15px 0px 0px',
