@@ -56,8 +56,12 @@ export default class Layout extends React.Component {
         </div>
         <div>
           <Divider />
-          <List>
-            <ListItem button onClick={() => navigateTo('/login')}>
+          <List style={{padding: '0px'}}>
+            <ListItem
+              button
+              onClick={() => this._navigateTo('/login', 'Login')}
+              style={this._getTabStyle('Login')}
+            >
               <ListItemText primary="Login" />
             </ListItem>
           </List>
