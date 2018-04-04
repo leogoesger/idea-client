@@ -11,6 +11,7 @@ import Login from '../containers/Login';
 import Portfolio from '../containers/Portfolio';
 import Service from '../containers/Service';
 import Team from '../containers/Team';
+import Logo from './logo/Logo';
 
 class App extends React.Component {
   render() {
@@ -20,7 +21,8 @@ class App extends React.Component {
           display: 'flex',
           justifyContent: 'space-around',
           width: '90%',
-          margin: '120px auto',
+          margin: '140px auto',
+          position: 'relative',
         }}
       >
         <Navbar />
@@ -33,6 +35,7 @@ class App extends React.Component {
           <Route exact path="/service" component={Service} />
           <Route exact path="/team" component={Team} />
         </Switch>
+        <Logo />
       </div>
     );
   }
