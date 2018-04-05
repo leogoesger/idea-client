@@ -77,7 +77,7 @@ export function getEmailErrorMessage(email) {
 
 export function getPasswordErrorMessage(password) {
   if (!password || validatePassword(password)) {
-    return ' ';
+    return '';
   }
   if (!validatePassword(password)) {
     return 'Should be between 4 to 20 characters';

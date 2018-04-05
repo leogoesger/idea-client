@@ -23,6 +23,16 @@ export default class LoginForm extends React.Component {
     });
   }
 
+  _isDisabledBtn() {
+    if (!this.state.email || !this.state.password) {
+      return true;
+    }
+    return !!(
+      getEmailErrorMessage(this.state.email) ||
+      getPasswordErrorMessage(this.state.password)
+    );
+  }
+
   render() {
     return (
       <div>
@@ -49,6 +59,7 @@ export default class LoginForm extends React.Component {
           <Button
             variant="raised"
             size="small"
+            disabled={this._isDisabledBtn()}
             onClick={() => this.props.loginUser(this.state)}
           >
             {'Submit'}
