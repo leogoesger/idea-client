@@ -5,7 +5,7 @@ import Tabs, {Tab} from 'material-ui/Tabs';
 import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/Button';
 import {cloneDeep} from 'lodash';
-import cyan from 'material-ui/colors/cyan';
+import yellow from 'material-ui/colors/yellow';
 
 import Paragraph from '../shared/Paragraph';
 
@@ -117,7 +117,9 @@ export default class Layout extends React.Component {
           this._editParagraphs(paragraph, index)
         }
         deleteParagraph={index => this._deleteParagraph(index)}
-      />
+      >
+        <p>{paragraph}</p>
+      </Paragraph>
     );
   }
 
@@ -137,7 +139,7 @@ export default class Layout extends React.Component {
               value={tab}
               onChange={(e, v) => this._tabChange(v)}
               fullWidth
-              indicatorColor={cyan[300]}
+              indicatorColor={yellow[700]}
             >
               <Tab label="State" />
               <Tab label="County" />

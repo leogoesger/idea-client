@@ -77,7 +77,7 @@ export default class Paragraph extends React.Component {
     if (!this.state.edit) {
       return (
         <Typography variant="body1" component="div">
-          {this.state.paragraph}
+          {this.props.children}
           {this._renderBtns()}
         </Typography>
       );
@@ -131,6 +131,7 @@ export default class Paragraph extends React.Component {
 }
 
 Paragraph.propTypes = {
+  children: PropTypes.object,
   currentUser: PropTypes.object,
   number: PropTypes.number,
   paragraph: PropTypes.string,
