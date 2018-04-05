@@ -21,11 +21,9 @@ export class Contact extends React.Component {
 
     return (
       <Layout
+        currentUser={this.props.currentUser}
         paragraphs={this.props.paragraphs}
-        editParagraphs={paragraphs => 
-          // console.log(this.props)
-          this.props.editParagraphs(paragraphs)
-        }
+        editParagraphs={paragraphs => this.props.editParagraphs(paragraphs)}
       />
     );
   }
@@ -35,11 +33,13 @@ Contact.propTypes = {
   paragraphs: PropTypes.array,
   fetchParagraphs: PropTypes.func,
   editParagraphs: PropTypes.func,
+  currentUser: PropTypes.object,
 };
 
 const mapStateToProps = state => {
   return {
     paragraphs: state.home.paragraphs,
+    currentUser: state.user.currentUser,
   };
 };
 

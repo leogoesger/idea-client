@@ -4,18 +4,21 @@ import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import {cloneDeep} from 'lodash';
 
-import Paragraph from './Paragraph';
+import Button from 'material-ui/Button'
+import ContactForm from './ContactForm'
+import Paragraph from '../shared/Paragraph';
 import {Colors} from '../../styles';
-import { TextField } from 'material-ui';
 
 export default class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      email: '',
-      phone: '',
+      open: false,
     };
+  }
+
+  handleClose(){
+    this.setState({open: false})
   }
 
   handleChange(name){ 
@@ -35,6 +38,7 @@ export default class Layout extends React.Component {
   _renderParagraph(paragraph, index) {
     return (
       <Paragraph
+        currentUser={this.props.currentUser}
         key={index}
         number={index}
         paragraph={paragraph}
@@ -57,32 +61,21 @@ export default class Layout extends React.Component {
         {this.props.paragraphs.map((paragraph, index) =>
           this._renderParagraph(paragraph, index)
         )}
-        <form>
-          <TextField 
-            id="name"
-            label="Name"
-            value={this.state.name}
-            onChange={this.handleChange('name')}
-            /><br />
-          <TextField 
-            id="email"
-            label="Email"
-            value={this.state.email}
-            onChange={this.handleChange('email')}
-            /><br />
-            <TextField 
-            id="phone"
-            label="Phone"
-            value={this.state.phone}
-            onChange={this.handleChange('phone')}
-            />
-        </form>
+        <div style={styles.btnContainer}>
+          <Button 
+            onClick={()=>this.setState({open: true})}
+            variant="raised"
+            size="small"
+            >Contact Us</Button>
+        </div>
+        <ContactForm open={this.state.open} handleClose={()=>this.handleClose()}/>
       </Paper>
     );
   }
 }
 
 Layout.propTypes = {
+  currentUser: PropTypes.object,
   paragraphs: PropTypes.array,
   editParagraphs: PropTypes.func,
 };
