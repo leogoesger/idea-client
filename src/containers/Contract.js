@@ -12,23 +12,12 @@ import Layout from '../components/contract/Layout';
 
 export class Contract extends React.Component {
   componentWillMount() {
-    const state = [
-      'California Department of Mental Health',
-      'Nevada Department of Mental Health',
-      'Utah Department of Mental Health',
-      'Wyoming Mental Health Division',
-      'Wyoming Substance Abuse Division',
-      'Washington Department of Social and Health Services',
-    ];
-    const county = [
-      'Alpine County Behavioral Health',
-      'Butte County Department of Employment and Social Services',
-      'Butte County Behavioral Health',
-      'Colusa County',
-    ];
-    this.props.fetchContracts({state, county});
+    this.props.fetchContracts();
   }
   render() {
+    if(!this.props.state || !this.props.county)
+      return null;
+
     return (
       <Layout
         currentUser={this.props.currentUser}
