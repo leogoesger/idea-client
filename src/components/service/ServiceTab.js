@@ -5,13 +5,23 @@ import ExpansionPanel, {
   ExpansionPanelSummary,
 } from 'material-ui/ExpansionPanel';
 import Typography from 'material-ui/Typography';
+import EditIcon from 'material-ui-icons/Edit';
+import DeleteIcon from 'material-ui-icons/Delete';
+import Tooltip from 'material-ui/Tooltip';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
+import IconButton from 'material-ui/IconButton';
+import {cloneDeep} from 'lodash';
+
+import EditServiceDialog from './EditServiceDialog';
 
 export default class ServiceTab extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       expanded: null,
+      isDialogOpen: false,
+      number: null,
+      service: null,
     };
   }
 
@@ -24,6 +34,12 @@ export default class ServiceTab extends React.Component {
       return this.setState({expanded: null});
     }
     this.setState({expanded: name});
+  }
+
+  _editService(service, number) {
+    const serviceInfo = cloneDeep(this.props.serviceInfo);
+    serviceInfo[number] = service;
+    this.props.editService(serviceInfo, this.props.tab);
   }
 
   _renderServices(services) {
@@ -49,6 +65,37 @@ export default class ServiceTab extends React.Component {
     );
   }
 
+  _renderEditBtn(service, index) {
+    if (this.props.currentUser) {
+      return (
+        <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+          <Tooltip title="Edit">
+            <IconButton
+              style={styles.iconBtn}
+              onClick={() =>
+                this.setState({
+                  isDialogOpen: true,
+                  service: service,
+                  number: index,
+                })
+              }
+            >
+              <EditIcon style={styles.editIcon} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete">
+            <IconButton style={styles.iconBtn}>
+              <DeleteIcon
+                style={styles.editIcon}
+                onClick={() => this._handleDelete()}
+              />
+            </IconButton>
+          </Tooltip>
+        </div>
+      );
+    }
+  }
+
   _renderStateOrCountyCard() {
     return this.props.serviceInfo.map((service, index) => {
       return (
@@ -64,6 +111,7 @@ export default class ServiceTab extends React.Component {
             <div style={{paddingLeft: '10px'}}>
               {this._renderServices(service.services)}
             </div>
+            {this._renderEditBtn(service, index)}
           </ExpansionPanelDetails>
         </ExpansionPanel>
       );
@@ -77,17 +125,37 @@ export default class ServiceTab extends React.Component {
     return this._renderStateOrCountyCard();
   }
 
+  _renderDialog() {
+    if (this.state.service) {
+      return (
+        <EditServiceDialog
+          open={this.state.isDialogOpen}
+          handleClose={() => this.setState({isDialogOpen: false})}
+          serviceObject={this.state.service}
+          number={this.state.number}
+          editService={(service, number) => this._editService(service, number)}
+        />
+      );
+    }
+  }
   render() {
     if (!this.props.serviceInfo) {
       return null;
     }
-    return <div style={styles.mainContainer}>{this._renderServiceCards()}</div>;
+    return (
+      <div style={styles.mainContainer}>
+        {this._renderServiceCards()}
+        {this._renderDialog()}
+      </div>
+    );
   }
 }
 
 ServiceTab.propTypes = {
   serviceInfo: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   currentUser: PropTypes.object,
+  tab: PropTypes.string,
+  editService: PropTypes.func,
 };
 
 const styles = {

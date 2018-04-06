@@ -58,13 +58,14 @@ export default class Layout extends React.Component {
           size="small"
           onClick={() => this._addParagraph()}
         >
-          {'Add New Contract'}
+          {'Add New Service'}
         </Button>
       </div>
     );
   }
 
   render() {
+    const tabs = ['overviewServices', 'stateServices', 'countyServices'];
     return (
       <Paper
         className="col-lg-10 col-md-10 col-xs-10"
@@ -86,6 +87,8 @@ export default class Layout extends React.Component {
           <ServiceTab
             serviceInfo={this._getTabInfo(this.state.tab)}
             currentUser={this.props.currentUser}
+            tab={tabs[this.state.tab]}
+            editService={(data, type) => this.props.editService(data, type)}
           />
           {this._renderBtn()}
         </Paper>

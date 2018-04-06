@@ -91,7 +91,6 @@ export default class Paragraph extends React.Component {
         label="Edit"
         onChange={e => this._handleTextChange(e)}
         margin="normal"
-        helperText="Click anywhere to save!"
         InputProps={{
           endAdornment: (
             <InputAdornment position="end" style={{}}>
