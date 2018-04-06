@@ -42,12 +42,17 @@ export default class Layout extends React.Component {
     this.props.addParagraph(updatedParagraphs);
   }
 
+  _isMultiline(paragraph) {
+    return paragraph.length > 100 ? true : false;
+  }
+
   _renderParagraph(paragraph, index) {
     return (
       <Paragraph
         currentUser={this.props.currentUser}
         key={index}
         number={index}
+        multiline={this._isMultiline(paragraph)}
         paragraph={paragraph}
         editParagraphs={(paragraph, index) =>
           this._editParagraphs(paragraph, index)

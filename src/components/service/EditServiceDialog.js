@@ -4,6 +4,7 @@ import Button from 'material-ui/Button';
 import Dialog, {DialogTitle} from 'material-ui/Dialog';
 import {cloneDeep} from 'lodash';
 
+import Paragraph from '../shared/Paragraph';
 import TextField from 'material-ui/TextField';
 
 export default class EditServiceDialog extends React.Component {
@@ -35,17 +36,55 @@ export default class EditServiceDialog extends React.Component {
     this.setState({description: e.target.value});
   }
 
+  _editParagraphs(paragraph, index) {
+    const updatedServices = cloneDeep(this.state.services);
+    updatedServices[index] = paragraph;
+    this.setState({services: updatedServices});
+  }
+
+  _deleteParagraph(index) {
+    const updatedServices = cloneDeep(this.state.services);
+    updatedServices.splice(index, 1);
+    this.setState({services: updatedServices});
+  }
+
+  _addParagraph() {
+    const updatedServices = cloneDeep(this.state.services);
+    updatedServices.push(
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+    );
+    this.setState({services: updatedServices});
+  }
+
+  _isMultiline(service) {
+    return service.length > 100 ? true : false;
+  }
+
+  _handleClose() {
+    if (this.props.serviceObject.description === 'New Service Description') {
+      this.props.deleteService(this.props.number);
+      return this.props.handleClose();
+    }
+    return this.props.handleClose();
+  }
+
   _renderServices(services) {
     if (services) {
       return services.map((service, index) => {
         return (
-          <TextField
-            fullWidth
-            multiline
+          <Paragraph
+            currentUser={{name: ''}}
             key={index}
-            value={this.state.services[index]}
-            onChange={e => this._handleTextChange(e, index)}
-          />
+            number={index}
+            multiline={this._isMultiline(service)}
+            paragraph={service}
+            editParagraphs={(paragraph, index) =>
+              this._editParagraphs(paragraph, index)
+            }
+            deleteParagraph={index => this._deleteParagraph(index)}
+          >
+            <span>{service}</span>
+          </Paragraph>
         );
       });
     }
@@ -57,20 +96,38 @@ export default class EditServiceDialog extends React.Component {
         style={{
           width: '95%',
           display: 'flex',
-          justifyContent: 'flex-end',
-          marginBottom: '20px',
+          justifyContent: 'space-between',
+          margin: '10px auto 20px auto',
         }}
       >
-        <Button variant="flat" color="primary" onClick={this.props.handleClose}>
-          Cancel
-        </Button>
-        <Button
-          style={{marginLeft: '10px'}}
-          variant="raised"
-          onClick={() => this.props.editService(this.state, this.props.number)}
-        >
-          Save
-        </Button>
+        <div>
+          <Button
+            variant="flat"
+            color="primary"
+            onClick={() => this._handleClose()}
+          >
+            Cancel
+          </Button>
+        </div>
+        <div>
+          <Button
+            variant="flat"
+            color="primary"
+            onClick={() => this._addParagraph()}
+          >
+            Add
+          </Button>
+
+          <Button
+            style={{marginLeft: '10px'}}
+            variant="raised"
+            onClick={() =>
+              this.props.editService(this.state, this.props.number)
+            }
+          >
+            Save
+          </Button>
+        </div>
       </div>
     );
   }
@@ -82,7 +139,7 @@ export default class EditServiceDialog extends React.Component {
     return (
       <Dialog
         open={this.props.open}
-        onClose={() => this.props.handleClose()}
+        onClose={() => this._handleClose()}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
@@ -107,5 +164,6 @@ EditServiceDialog.propTypes = {
   handleClose: PropTypes.func,
   open: PropTypes.bool,
   editService: PropTypes.func,
+  deleteService: PropTypes.func,
   number: PropTypes.number,
 };

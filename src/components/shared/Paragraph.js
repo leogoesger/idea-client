@@ -85,7 +85,7 @@ export default class Paragraph extends React.Component {
     return (
       <TextField
         value={this.state.paragraph}
-        multiline
+        multiline={this.props.multiline}
         fullWidth
         autoFocus
         label="Edit"
@@ -97,7 +97,6 @@ export default class Paragraph extends React.Component {
               <div
                 style={{
                   display: 'flex',
-                  flexDirection: 'column',
                   justifyContent: 'space-around',
                 }}
               >
@@ -106,7 +105,7 @@ export default class Paragraph extends React.Component {
                     onClick={() => this._handleRedo()}
                     style={styles.iconBtn}
                   >
-                    <UndoIcon />
+                    <UndoIcon style={{width: '20px'}} />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Save">
@@ -114,7 +113,7 @@ export default class Paragraph extends React.Component {
                     onClick={() => this._handleSave()}
                     style={styles.iconBtn}
                   >
-                    <SaveIcon />
+                    <SaveIcon style={{width: '20px'}} />
                   </IconButton>
                 </Tooltip>
               </div>
@@ -136,6 +135,7 @@ Paragraph.propTypes = {
   paragraph: PropTypes.string,
   editParagraphs: PropTypes.func,
   deleteParagraph: PropTypes.func,
+  multiline: PropTypes.bool,
 };
 
 const styles = {

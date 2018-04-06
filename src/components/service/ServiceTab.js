@@ -11,6 +11,7 @@ import Tooltip from 'material-ui/Tooltip';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import IconButton from 'material-ui/IconButton';
 import {cloneDeep} from 'lodash';
+import Button from 'material-ui/Button';
 
 import EditServiceDialog from './EditServiceDialog';
 
@@ -47,6 +48,18 @@ export default class ServiceTab extends React.Component {
     const serviceInfo = cloneDeep(this.props.serviceInfo);
     serviceInfo.splice(number, 1);
     this.props.deleteService(serviceInfo, this.props.tab);
+  }
+
+  _addService() {
+    const serviceInfo = cloneDeep(this.props.serviceInfo),
+      length = serviceInfo.length,
+      newService = {
+        description: 'New Service Description',
+        services: ['New Service Item 1', 'New Service Item 2'],
+      };
+    serviceInfo.push(newService);
+    this.props.addService(serviceInfo, this.props.tab);
+    this.setState({isDialogOpen: true, number: length, service: newService});
   }
 
   _renderServices(services) {
@@ -125,11 +138,31 @@ export default class ServiceTab extends React.Component {
     });
   }
 
+  _renderAddNewBtn() {
+    return (
+      <div style={styles.btnContainer}>
+        <Button
+          variant="flat"
+          color="primary"
+          size="small"
+          onClick={() => this._addService()}
+        >
+          {'Add New Service'}
+        </Button>
+      </div>
+    );
+  }
+
   _renderServiceCards() {
     if (!Array.isArray(this.props.serviceInfo)) {
       return this._renderOverviewCard();
     }
-    return this._renderStateOrCountyCard();
+    return (
+      <div>
+        {this._renderStateOrCountyCard()}
+        {this._renderAddNewBtn()}
+      </div>
+    );
   }
 
   _renderDialog() {
@@ -141,6 +174,9 @@ export default class ServiceTab extends React.Component {
           serviceObject={this.state.service}
           number={this.state.number}
           editService={(service, number) => this._editService(service, number)}
+          deleteService={(service, number) =>
+            this._deleteService(service, number)
+          }
         />
       );
     }
@@ -168,5 +204,11 @@ ServiceTab.propTypes = {
 };
 
 const styles = {
-  mainContainer: {height: '430px', overflow: 'scroll'},
+  mainContainer: {height: '500px', overflow: 'scroll'},
+  btnContainer: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    marginTop: '20px',
+    marginBottom: '20px',
+  },
 };
