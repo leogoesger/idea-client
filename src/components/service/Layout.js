@@ -6,12 +6,19 @@ import Tabs, {Tab} from 'material-ui/Tabs';
 import Button from 'material-ui/Button';
 import yellow from 'material-ui/colors/yellow';
 
+import ContactForm from '../shared/ContactForm';
+
 export default class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       tab: 0,
+      open: false,
     };
+  }
+
+  _handleClose() {
+    this.setState({open: false});
   }
 
   _tabChange(v) {
@@ -25,7 +32,7 @@ export default class Layout extends React.Component {
           <Button
             variant="raised"
             size="small"
-            onClick={() => this._addParagraph()}
+            onClick={() => this.setState({open: true})}
           >
             {'Contact Us'}
           </Button>
@@ -66,6 +73,10 @@ export default class Layout extends React.Component {
           </AppBar>
           {this._renderBtn()}
         </Paper>
+        <ContactForm
+          open={this.state.open}
+          handleClose={() => this._handleClose()}
+        />
       </Paper>
     );
   }

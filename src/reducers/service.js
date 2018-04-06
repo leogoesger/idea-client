@@ -12,7 +12,7 @@ const initialState: STATE = {
 export default function(state: STATE = initialState, action: ACTION) {
   switch (action.type) {
     case types.FETCH_SERVICE_OBJECTS:
-      return objectAssign({}, {state: action.services});
+      return objectAssign({}, action.services);
 
     default:
       return state;

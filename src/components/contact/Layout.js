@@ -5,7 +5,7 @@ import Typography from 'material-ui/Typography';
 import {cloneDeep} from 'lodash';
 
 import Button from 'material-ui/Button';
-import ContactForm from './ContactForm';
+import ContactForm from '../shared/ContactForm';
 import Paragraph from '../shared/Paragraph';
 import {Colors} from '../../styles';
 
@@ -17,7 +17,7 @@ export default class Layout extends React.Component {
     };
   }
 
-  handleClose() {
+  _handleClose() {
     this.setState({open: false});
   }
 
@@ -47,18 +47,14 @@ export default class Layout extends React.Component {
           this._editParagraphs(paragraph, index)
         }
       >
-<<<<<<< HEAD
         <span>
-          {split.map( (s, i) =><span key={i}><br />{s}</span>)}
+          {split.map((s, i) => (
+            <span key={i}>
+              <br />
+              {s}
+            </span>
+          ))}
         </span>
-=======
-        {split.map((s, i) => (
-          <span key={i}>
-            <br />
-            {s}
-          </span>
-        ))}
->>>>>>> NEL-24: service actions
       </Paragraph>
     );
   }
@@ -86,7 +82,7 @@ export default class Layout extends React.Component {
         </div>
         <ContactForm
           open={this.state.open}
-          handleClose={() => this.handleClose()}
+          handleClose={() => this._handleClose()}
         />
       </Paper>
     );
