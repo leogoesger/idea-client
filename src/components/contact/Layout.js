@@ -9,6 +9,8 @@ import ContactForm from '../shared/ContactForm';
 import Paragraph from '../shared/Paragraph';
 import {Colors} from '../../styles';
 
+import MapImage from '../../static/map.png';
+
 export default class Layout extends React.Component {
   constructor(props) {
     super(props);
@@ -65,12 +67,25 @@ export default class Layout extends React.Component {
         className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
-        <Typography variant="headline" component="h3">
-          {'Contact'}
-        </Typography>
-        {this.props.paragraphs.map((paragraph, index) =>
-          this._renderParagraph(paragraph, index)
-        )}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <div>
+            <Typography variant="headline" component="h3">
+              {'Contact'}
+            </Typography>
+            {this.props.paragraphs.map((paragraph, index) =>
+              this._renderParagraph(paragraph, index)
+            )}
+          </div>
+
+          <div>
+            <img src={MapImage} height="400" width="500" />
+          </div>
+        </div>
         <div style={styles.btnContainer}>
           <Button
             onClick={() => this.setState({open: true})}
@@ -110,6 +125,6 @@ const styles = {
   btnContainer: {
     display: 'flex',
     justifyContent: 'space-around',
-    marginTop: '20px',
+    marginTop: '60px',
   },
 };

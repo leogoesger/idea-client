@@ -13,6 +13,7 @@ import IconButton from 'material-ui/IconButton';
 import {cloneDeep} from 'lodash';
 import Button from 'material-ui/Button';
 
+import Paragraph from '../shared/Paragraph';
 import EditServiceDialog from './EditServiceDialog';
 
 export default class ServiceTab extends React.Component {
@@ -40,12 +41,24 @@ export default class ServiceTab extends React.Component {
   _editService(service, number) {
     this.setState({isDialogOpen: false});
     const serviceInfo = cloneDeep(this.props.serviceInfo);
+    if (this.props.tab == 'overviewServices') {
+      if (!number && number !== 0) {
+        serviceInfo.description = service;
+        return this.props.editService(serviceInfo, this.props.tab);
+      }
+      serviceInfo.services[number] = service;
+      return this.props.editService(serviceInfo, this.props.tab);
+    }
     serviceInfo[number] = service;
     this.props.editService(serviceInfo, this.props.tab);
   }
 
   _deleteService(number) {
     const serviceInfo = cloneDeep(this.props.serviceInfo);
+    if (this.props.tab == 'overviewServices') {
+      serviceInfo.services.splice(number, 1);
+      return this.props.deleteService(serviceInfo, this.props.tab);
+    }
     serviceInfo.splice(number, 1);
     this.props.deleteService(serviceInfo, this.props.tab);
   }
@@ -62,6 +75,26 @@ export default class ServiceTab extends React.Component {
     this.setState({isDialogOpen: true, number: length, service: newService});
   }
 
+  _renderOverviewServices(services) {
+    return services.map((service, index) => {
+      return (
+        <Paragraph
+          currentUser={this.props.currentUser}
+          key={index}
+          number={index}
+          multiline={false}
+          paragraph={service}
+          editParagraphs={(paragraph, index) =>
+            this._editService(paragraph, index)
+          }
+          deleteParagraph={index => this._deleteService(index)}
+        >
+          <span>{service}</span>
+        </Paragraph>
+      );
+    });
+  }
+
   _renderServices(services) {
     return services.map((service, index) => {
       return (
@@ -75,11 +108,22 @@ export default class ServiceTab extends React.Component {
   _renderOverviewCard() {
     return (
       <div style={{padding: '20px'}}>
-        <Typography variant="title" component="div">
-          {this.props.serviceInfo.description}
-        </Typography>
+        <Paragraph
+          currentUser={this.props.currentUser}
+          number={null}
+          multiline={true}
+          paragraph={this.props.serviceInfo.description}
+          editParagraphs={(paragraph, index) =>
+            this._editService(paragraph, index)
+          }
+        >
+          <span style={{fontSize: '16px'}}>
+            {this.props.serviceInfo.description}
+          </span>
+        </Paragraph>
+
         <div style={{padding: '20px'}}>
-          {this._renderServices(this.props.serviceInfo.services)}
+          {this._renderOverviewServices(this.props.serviceInfo.services)}
         </div>
       </div>
     );
