@@ -36,6 +36,7 @@ export default class Layout extends React.Component {
   }
 
   _renderParagraph(paragraph, index) {
+    const split = paragraph.split('\n');
     return (
       <Paragraph
         currentUser={this.props.currentUser}
@@ -45,7 +46,9 @@ export default class Layout extends React.Component {
         editParagraphs={(paragraph, index) =>
           this._editParagraphs(paragraph, index)
         }
-      />
+      >
+        {split.map( (s, i) =><span key={i}><br />{s}</span>)}
+      </Paragraph>
     );
   }
 

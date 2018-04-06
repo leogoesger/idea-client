@@ -25,6 +25,9 @@ export default class ContactForm extends React.Component{
         [name]: event.target.value,
       });
     };
+  }
+  handleSubmit(){
+
   } 
   render(){
     return(
@@ -39,7 +42,6 @@ export default class ContactForm extends React.Component{
             updates occationally.
           </DialogContentText> */}
           <TextField
-            autoFocus
             margin="dense"
             id="name"
             label="Name"
@@ -49,7 +51,6 @@ export default class ContactForm extends React.Component{
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="email"
             label="Email"
@@ -59,7 +60,6 @@ export default class ContactForm extends React.Component{
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="phone"
             label="Phone"
@@ -69,7 +69,6 @@ export default class ContactForm extends React.Component{
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="msg"
             label="Message"
@@ -80,6 +79,11 @@ export default class ContactForm extends React.Component{
             rows={4}
             fullWidth
           />
+          <form style={{display:'none'}} id='contact-form' action="mailto:youraddr@domain.tld" method="GET" encType="multipart/form-data">
+              <input name="subject" type="text" value={this.state.name}/>
+              <textarea name="body" value={this.state.msg}></textarea>
+              <input type="submit" value="Send" />
+          </form>
         </DialogContent>
         <DialogActions>
           <Button             
@@ -89,12 +93,13 @@ export default class ContactForm extends React.Component{
             Cancel
           </Button>
           <Button 
-              variant="raised"
-              size="small"
-              onClick={this.props.handleClose}>
-            Submit
+            variant="raised"
+            size="small"
+            onClick={()=>document.getElementById('contact-form').submit()}>
+                Submit
           </Button>
         </DialogActions>
+        
       </Dialog>
     );
   }
