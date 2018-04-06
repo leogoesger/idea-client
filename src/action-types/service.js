@@ -1,5 +1,5 @@
 const ServiceTypes = {
-  UPDATE_PARAGRAPH_OBJECTS: 'UPDATE_PARAGRAPH_OBJECTS',
+  UPDATE_SERVICE_OBJECTS: 'UPDATE_SERVICE_OBJECTS',
 };
 
 export default ServiceTypes;
