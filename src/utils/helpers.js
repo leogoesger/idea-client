@@ -69,9 +69,20 @@ export function validateEmail(email) {
   return regex.test(email);
 }
 
+export function validatePhone(phone) {
+  const regex = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}/;
+  return regex.test(phone);
+}
+
 export function getEmailErrorMessage(email) {
   if (email && !validateEmail(email)) {
     return 'Invalid Email address';
+  }
+}
+
+export function getPhoneErrorMessage(phone) {
+  if (phone !== '(   )    -    '  && !validatePhone(phone)) {
+    return 'Invalid Phone';
   }
 }
 

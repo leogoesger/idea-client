@@ -47,7 +47,9 @@ export default class Layout extends React.Component {
           this._editParagraphs(paragraph, index)
         }
       >
-        {split.map( (s, i) =><span key={i}><br />{s}</span>)}
+        <span>
+          {split.map( (s, i) =><span key={i}><br />{s}</span>)}
+        </span>
       </Paragraph>
     );
   }
