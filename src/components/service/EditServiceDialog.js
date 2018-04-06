@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
-import Dialog, {DialogContent, DialogTitle} from 'material-ui/Dialog';
+import Dialog, {DialogTitle} from 'material-ui/Dialog';
 import {cloneDeep} from 'lodash';
 
 import TextField from 'material-ui/TextField';
@@ -27,7 +27,7 @@ export default class EditServiceDialog extends React.Component {
   }
 
   _handleTextChange(e, index) {
-    if (index) {
+    if (index || index === 0) {
       const newServices = cloneDeep(this.state.services);
       newServices[index] = e.target.value;
       return this.setState({services: newServices});
@@ -40,9 +40,10 @@ export default class EditServiceDialog extends React.Component {
       return services.map((service, index) => {
         return (
           <TextField
+            fullWidth
+            multiline
             key={index}
-            value={service}
-            label="Edit"
+            value={this.state.services[index]}
             onChange={e => this._handleTextChange(e, index)}
           />
         );
@@ -52,15 +53,23 @@ export default class EditServiceDialog extends React.Component {
 
   _renderActionBtns() {
     return (
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+      <div
+        style={{
+          width: '95%',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          marginBottom: '20px',
+        }}
+      >
         <Button variant="flat" color="primary" onClick={this.props.handleClose}>
           Cancel
         </Button>
         <Button
+          style={{marginLeft: '10px'}}
           variant="raised"
           onClick={() => this.props.editService(this.state, this.props.number)}
         >
-          Submit
+          Save
         </Button>
       </div>
     );
@@ -79,13 +88,14 @@ export default class EditServiceDialog extends React.Component {
         <DialogTitle id="form-dialog-title">
           <TextField
             value={this.state.description}
-            label="Edit"
+            label="Description"
+            fullWidth
             onChange={e => this._handleTextChange(e, null)}
           />
         </DialogTitle>
-        <DialogContent>
+        <div style={{padding: '20px', width: '500px', margin: '0 auto'}}>
           {this._renderServices(this.state.services)}
-        </DialogContent>
+        </div>
         {this._renderActionBtns()}
       </Dialog>
     );

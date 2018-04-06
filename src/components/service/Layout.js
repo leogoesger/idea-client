@@ -89,6 +89,8 @@ export default class Layout extends React.Component {
             currentUser={this.props.currentUser}
             tab={tabs[this.state.tab]}
             editService={(data, type) => this.props.editService(data, type)}
+            deleteService={(data, type) => this.props.deleteService(data, type)}
+            addService={(data, type) => this.props.addService(data, type)}
           />
           {this._renderBtn()}
         </Paper>

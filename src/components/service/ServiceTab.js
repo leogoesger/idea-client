@@ -37,9 +37,16 @@ export default class ServiceTab extends React.Component {
   }
 
   _editService(service, number) {
+    this.setState({isDialogOpen: false});
     const serviceInfo = cloneDeep(this.props.serviceInfo);
     serviceInfo[number] = service;
     this.props.editService(serviceInfo, this.props.tab);
+  }
+
+  _deleteService(number) {
+    const serviceInfo = cloneDeep(this.props.serviceInfo);
+    serviceInfo.splice(number, 1);
+    this.props.deleteService(serviceInfo, this.props.tab);
   }
 
   _renderServices(services) {
@@ -65,7 +72,7 @@ export default class ServiceTab extends React.Component {
     );
   }
 
-  _renderEditBtn(service, index) {
+  _renderBtns(service, index) {
     if (this.props.currentUser) {
       return (
         <div style={{display: 'flex', justifyContent: 'flex-end'}}>
@@ -87,7 +94,7 @@ export default class ServiceTab extends React.Component {
             <IconButton style={styles.iconBtn}>
               <DeleteIcon
                 style={styles.editIcon}
-                onClick={() => this._handleDelete()}
+                onClick={() => this._deleteService(index)}
               />
             </IconButton>
           </Tooltip>
@@ -111,7 +118,7 @@ export default class ServiceTab extends React.Component {
             <div style={{paddingLeft: '10px'}}>
               {this._renderServices(service.services)}
             </div>
-            {this._renderEditBtn(service, index)}
+            {this._renderBtns(service, index)}
           </ExpansionPanelDetails>
         </ExpansionPanel>
       );
@@ -156,6 +163,8 @@ ServiceTab.propTypes = {
   currentUser: PropTypes.object,
   tab: PropTypes.string,
   editService: PropTypes.func,
+  deleteService: PropTypes.func,
+  addService: PropTypes.func,
 };
 
 const styles = {
