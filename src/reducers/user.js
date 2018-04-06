@@ -17,7 +17,7 @@ export default function(state: STATE = initialState, action: ACTION) {
         error: action.message,
       });
     case types.FETCH_CURRENT_USER_SUCCESS:
-      return objectAssign({}, state, {users: action.userInfo});
+      return objectAssign({}, state, {currentUser: action.currentUser});
     case types.LOG_OUT_USER:
       return objectAssign({}, state, {currentUser: null});
 

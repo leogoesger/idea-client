@@ -50,6 +50,22 @@ export default class Paragraph extends React.Component {
     this.props.deleteParagraph(this.props.number);
   }
 
+  _renderDeleteBtn() {
+    if (!this.props.deleteParagraph) {
+      return null;
+    }
+    return (
+      <Tooltip title="Delete">
+        <IconButton style={styles.iconBtn}>
+          <DeleteIcon
+            style={styles.editIcon}
+            onClick={() => this._handleDelete()}
+          />
+        </IconButton>
+      </Tooltip>
+    );
+  }
+
   _renderBtns() {
     if (!this.props.currentUser) {
       return null;
@@ -61,14 +77,7 @@ export default class Paragraph extends React.Component {
             <EditIcon style={styles.editIcon} />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Delete">
-          <IconButton style={styles.iconBtn}>
-            <DeleteIcon
-              style={styles.editIcon}
-              onClick={() => this._handleDelete()}
-            />
-          </IconButton>
-        </Tooltip>
+        {this._renderDeleteBtn()}
       </span>
     );
   }
