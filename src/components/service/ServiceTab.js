@@ -5,13 +5,24 @@ import ExpansionPanel, {
   ExpansionPanelSummary,
 } from 'material-ui/ExpansionPanel';
 import Typography from 'material-ui/Typography';
+import EditIcon from 'material-ui-icons/Edit';
+import DeleteIcon from 'material-ui-icons/Delete';
+import Tooltip from 'material-ui/Tooltip';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
+import IconButton from 'material-ui/IconButton';
+import {cloneDeep} from 'lodash';
+import Button from 'material-ui/Button';
+
+import EditServiceDialog from './EditServiceDialog';
 
 export default class ServiceTab extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       expanded: null,
+      isDialogOpen: false,
+      number: null,
+      service: null,
     };
   }
 
@@ -24,6 +35,31 @@ export default class ServiceTab extends React.Component {
       return this.setState({expanded: null});
     }
     this.setState({expanded: name});
+  }
+
+  _editService(service, number) {
+    this.setState({isDialogOpen: false});
+    const serviceInfo = cloneDeep(this.props.serviceInfo);
+    serviceInfo[number] = service;
+    this.props.editService(serviceInfo, this.props.tab);
+  }
+
+  _deleteService(number) {
+    const serviceInfo = cloneDeep(this.props.serviceInfo);
+    serviceInfo.splice(number, 1);
+    this.props.deleteService(serviceInfo, this.props.tab);
+  }
+
+  _addService() {
+    const serviceInfo = cloneDeep(this.props.serviceInfo),
+      length = serviceInfo.length,
+      newService = {
+        description: 'New Service Description',
+        services: ['New Service Item 1', 'New Service Item 2'],
+      };
+    serviceInfo.push(newService);
+    this.props.addService(serviceInfo, this.props.tab);
+    this.setState({isDialogOpen: true, number: length, service: newService});
   }
 
   _renderServices(services) {
@@ -49,6 +85,37 @@ export default class ServiceTab extends React.Component {
     );
   }
 
+  _renderBtns(service, index) {
+    if (this.props.currentUser) {
+      return (
+        <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+          <Tooltip title="Edit">
+            <IconButton
+              style={styles.iconBtn}
+              onClick={() =>
+                this.setState({
+                  isDialogOpen: true,
+                  service: service,
+                  number: index,
+                })
+              }
+            >
+              <EditIcon style={styles.editIcon} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete">
+            <IconButton style={styles.iconBtn}>
+              <DeleteIcon
+                style={styles.editIcon}
+                onClick={() => this._deleteService(index)}
+              />
+            </IconButton>
+          </Tooltip>
+        </div>
+      );
+    }
+  }
+
   _renderStateOrCountyCard() {
     return this.props.serviceInfo.map((service, index) => {
       return (
@@ -64,32 +131,84 @@ export default class ServiceTab extends React.Component {
             <div style={{paddingLeft: '10px'}}>
               {this._renderServices(service.services)}
             </div>
+            {this._renderBtns(service, index)}
           </ExpansionPanelDetails>
         </ExpansionPanel>
       );
     });
   }
 
+  _renderAddNewBtn() {
+    return (
+      <div style={styles.btnContainer}>
+        <Button
+          variant="flat"
+          color="primary"
+          size="small"
+          onClick={() => this._addService()}
+        >
+          {'Add New Service'}
+        </Button>
+      </div>
+    );
+  }
+
   _renderServiceCards() {
     if (!Array.isArray(this.props.serviceInfo)) {
       return this._renderOverviewCard();
     }
-    return this._renderStateOrCountyCard();
+    return (
+      <div>
+        {this._renderStateOrCountyCard()}
+        {this._renderAddNewBtn()}
+      </div>
+    );
   }
 
+  _renderDialog() {
+    if (this.state.service) {
+      return (
+        <EditServiceDialog
+          open={this.state.isDialogOpen}
+          handleClose={() => this.setState({isDialogOpen: false})}
+          serviceObject={this.state.service}
+          number={this.state.number}
+          editService={(service, number) => this._editService(service, number)}
+          deleteService={(service, number) =>
+            this._deleteService(service, number)
+          }
+        />
+      );
+    }
+  }
   render() {
     if (!this.props.serviceInfo) {
       return null;
     }
-    return <div style={styles.mainContainer}>{this._renderServiceCards()}</div>;
+    return (
+      <div style={styles.mainContainer}>
+        {this._renderServiceCards()}
+        {this._renderDialog()}
+      </div>
+    );
   }
 }
 
 ServiceTab.propTypes = {
   serviceInfo: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   currentUser: PropTypes.object,
+  tab: PropTypes.string,
+  editService: PropTypes.func,
+  deleteService: PropTypes.func,
+  addService: PropTypes.func,
 };
 
 const styles = {
-  mainContainer: {height: '430px', overflow: 'scroll'},
+  mainContainer: {height: '500px', overflow: 'scroll'},
+  btnContainer: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    marginTop: '20px',
+    marginBottom: '20px',
+  },
 };

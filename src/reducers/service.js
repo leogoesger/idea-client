@@ -14,6 +14,9 @@ export default function(state: STATE = initialState, action: ACTION) {
     case types.FETCH_SERVICE_OBJECTS:
       return objectAssign({}, action.services);
 
+    case types.UPDATE_SERVICE_OBJECTS:
+      return objectAssign({}, state, {[action.serviceType]: action.service});
+
     default:
       return state;
   }

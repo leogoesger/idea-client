@@ -60,9 +60,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchServices: () => dispatch(fetchServices()),
-    addService: () => dispatch(addService()),
-    editService: () => dispatch(editService()),
-    deleteService: () => dispatch(deleteService()),
+    addService: (service, serviceType) =>
+      dispatch(addService(service, serviceType)),
+    editService: (service, serviceType) =>
+      dispatch(editService(service, serviceType)),
+    deleteService: (service, serviceType) =>
+      dispatch(deleteService(service, serviceType)),
   };
 };
 

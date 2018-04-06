@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import AppBar from 'material-ui/AppBar';
 import Tabs, {Tab} from 'material-ui/Tabs';
-import Button from 'material-ui/Button';
 import yellow from 'material-ui/colors/yellow';
 
-import ContactForm from '../shared/ContactForm';
 import ServiceTab from './ServiceTab';
 
 export default class Layout extends React.Component {
@@ -14,7 +12,6 @@ export default class Layout extends React.Component {
     super(props);
     this.state = {
       tab: 0,
-      open: false,
     };
   }
 
@@ -29,42 +26,12 @@ export default class Layout extends React.Component {
     }
   }
 
-  _handleClose() {
-    this.setState({open: false});
-  }
-
   _tabChange(v) {
     this.setState({tab: v});
   }
 
-  _renderBtn() {
-    if (!this.props.currentUser) {
-      return (
-        <div style={styles.btnContainer}>
-          <Button
-            variant="raised"
-            size="small"
-            onClick={() => this.setState({open: true})}
-          >
-            {'Contact Us'}
-          </Button>
-        </div>
-      );
-    }
-    return (
-      <div style={styles.btnContainer}>
-        <Button
-          variant="raised"
-          size="small"
-          onClick={() => this._addParagraph()}
-        >
-          {'Add New Contract'}
-        </Button>
-      </div>
-    );
-  }
-
   render() {
+    const tabs = ['overviewServices', 'stateServices', 'countyServices'];
     return (
       <Paper
         className="col-lg-10 col-md-10 col-xs-10"
@@ -86,13 +53,12 @@ export default class Layout extends React.Component {
           <ServiceTab
             serviceInfo={this._getTabInfo(this.state.tab)}
             currentUser={this.props.currentUser}
+            tab={tabs[this.state.tab]}
+            editService={(data, type) => this.props.editService(data, type)}
+            deleteService={(data, type) => this.props.deleteService(data, type)}
+            addService={(data, type) => this.props.addService(data, type)}
           />
-          {this._renderBtn()}
         </Paper>
-        <ContactForm
-          open={this.state.open}
-          handleClose={() => this._handleClose()}
-        />
       </Paper>
     );
   }
