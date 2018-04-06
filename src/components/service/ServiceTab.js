@@ -64,8 +64,14 @@ export default class ServiceTab extends React.Component {
   }
 
   _addService() {
-    const serviceInfo = cloneDeep(this.props.serviceInfo),
-      length = serviceInfo.length,
+    const serviceInfo = cloneDeep(this.props.serviceInfo);
+    if (this.props.tab == 'overviewServices') {
+      serviceInfo.services.push(
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+      );
+      return this.props.addService(serviceInfo, this.props.tab);
+    }
+    const length = serviceInfo.length,
       newService = {
         description: 'New Service Description',
         services: ['New Service Item 1', 'New Service Item 2'],
@@ -107,7 +113,7 @@ export default class ServiceTab extends React.Component {
 
   _renderOverviewCard() {
     return (
-      <div style={{padding: '20px'}}>
+      <div style={{padding: '20px 20px 0px 20px'}}>
         <Paragraph
           currentUser={this.props.currentUser}
           number={null}
@@ -122,7 +128,7 @@ export default class ServiceTab extends React.Component {
           </span>
         </Paragraph>
 
-        <div style={{padding: '20px'}}>
+        <div style={{padding: '20px 20px 0px 20px'}}>
           {this._renderOverviewServices(this.props.serviceInfo.services)}
         </div>
       </div>
@@ -201,12 +207,7 @@ export default class ServiceTab extends React.Component {
     if (!Array.isArray(this.props.serviceInfo)) {
       return this._renderOverviewCard();
     }
-    return (
-      <div>
-        {this._renderStateOrCountyCard()}
-        {this._renderAddNewBtn()}
-      </div>
-    );
+    return <div>{this._renderStateOrCountyCard()}</div>;
   }
 
   _renderDialog() {
@@ -232,6 +233,7 @@ export default class ServiceTab extends React.Component {
     return (
       <div style={styles.mainContainer}>
         {this._renderServiceCards()}
+        {this._renderAddNewBtn()}
         {this._renderDialog()}
       </div>
     );
