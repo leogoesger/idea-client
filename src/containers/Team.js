@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 
 import {
   fetchTeam,
+  addMember,
 } from '../actions/team';
 
 import Layout from '../components/team/Layout';
@@ -25,6 +26,7 @@ export class Team extends React.Component {
       <Layout
         currentUser={this.props.currentUser}
         members={this.props.members}
+        addMember={team => this.props.addMember(team)}
       />
     );
   }
@@ -33,6 +35,7 @@ export class Team extends React.Component {
 Team.propTypes = {
   members: PropTypes.array,
   fetchTeam: PropTypes.func,
+  addMember: PropTypes.func,
   currentUser: PropTypes.object,
 };
 
@@ -46,11 +49,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchTeam: () => dispatch(fetchTeam()),
+    addMember: member => dispatch(addMember(member)),
   };
-};
-
-Team.propTypes = {
-  users: PropTypes.array,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Team);
