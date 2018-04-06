@@ -7,20 +7,20 @@ const Theme = createMuiTheme({
       root: {
         borderRadius: 3,
         border: 0,
-        color: 'white',
         height: 35,
         padding: '0 30px',
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .30)',
-      },
-      label: {
-        padding: '0 10px',
-        color: 'white',
       },
       raised: {
         backgroundColor: red[400],
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .30)',
+        color: 'white',
         '&:hover': {
           backgroundColor: red[700],
         },
+      },
+
+      flatPrimary: {
+        color: red[400],
       },
     },
     MuiTypography: {
@@ -31,11 +31,13 @@ const Theme = createMuiTheme({
       display1: {
         fontSize: '14px',
       },
+      title: {
+        fontSize: '16px',
+        fontWeight: '500',
+      },
     },
     MuiTab: {
-      root: {
-        width: '100%',
-      },
+      root: {},
       label: {
         color: 'white',
         fontWeight: '700',
@@ -52,6 +54,9 @@ const Theme = createMuiTheme({
     MuiAppBar: {
       root: {backgroundColor: 'pink', boxShadow: 'none'},
       colorPrimary: {backgroundColor: red[400]},
+    },
+    MuiExpansionPanelDetails: {
+      root: {display: ''},
     },
   },
 });

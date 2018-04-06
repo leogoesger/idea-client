@@ -5,6 +5,7 @@ import Button from 'material-ui/Button';
 import {cloneDeep} from 'lodash';
 import Typography from 'material-ui/Typography';
 
+import ContactForm from '../shared/ContactForm';
 import Paragraph from '../shared/Paragraph';
 import {Colors} from '../../styles';
 
@@ -15,6 +16,10 @@ export default class Layout extends React.Component {
       input: '',
       open: false,
     };
+  }
+
+  _handleClose() {
+    this.setState({open: false});
   }
 
   _editParagraphs(paragraph, index) {
@@ -49,7 +54,7 @@ export default class Layout extends React.Component {
         }
         deleteParagraph={index => this._deleteParagraph(index)}
       >
-        <p>{paragraph}</p>
+        <span>{paragraph}</span>
       </Paragraph>
     );
   }
@@ -61,7 +66,7 @@ export default class Layout extends React.Component {
           <Button
             variant="raised"
             size="small"
-            onClick={() => this._addParagraph()}
+            onClick={() => this.setState({open: true})}
           >
             {'Contact Us'}
           </Button>
@@ -96,6 +101,10 @@ export default class Layout extends React.Component {
           )}
         </div>
         {this._renderBtn()}
+        <ContactForm
+          open={this.state.open}
+          handleClose={() => this._handleClose()}
+        />
       </Paper>
     );
   }

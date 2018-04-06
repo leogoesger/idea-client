@@ -4,8 +4,8 @@ import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import {cloneDeep} from 'lodash';
 
-import Button from 'material-ui/Button'
-import ContactForm from './ContactForm'
+import Button from 'material-ui/Button';
+import ContactForm from '../shared/ContactForm';
 import Paragraph from '../shared/Paragraph';
 import {Colors} from '../../styles';
 
@@ -17,16 +17,16 @@ export default class Layout extends React.Component {
     };
   }
 
-  handleClose(){
-    this.setState({open: false})
+  _handleClose() {
+    this.setState({open: false});
   }
 
-  handleChange(name){ 
-    return (event => {
+  handleChange(name) {
+    return event => {
       this.setState({
         [name]: event.target.value,
       });
-    });
+    };
   }
 
   _editParagraphs(paragraph, index) {
@@ -48,7 +48,12 @@ export default class Layout extends React.Component {
         }
       >
         <span>
-          {split.map( (s, i) =><span key={i}><br />{s}</span>)}
+          {split.map((s, i) => (
+            <span key={i}>
+              <br />
+              {s}
+            </span>
+          ))}
         </span>
       </Paragraph>
     );
@@ -67,13 +72,18 @@ export default class Layout extends React.Component {
           this._renderParagraph(paragraph, index)
         )}
         <div style={styles.btnContainer}>
-          <Button 
-            onClick={()=>this.setState({open: true})}
+          <Button
+            onClick={() => this.setState({open: true})}
             variant="raised"
             size="small"
-            >Contact Us</Button>
+          >
+            Contact Us
+          </Button>
         </div>
-        <ContactForm open={this.state.open} handleClose={()=>this.handleClose()}/>
+        <ContactForm
+          open={this.state.open}
+          handleClose={() => this._handleClose()}
+        />
       </Paper>
     );
   }
@@ -99,7 +109,7 @@ const styles = {
   },
   btnContainer: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-around',
     marginTop: '20px',
   },
 };

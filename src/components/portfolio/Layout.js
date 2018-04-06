@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 
+import ContactForm from '../shared/ContactForm';
+
 export default class Layout extends React.Component {
   constructor(props) {
     super(props);
@@ -10,6 +12,10 @@ export default class Layout extends React.Component {
       input: '',
       open: false,
     };
+  }
+
+  _handleClose() {
+    this.setState({open: false});
   }
 
   render() {
@@ -21,6 +27,10 @@ export default class Layout extends React.Component {
         <Typography variant="headline" component="h3">
           {'Portfolio'}
         </Typography>
+        <ContactForm
+          open={this.state.open}
+          handleClose={() => this._handleClose()}
+        />
       </Paper>
     );
   }
