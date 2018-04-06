@@ -42,9 +42,9 @@ Service.propTypes = {
   addService: PropTypes.func,
   editService: PropTypes.func,
   deleteService: PropTypes.func,
-  stateServices: PropTypes.object,
   overviewServices: PropTypes.object,
-  countyServices: PropTypes.object,
+  stateServices: PropTypes.array,
+  countyServices: PropTypes.array,
   currentUser: PropTypes.object,
 };
 

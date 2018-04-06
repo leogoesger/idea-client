@@ -31,6 +31,10 @@ const Theme = createMuiTheme({
       display1: {
         fontSize: '14px',
       },
+      title: {
+        fontSize: '16px',
+        fontWeight: '500',
+      },
     },
     MuiTab: {
       root: {},
@@ -50,6 +54,9 @@ const Theme = createMuiTheme({
     MuiAppBar: {
       root: {backgroundColor: 'pink', boxShadow: 'none'},
       colorPrimary: {backgroundColor: red[400]},
+    },
+    MuiExpansionPanelDetails: {
+      root: {display: ''},
     },
   },
 });

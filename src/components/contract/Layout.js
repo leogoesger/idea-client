@@ -137,7 +137,7 @@ export default class Layout extends React.Component {
         className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
-        <Paper style={{minHeight: '500px'}}>
+        <Paper style={{minHeight: '550px'}}>
           <AppBar position="static" color="primary">
             <Tabs
               value={tab}

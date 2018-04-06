@@ -7,6 +7,7 @@ import Button from 'material-ui/Button';
 import yellow from 'material-ui/colors/yellow';
 
 import ContactForm from '../shared/ContactForm';
+import ServiceTab from './ServiceTab';
 
 export default class Layout extends React.Component {
   constructor(props) {
@@ -15,6 +16,17 @@ export default class Layout extends React.Component {
       tab: 0,
       open: false,
     };
+  }
+
+  _getTabInfo(tab) {
+    switch (tab) {
+      case 0:
+        return this.props.overviewServices;
+      case 1:
+        return this.props.stateServices;
+      case 2:
+        return this.props.countyServices;
+    }
   }
 
   _handleClose() {
@@ -58,7 +70,7 @@ export default class Layout extends React.Component {
         className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
-        <Paper style={{minHeight: '500px'}}>
+        <Paper style={{minHeight: '550px'}}>
           <AppBar position="static" color="primary">
             <Tabs
               value={this.state.tab}
@@ -71,6 +83,10 @@ export default class Layout extends React.Component {
               <Tab label="County" />
             </Tabs>
           </AppBar>
+          <ServiceTab
+            serviceInfo={this._getTabInfo(this.state.tab)}
+            currentUser={this.props.currentUser}
+          />
           {this._renderBtn()}
         </Paper>
         <ContactForm
@@ -86,9 +102,9 @@ Layout.propTypes = {
   addService: PropTypes.func,
   editService: PropTypes.func,
   deleteService: PropTypes.func,
-  stateServices: PropTypes.object,
   overviewServices: PropTypes.object,
-  countyServices: PropTypes.object,
+  stateServices: PropTypes.array,
+  countyServices: PropTypes.array,
   currentUser: PropTypes.object,
 };
 
