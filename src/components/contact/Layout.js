@@ -2,14 +2,54 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
+import {cloneDeep} from 'lodash';
+
+import Button from 'material-ui/Button'
+import ContactForm from './ContactForm'
+import Paragraph from '../shared/Paragraph';
+import {Colors} from '../../styles';
 
 export default class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: '',
       open: false,
     };
+  }
+
+  handleClose(){
+    this.setState({open: false})
+  }
+
+  handleChange(name){ 
+    return (event => {
+      this.setState({
+        [name]: event.target.value,
+      });
+    });
+  }
+
+  _editParagraphs(paragraph, index) {
+    const updatedParagraphs = cloneDeep(this.props.paragraphs);
+    updatedParagraphs[index] = paragraph;
+    this.props.editParagraphs(updatedParagraphs);
+  }
+
+  _renderParagraph(paragraph, index) {
+    const split = paragraph.split('\n');
+    return (
+      <Paragraph
+        currentUser={this.props.currentUser}
+        key={index}
+        number={index}
+        paragraph={paragraph}
+        editParagraphs={(paragraph, index) =>
+          this._editParagraphs(paragraph, index)
+        }
+      >
+        {split.map( (s, i) =><span key={i}><br />{s}</span>)}
+      </Paragraph>
+    );
   }
 
   render() {
@@ -21,24 +61,43 @@ export default class Layout extends React.Component {
         <Typography variant="headline" component="h3">
           {'Contact'}
         </Typography>
+        {this.props.paragraphs.map((paragraph, index) =>
+          this._renderParagraph(paragraph, index)
+        )}
+        <div style={styles.btnContainer}>
+          <Button 
+            onClick={()=>this.setState({open: true})}
+            variant="raised"
+            size="small"
+            >Contact Us</Button>
+        </div>
+        <ContactForm open={this.state.open} handleClose={()=>this.handleClose()}/>
       </Paper>
     );
   }
 }
 
 Layout.propTypes = {
-  error: PropTypes.string,
-  users: PropTypes.array,
-  createUser: PropTypes.func,
-  createUserError: PropTypes.func,
-  fetchingStatus: PropTypes.bool,
   currentUser: PropTypes.object,
-  fetchUser: PropTypes.func,
+  paragraphs: PropTypes.array,
+  editParagraphs: PropTypes.func,
 };
 
 const styles = {
   mainContainer: {
-    minHeight: '600px',
+    height: '600px',
     paddingTop: '20px',
+    overflow: 'scroll',
+    paddingBottom: '20px',
+  },
+
+  addBtn: {
+    backgroundColor: Colors.red,
+    color: 'white',
+  },
+  btnContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginTop: '20px',
   },
 };
