@@ -8,6 +8,34 @@ import Dialog, {
   // DialogContentText,
   DialogTitle,
 } from 'material-ui/Dialog';
+import Input, {InputLabel} from 'material-ui/Input';
+import {FormHelperText} from 'material-ui/Form'
+import MaskedInput from 'react-text-mask';
+
+import {
+  getEmailErrorMessage,
+  getPhoneErrorMessage,
+} from '../../utils/helpers';
+
+
+function TextMaskCustom(props) {
+  const { inputRef, ...other } = props;
+
+  return (
+    <MaskedInput
+      {...other}
+      ref={inputRef}
+      mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+      placeholderChar={'\u2000'}
+      showMask
+    />
+  );
+}
+
+
+TextMaskCustom.propTypes = {
+  inputRef: PropTypes.func.isRequired,
+};
 
 export default class ContactForm extends React.Component{
   constructor(props){
@@ -15,9 +43,19 @@ export default class ContactForm extends React.Component{
     this.state = {
       name: '',
       email: '',
-      phone: '',
+      phone: '(   )    -    ',
       msg: '',
     }
+  }
+
+  _isDisabledBtn() {
+    if (!this.state.email) {
+      return true;
+    }
+    return !!(
+      getEmailErrorMessage(this.state.email) ||
+      getPhoneErrorMessage(this.state.phone)
+    );
   }
   handleChange(name){
     return event => {
@@ -58,16 +96,17 @@ export default class ContactForm extends React.Component{
             value={this.state.email}
             onChange={this.handleChange("email")}
             fullWidth
+            helperText={getEmailErrorMessage(this.state.email)}
           />
-          <TextField
-            margin="dense"
+          <InputLabel htmlFor="phone">Phone</InputLabel>
+          <Input
             id="phone"
-            label="Phone"
-            type="text"
             value={this.state.phone}
             onChange={this.handleChange("phone")}
+            inputComponent={TextMaskCustom}
             fullWidth
           />
+          <FormHelperText>{getPhoneErrorMessage(this.state.phone)}</FormHelperText>
           <TextField
             margin="dense"
             id="msg"
@@ -95,6 +134,7 @@ export default class ContactForm extends React.Component{
           <Button 
             variant="raised"
             size="small"
+            disabled={this._isDisabledBtn()}
             onClick={()=>document.getElementById('contact-form').submit()}>
                 Submit
           </Button>
