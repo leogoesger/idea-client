@@ -1,15 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
-import Typography from 'material-ui/Typography';
+import AppBar from 'material-ui/AppBar';
+import Tabs, {Tab} from 'material-ui/Tabs';
+import Button from 'material-ui/Button';
+import yellow from 'material-ui/colors/yellow';
 
 export default class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: '',
-      open: false,
+      tab: 0,
     };
+  }
+
+  _tabChange(v) {
+    this.setState({tab: v});
+  }
+
+  _renderBtn() {
+    if (!this.props.currentUser) {
+      return (
+        <div style={styles.btnContainer}>
+          <Button
+            variant="raised"
+            size="small"
+            onClick={() => this._addParagraph()}
+          >
+            {'Contact Us'}
+          </Button>
+        </div>
+      );
+    }
+    return (
+      <div style={styles.btnContainer}>
+        <Button
+          variant="raised"
+          size="small"
+          onClick={() => this._addParagraph()}
+        >
+          {'Add New Contract'}
+        </Button>
+      </div>
+    );
   }
 
   render() {
@@ -18,27 +51,46 @@ export default class Layout extends React.Component {
         className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
-        <Typography variant="headline" component="h3">
-          {'Service'}
-        </Typography>
+        <Paper style={{minHeight: '500px'}}>
+          <AppBar position="static" color="primary">
+            <Tabs
+              value={this.state.tab}
+              onChange={(e, v) => this._tabChange(v)}
+              indicatorColor={yellow[700]}
+              fullWidth
+            >
+              <Tab label="Overview" />
+              <Tab label="State" />
+              <Tab label="County" />
+            </Tabs>
+          </AppBar>
+          {this._renderBtn()}
+        </Paper>
       </Paper>
     );
   }
 }
 
 Layout.propTypes = {
-  error: PropTypes.string,
-  users: PropTypes.array,
-  createUser: PropTypes.func,
-  createUserError: PropTypes.func,
-  fetchingStatus: PropTypes.bool,
+  addService: PropTypes.func,
+  editService: PropTypes.func,
+  deleteService: PropTypes.func,
+  stateServices: PropTypes.object,
+  overviewServices: PropTypes.object,
+  countyServices: PropTypes.object,
   currentUser: PropTypes.object,
-  fetchUser: PropTypes.func,
 };
 
 const styles = {
   mainContainer: {
-    minHeight: '600px',
+    height: '600px',
     paddingTop: '20px',
+    overflow: 'scroll',
+    paddingBottom: '20px',
+  },
+
+  btnContainer: {
+    display: 'flex',
+    justifyContent: 'space-around',
   },
 };

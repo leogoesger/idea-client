@@ -33,9 +33,7 @@ const Theme = createMuiTheme({
       },
     },
     MuiTab: {
-      root: {
-        width: '100%',
-      },
+      root: {},
       label: {
         color: 'white',
         fontWeight: '700',

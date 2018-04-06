@@ -238,6 +238,12 @@ export function fetchServices() {
   };
 }
 
+export function addService(services, serviceType) {
+  return dispatch => {
+    dispatch(updateServiceObject(services, serviceType));
+  };
+}
+
 export function editService(service, serviceType) {
   return dispatch => {
     dispatch(updateServiceObject(service, serviceType));
@@ -245,12 +251,6 @@ export function editService(service, serviceType) {
 }
 
 export function deleteService(services, serviceType) {
-  return dispatch => {
-    dispatch(updateServiceObject(services, serviceType));
-  };
-}
-
-export function addService(services, serviceType) {
   return dispatch => {
     dispatch(updateServiceObject(services, serviceType));
   };
