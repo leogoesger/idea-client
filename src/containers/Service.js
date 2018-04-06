@@ -1,16 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+
+import {fetchServices} from '../actions/service';
 
 import Layout from '../components/service/Layout';
 
 export class Service extends React.Component {
+  componentWillMount() {
+    this.props.fetchServices();
+  }
+
   render() {
     return <Layout />;
   }
 }
 
 Service.propTypes = {
-  users: PropTypes.array,
+  fetchServices: PropTypes.func,
 };
 
-export default Service;
+const mapStateToProps = state => {
+  return {
+    overviewServices: state.service.overviewServices,
+    stateServices: state.service.stateServices,
+    countyServices: state.service.countyServices,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchServices: () => dispatch(fetchServices()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Service);

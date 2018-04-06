@@ -1,9 +1,17 @@
 import {ServiceTypes as types} from '../action-types';
 
-const updateServiceObjects = services => {
+const fetchServiceObjects = services => {
+  return {
+    type: types.FETCH_SERVICE_OBJECTS,
+    services,
+  };
+};
+
+const updateServiceObject = (service, serviceType) => {
   return {
     type: types.UPDATE_SERVICE_OBJECTS,
-    services,
+    service,
+    serviceType,
   };
 };
 
@@ -226,24 +234,24 @@ export function fetchServices() {
   };
 
   return dispatch => {
-    dispatch(updateServiceObjects(services));
+    dispatch(fetchServiceObjects(services));
   };
 }
 
-export function editServices(services) {
+export function editService(service, serviceType) {
   return dispatch => {
-    dispatch(updateServiceObjects(services));
+    dispatch(updateServiceObject(service, serviceType));
   };
 }
 
-export function deleteService(services) {
+export function deleteService(services, serviceType) {
   return dispatch => {
-    dispatch(updateServiceObjects(services));
+    dispatch(updateServiceObject(services, serviceType));
   };
 }
 
-export function addService(services) {
+export function addService(services, serviceType) {
   return dispatch => {
-    dispatch(updateServiceObjects(services));
+    dispatch(updateServiceObject(services, serviceType));
   };
 }

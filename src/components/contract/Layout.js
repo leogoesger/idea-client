@@ -118,7 +118,7 @@ export default class Layout extends React.Component {
         }
         deleteParagraph={index => this._deleteParagraph(index)}
       >
-        <p>{paragraph}</p>
+        <span>{paragraph}</span>
       </Paragraph>
     );
   }

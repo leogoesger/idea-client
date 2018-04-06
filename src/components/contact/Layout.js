@@ -4,8 +4,8 @@ import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import {cloneDeep} from 'lodash';
 
-import Button from 'material-ui/Button'
-import ContactForm from './ContactForm'
+import Button from 'material-ui/Button';
+import ContactForm from './ContactForm';
 import Paragraph from '../shared/Paragraph';
 import {Colors} from '../../styles';
 
@@ -17,16 +17,16 @@ export default class Layout extends React.Component {
     };
   }
 
-  handleClose(){
-    this.setState({open: false})
+  handleClose() {
+    this.setState({open: false});
   }
 
-  handleChange(name){ 
-    return (event => {
+  handleChange(name) {
+    return event => {
       this.setState({
         [name]: event.target.value,
       });
-    });
+    };
   }
 
   _editParagraphs(paragraph, index) {
@@ -47,9 +47,18 @@ export default class Layout extends React.Component {
           this._editParagraphs(paragraph, index)
         }
       >
+<<<<<<< HEAD
         <span>
           {split.map( (s, i) =><span key={i}><br />{s}</span>)}
         </span>
+=======
+        {split.map((s, i) => (
+          <span key={i}>
+            <br />
+            {s}
+          </span>
+        ))}
+>>>>>>> NEL-24: service actions
       </Paragraph>
     );
   }
@@ -67,13 +76,18 @@ export default class Layout extends React.Component {
           this._renderParagraph(paragraph, index)
         )}
         <div style={styles.btnContainer}>
-          <Button 
-            onClick={()=>this.setState({open: true})}
+          <Button
+            onClick={() => this.setState({open: true})}
             variant="raised"
             size="small"
-            >Contact Us</Button>
+          >
+            Contact Us
+          </Button>
         </div>
-        <ContactForm open={this.state.open} handleClose={()=>this.handleClose()}/>
+        <ContactForm
+          open={this.state.open}
+          handleClose={() => this.handleClose()}
+        />
       </Paper>
     );
   }
@@ -99,7 +113,7 @@ const styles = {
   },
   btnContainer: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-around',
     marginTop: '20px',
   },
 };
