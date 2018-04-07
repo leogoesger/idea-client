@@ -13,16 +13,16 @@ export default class Layout extends React.Component {
     super(props);
     this.state = {
       open: false,
-      selectedMember: null,
+      memberIndex: null,
     };
   }
 
-  handleOpen(member) {
-    this.setState({open: true, selectedMember: member});
+  handleOpen(index) {
+    this.setState({open: true, memberIndex: index});
   }
 
   handleClose() {
-    this.setState({open: false, selectedMember: null});
+    this.setState({open: false, memberIndex: null});
   }
 
   _addMember() {
@@ -34,6 +34,11 @@ export default class Layout extends React.Component {
       image: 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png',
     });
     this.props.addMember(updatedTeam);
+  }
+  _editMember(member, index) {
+    const updatedTeam = cloneDeep(this.props.members);
+    updatedTeam[index] = member;
+    this.props.editMember(updatedTeam);
   }
 
   _renderBtn() {
@@ -83,7 +88,7 @@ export default class Layout extends React.Component {
         >
           <Card
             style={styles.card}
-            onClick={() => this.handleOpen(members[index])}
+            onClick={() => this.handleOpen(index)}
           >
             <CardMedia
               image={member.image}
@@ -122,7 +127,12 @@ export default class Layout extends React.Component {
             open={this.state.open}
             onClose={() => this.handleClose()}
           >
-            <MemberCard member={this.state.selectedMember} currentUser={this.props.currentUser}/>
+            {this.state.open && <MemberCard 
+              member={this.props.members[this.state.memberIndex]} 
+              currentUser={this.props.currentUser}
+              memberIndex={this.state.memberIndex}
+              editMember={(member, index) => this._editMember(member, index)}
+            />}
           </Dialog>
           </div>
         {this._renderBtn()}
@@ -136,6 +146,7 @@ Layout.propTypes = {
   currentUser: PropTypes.object,
   fetchUser: PropTypes.func,
   addMember: PropTypes.func,
+  editMember: PropTypes.func,
 };
 
 const styles = {

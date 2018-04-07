@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from 'material-ui/Avatar';
 import {withStyles} from 'material-ui/styles'
+import {cloneDeep} from 'lodash';
+import Paragraph from '../shared/Paragraph'
 
 class Member extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       fullDescription: false,
-      open: false,
     };
   }
 
@@ -16,21 +17,52 @@ class Member extends React.Component {
     this.setState({fullDescription: true});
   }
 
-  _handleClick() {
-    this.setState({open: true});
+  _indexToValue(index){
+    switch(index){
+      case 0:
+        return 'name';
+      case 1:
+        return 'title';
+      case 2:
+        return 'description';
+      case 3:
+        return 'image';
+    }
   }
 
-  _handleRequestClose() {
-    this.setState({open: false});
+  _editMember(member, index){
+    index = this._indexToValue(index);
+    const updatedMember = cloneDeep(this.props.member);
+    updatedMember[index] = member;
+    this.props.editMember(updatedMember, this.props.memberIndex);
+  }
+
+  _renderDescriptionParagraph(description){
+    return (
+      <Paragraph
+        currentUser={this.props.currentUser}
+        number={2}
+        paragraph={description}
+        editParagraphs={(paragraph, index) => 
+          this._editMember(paragraph, index)
+        }
+      >
+        <div style={styles.description}>{description}</div>
+      </Paragraph>
+    );
   }
 
   _renderDescription(description) {
     if (this.state.fullDescription) {
-      return <div style={styles.description}>{description}</div>;
+      return (
+        <div style={styles.description}>
+          {this._renderDescriptionParagraph}
+        </div>
+      );
     } else if (description.length > 300 && !this.state.fullDescription) {
       return (
         <div style={styles.description}>
-          {`${description.slice(0, 300)}...`}
+          {this._renderDescriptionParagraph}
           <br />
           <div style={styles.readMore} onClick={() => this._handleMore()}>
             Read More
@@ -38,7 +70,20 @@ class Member extends React.Component {
         </div>
       );
     } else {
-      return <div style={styles.description}>{description}</div>;
+      return (
+      <div style={styles.description}>
+        <Paragraph
+        currentUser={this.props.currentUser}
+        number={2}
+        paragraph={description}
+        editParagraphs={(paragraph, index) => 
+          this._editMember(paragraph, index)
+        }
+      >
+        <div style={styles.description}>{description}</div>
+      </Paragraph>
+      </div>
+      );
     }
   }
 
@@ -54,8 +99,26 @@ class Member extends React.Component {
           <Avatar src={member.image} className={classes.bigAvatar} />
         </div>
         <div style={styles.infoContainer}>
-          <div style={styles.name}>{member.name}</div>
-          <div style={styles.title}>{`${member.title}`}</div>
+            <Paragraph
+              currentUser={this.props.currentUser}
+              number={0}
+              paragraph={member.name}
+              editParagraphs={(paragraph, index) => 
+                this._editMember(paragraph, index)
+              }
+            >
+              <div style={styles.name}>{member.name}</div>
+            </Paragraph>        
+            <Paragraph
+              currentUser={this.props.currentUser}
+              number={0}
+              paragraph={member.name}
+              editParagraphs={(paragraph, index) => 
+                this._editMember(paragraph, index)
+              }
+            >
+              <div style={styles.title}>{`${member.title}`}</div>
+            </Paragraph>
           {this._renderDescription(member.description)}
         </div>
       </div>
@@ -65,8 +128,10 @@ class Member extends React.Component {
 
 Member.propTypes = {
   member: PropTypes.object,
+  memberIndex: PropTypes.number,
   classes: PropTypes.object,
   currentUser: PropTypes.object,
+  editMember: PropTypes.func
 };
 
 const styles = {
