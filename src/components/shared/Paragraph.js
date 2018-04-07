@@ -50,6 +50,22 @@ export default class Paragraph extends React.Component {
     this.props.deleteParagraph(this.props.number);
   }
 
+  _renderDeleteBtn() {
+    if (!this.props.deleteParagraph) {
+      return null;
+    }
+    return (
+      <Tooltip title="Delete">
+        <IconButton style={styles.iconBtn}>
+          <DeleteIcon
+            style={styles.editIcon}
+            onClick={() => this._handleDelete()}
+          />
+        </IconButton>
+      </Tooltip>
+    );
+  }
+
   _renderBtns() {
     if (!this.props.currentUser) {
       return null;
@@ -61,14 +77,7 @@ export default class Paragraph extends React.Component {
             <EditIcon style={styles.editIcon} />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Delete">
-          <IconButton style={styles.iconBtn}>
-            <DeleteIcon
-              style={styles.editIcon}
-              onClick={() => this._handleDelete()}
-            />
-          </IconButton>
-        </Tooltip>
+        {this._renderDeleteBtn()}
       </span>
     );
   }
@@ -85,20 +94,18 @@ export default class Paragraph extends React.Component {
     return (
       <TextField
         value={this.state.paragraph}
-        multiline
+        multiline={this.props.multiline}
         fullWidth
         autoFocus
         label="Edit"
         onChange={e => this._handleTextChange(e)}
         margin="normal"
-        helperText="Click anywhere to save!"
         InputProps={{
           endAdornment: (
             <InputAdornment position="end" style={{}}>
               <div
                 style={{
                   display: 'flex',
-                  flexDirection: 'column',
                   justifyContent: 'space-around',
                 }}
               >
@@ -107,7 +114,7 @@ export default class Paragraph extends React.Component {
                     onClick={() => this._handleRedo()}
                     style={styles.iconBtn}
                   >
-                    <UndoIcon />
+                    <UndoIcon style={{width: '20px'}} />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Save">
@@ -115,7 +122,7 @@ export default class Paragraph extends React.Component {
                     onClick={() => this._handleSave()}
                     style={styles.iconBtn}
                   >
-                    <SaveIcon />
+                    <SaveIcon style={{width: '20px'}} />
                   </IconButton>
                 </Tooltip>
               </div>
@@ -137,6 +144,7 @@ Paragraph.propTypes = {
   paragraph: PropTypes.string,
   editParagraphs: PropTypes.func,
   deleteParagraph: PropTypes.func,
+  multiline: PropTypes.bool,
 };
 
 const styles = {

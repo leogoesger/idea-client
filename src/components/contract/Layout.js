@@ -1,20 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
-import Tabs, {Tab} from 'material-ui/Tabs';
 import AppBar from 'material-ui/AppBar';
+import Tabs, {Tab} from 'material-ui/Tabs';
 import Button from 'material-ui/Button';
 import {cloneDeep} from 'lodash';
 import yellow from 'material-ui/colors/yellow';
 
 import Paragraph from '../shared/Paragraph';
+import ContactForm from '../shared/ContactForm';
 
 export default class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       tab: 0,
+      open: false,
     };
+  }
+
+  _handleClose() {
+    this.setState({open: false});
   }
 
   _tabChange(v) {
@@ -83,9 +89,8 @@ export default class Layout extends React.Component {
         <div style={styles.btnContainer}>
           <Button
             variant="raised"
-            style={styles.addBtn}
             size="small"
-            onClick={() => this._addParagraph()}
+            onClick={() => this.setState({open: true})}
           >
             {'Contact Us'}
           </Button>
@@ -96,7 +101,6 @@ export default class Layout extends React.Component {
       <div style={styles.btnContainer}>
         <Button
           variant="raised"
-          style={styles.addBtn}
           size="small"
           onClick={() => this._addParagraph()}
         >
@@ -118,7 +122,7 @@ export default class Layout extends React.Component {
         }
         deleteParagraph={index => this._deleteParagraph(index)}
       >
-        <p>{paragraph}</p>
+        <span>{paragraph}</span>
       </Paragraph>
     );
   }
@@ -133,7 +137,7 @@ export default class Layout extends React.Component {
         className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
-        <Paper style={{minHeight: '400px'}}>
+        <Paper style={{minHeight: '550px'}}>
           <AppBar position="static" color="primary">
             <Tabs
               value={tab}
@@ -157,6 +161,10 @@ export default class Layout extends React.Component {
           </div>
           {this._renderBtn()}
         </Paper>
+        <ContactForm
+          open={this.state.open}
+          handleClose={() => this._handleClose()}
+        />
       </Paper>
     );
   }

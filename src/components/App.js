@@ -23,7 +23,7 @@ class App extends React.Component {
           display: 'flex',
           justifyContent: 'space-around',
           width: '90%',
-          margin: '140px auto',
+          margin: '140px auto 50px auto',
           position: 'relative',
         }}
       >
