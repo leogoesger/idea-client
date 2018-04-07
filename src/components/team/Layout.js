@@ -4,7 +4,7 @@ import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import Card, {CardMedia, CardContent,} from 'material-ui/Card';
 import Dialog from 'material-ui/Dialog';
-import MemberCard from './MemberCard';
+import MemberDialog from './MemberDialog';
 import Button from 'material-ui/Button';
 import {cloneDeep} from 'lodash';
 
@@ -127,7 +127,7 @@ export default class Layout extends React.Component {
             open={this.state.open}
             onClose={() => this.handleClose()}
           >
-            {this.state.open && <MemberCard 
+            {this.state.open && <MemberDialog 
               member={this.props.members[this.state.memberIndex]} 
               currentUser={this.props.currentUser}
               memberIndex={this.state.memberIndex}

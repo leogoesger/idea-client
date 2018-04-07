@@ -5,7 +5,7 @@ import {withStyles} from 'material-ui/styles'
 import {cloneDeep} from 'lodash';
 import Paragraph from '../shared/Paragraph'
 
-class Member extends React.Component {
+class MemberDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -126,7 +126,7 @@ class Member extends React.Component {
   }
 }
 
-Member.propTypes = {
+MemberDialog.propTypes = {
   member: PropTypes.object,
   memberIndex: PropTypes.number,
   classes: PropTypes.object,
@@ -166,4 +166,4 @@ const avatarStyles = {
     },
   };
 
-export default withStyles(avatarStyles)(Member);
+export default withStyles(avatarStyles)(MemberDialog);
