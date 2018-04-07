@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
-import Card, {CardMedia, CardContent,} from 'material-ui/Card';
 import Dialog from 'material-ui/Dialog';
 import MemberDialog from './MemberDialog';
+import MemberCard from './MemberCard';
 import Button from 'material-ui/Button';
 import {cloneDeep} from 'lodash';
 
@@ -35,10 +35,18 @@ export default class Layout extends React.Component {
     });
     this.props.addMember(updatedTeam);
   }
+
   _editMember(member, index) {
     const updatedTeam = cloneDeep(this.props.members);
     updatedTeam[index] = member;
     this.props.editMember(updatedTeam);
+  }
+
+  _deleteMember(index){
+    this.setState({open: false, memberIndex: null});
+    const updatedTeam = cloneDeep(this.props.members);
+    updatedTeam.splice(index, 1);
+    this.props.deleteMember(updatedTeam);
   }
 
   _renderBtn() {
@@ -58,54 +66,14 @@ export default class Layout extends React.Component {
   }
 
   _renderMembers(members) {
-    const styles = {
-      card: {
-        maxWidth: 245,
-        cursor: 'pointer',
-      },
-      media: {
-        height: 200,
-      },
-      header: {
-        paddingTop: '0px', 
-        paddingBottom: '12px', 
-        backgroundColor: 'rgba(200, 200, 200, 0.5',
-        position: 'relative',
-        top: '75px',
-      },
-    };
     return members.map((member, index) => {
       return (
-        <div
+        <MemberCard
+          member={member}
+          index={index}
           key={index}
-          className="row col-lg-4 col-md-4 col-sm-4 col-xs-12"
-          style={{
-            marginLeft: '0px',
-            marginRight: '0px',
-            marginBottom: '15px',
-            height: '100%',
-          }}
-        >
-          <Card
-            style={styles.card}
-            onClick={() => this.handleOpen(index)}
-          >
-            <CardMedia
-              image={member.image}
-              title={member.name}
-              style={styles.media}
-              >
-            <CardContent style={styles.header}>
-              <Typography variant="headline" component="h2">
-                {member.name}
-              </Typography>
-              <Typography component="p">
-                {member.title} 
-              </Typography>
-            </CardContent>
-            </CardMedia>
-          </Card>
-        </div>
+          handleOpen={index=>this.handleOpen(index)}
+        />
       );
     });
   }
@@ -132,6 +100,7 @@ export default class Layout extends React.Component {
               currentUser={this.props.currentUser}
               memberIndex={this.state.memberIndex}
               editMember={(member, index) => this._editMember(member, index)}
+              deleteMember={index=>this._deleteMember(index)}
             />}
           </Dialog>
           </div>
@@ -147,6 +116,7 @@ Layout.propTypes = {
   fetchUser: PropTypes.func,
   addMember: PropTypes.func,
   editMember: PropTypes.func,
+  deleteMember: PropTypes.func,
 };
 
 const styles = {

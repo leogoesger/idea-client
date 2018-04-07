@@ -56,3 +56,9 @@ export function editMember(members){
     dispatch(updateTeamObjects(members));
   };
 }
+
+export function deleteMember(members){
+  return dispatch => {
+    dispatch(updateTeamObjects(members));
+  };
+}

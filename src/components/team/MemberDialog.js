@@ -4,6 +4,7 @@ import Avatar from 'material-ui/Avatar';
 import {withStyles} from 'material-ui/styles'
 import {cloneDeep} from 'lodash';
 import Paragraph from '../shared/Paragraph'
+import Button from 'material-ui/Button';
 
 class MemberDialog extends React.Component {
   constructor(props) {
@@ -35,6 +36,10 @@ class MemberDialog extends React.Component {
     const updatedMember = cloneDeep(this.props.member);
     updatedMember[index] = member;
     this.props.editMember(updatedMember, this.props.memberIndex);
+  }
+
+  _deleteMember(){
+    this.props.deleteMember(this.props.memberIndex)
   }
 
   _renderDescriptionParagraph(description){
@@ -86,7 +91,16 @@ class MemberDialog extends React.Component {
     }
     const {member} = this.props;
     return (
-      <div style={{width: '600px'}}>
+      <div style={{maxWidth: '600px'}}>
+        <div style={styles.btnContainer}>
+          <Button
+          onClick={()=>this._deleteMember()}
+          variant="raised"
+          size="small"
+          >
+            {"Delete Member"}
+          </Button>
+        </div>
         <div style={styles.iconContainer}>
           <Avatar src={member.image} className={classes.bigAvatar} />
         </div>
@@ -97,7 +111,9 @@ class MemberDialog extends React.Component {
             editParagraphs={(paragraph, index) => 
               this._editMember(paragraph, index)
             }
-          />
+          >
+            {this.props.currentUser && <span>Image URL</span>}
+          </Paragraph>
         <div style={styles.infoContainer}>
             <Paragraph
               currentUser={this.props.currentUser}
@@ -131,7 +147,8 @@ MemberDialog.propTypes = {
   memberIndex: PropTypes.number,
   classes: PropTypes.object,
   currentUser: PropTypes.object,
-  editMember: PropTypes.func
+  editMember: PropTypes.func,
+  deleteMember: PropTypes.func,
 };
 
 const styles = {
@@ -150,6 +167,10 @@ const styles = {
     fontSize: '12px',
     color: '#039be5',
   },
+  btnContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  }
 };
 
 const avatarStyles = {
