@@ -6,7 +6,8 @@ import home from './home';
 import contract from './contract';
 import contact from './contact';
 import service from './service';
-import team from './team'
+import team from './team';
+import portfolio from './portfolio';
 
 const rootReducer = combineReducers({
   routing: routerReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   contact,
   service,
   team,
+  portfolio,
 });
 
 export default rootReducer;

@@ -13,10 +13,10 @@ import IconButton from 'material-ui/IconButton';
 import {cloneDeep} from 'lodash';
 import Button from 'material-ui/Button';
 
-import Paragraph from '../shared/Paragraph';
-import EditServiceDialog from './EditServiceDialog';
+import Paragraph from './Paragraph';
+import EditExpansionDialog from './EditExpansionDialog';
 
-export default class ServiceTab extends React.Component {
+export default class EditExpansion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -215,7 +215,7 @@ export default class ServiceTab extends React.Component {
   _renderDialog() {
     if (this.state.service) {
       return (
-        <EditServiceDialog
+        <EditExpansionDialog
           open={this.state.isDialogOpen}
           handleClose={() => this.setState({isDialogOpen: false})}
           serviceObject={this.state.service}
@@ -242,7 +242,7 @@ export default class ServiceTab extends React.Component {
   }
 }
 
-ServiceTab.propTypes = {
+EditExpansion.propTypes = {
   serviceInfo: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   currentUser: PropTypes.object,
   tab: PropTypes.string,

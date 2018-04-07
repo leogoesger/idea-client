@@ -133,3 +133,11 @@ body {
 .content {
   right: 0;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a:hover {
+  text-decoration: underline;
+}

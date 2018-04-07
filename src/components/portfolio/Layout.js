@@ -1,21 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
-import Typography from 'material-ui/Typography';
+import AppBar from 'material-ui/AppBar';
+import Select from 'material-ui/Select';
+import {MenuItem} from 'material-ui/Menu';
 
-import ContactForm from '../shared/ContactForm';
+import Portfolio from './Portfolio';
 
 export default class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: '',
-      open: false,
+      value: '',
     };
   }
 
-  _handleClose() {
-    this.setState({open: false});
+  componentDidMount() {
+    this.setState({value: 'policiesAndProcedures'});
+  }
+
+  _handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  _renderMenuItem() {
+    return Object.keys(this.props.data).map((key, index) => {
+      if (this.props.data[key]) {
+        return (
+          <MenuItem key={index} value={key}>
+            {this.props.data[key].name}
+          </MenuItem>
+        );
+      }
+      return null;
+    });
   }
 
   render() {
@@ -24,26 +42,42 @@ export default class Layout extends React.Component {
         className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
-        <Typography variant="headline" component="h3">
-          {'Portfolio'}
-        </Typography>
-        <ContactForm
-          open={this.state.open}
-          handleClose={() => this._handleClose()}
-        />
+        <Paper style={{height: '550px', overflow: 'scroll'}}>
+          <AppBar position="static" color="primary" style={{height: '48px'}}>
+            <Select
+              value={this.state.value}
+              onChange={e => this._handleChange(e)}
+              style={{marginTop: '10px', width: '80%', margin: '10px auto'}}
+            >
+              {this._renderMenuItem()}
+            </Select>
+          </AppBar>
+          <Portfolio
+            portfolioData={this.props.data[this.state.value]}
+            currentUser={this.props.currentUser}
+            currentSelect={this.state.value}
+            addPortfolio={(service, serviceType) =>
+              this.props.addPortfolio(service, serviceType)
+            }
+            editPortfolio={(service, serviceType) =>
+              this.props.editPortfolio(service, serviceType)
+            }
+            deletePortfolio={(service, serviceType) =>
+              this.props.deletePortfolio(service, serviceType)
+            }
+          />
+        </Paper>
       </Paper>
     );
   }
 }
 
 Layout.propTypes = {
-  error: PropTypes.string,
-  users: PropTypes.array,
-  createUser: PropTypes.func,
-  createUserError: PropTypes.func,
-  fetchingStatus: PropTypes.bool,
   currentUser: PropTypes.object,
-  fetchUser: PropTypes.func,
+  data: PropTypes.object,
+  addPortfolio: PropTypes.func,
+  editPortfolio: PropTypes.func,
+  deletePortfolio: PropTypes.func,
 };
 
 const styles = {
