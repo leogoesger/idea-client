@@ -43,12 +43,13 @@ class Member extends React.Component {
         currentUser={this.props.currentUser}
         number={2}
         paragraph={description}
+        multiline={true}
         editParagraphs={(paragraph, index) => 
           this._editMember(paragraph, index)
         }
       >
         <div style={styles.description}>{description}</div>
-      </Paragraph>
+    </Paragraph>
     );
   }
 
@@ -56,13 +57,13 @@ class Member extends React.Component {
     if (this.state.fullDescription) {
       return (
         <div style={styles.description}>
-          {this._renderDescriptionParagraph}
+          {this._renderDescriptionParagraph(description)}
         </div>
       );
     } else if (description.length > 300 && !this.state.fullDescription) {
       return (
         <div style={styles.description}>
-          {this._renderDescriptionParagraph}
+          {this._renderDescriptionParagraph(description)}
           <br />
           <div style={styles.readMore} onClick={() => this._handleMore()}>
             Read More
@@ -72,16 +73,7 @@ class Member extends React.Component {
     } else {
       return (
       <div style={styles.description}>
-        <Paragraph
-        currentUser={this.props.currentUser}
-        number={2}
-        paragraph={description}
-        editParagraphs={(paragraph, index) => 
-          this._editMember(paragraph, index)
-        }
-      >
-        <div style={styles.description}>{description}</div>
-      </Paragraph>
+        {this._renderDescriptionParagraph(description)}
       </div>
       );
     }
@@ -94,10 +86,18 @@ class Member extends React.Component {
     }
     const {member} = this.props;
     return (
-      <div>
+      <div style={{width: '600px'}}>
         <div style={styles.iconContainer}>
           <Avatar src={member.image} className={classes.bigAvatar} />
         </div>
+          <Paragraph
+            currentUser={this.props.currentUser}
+            number={3}
+            paragraph={member.image}
+            editParagraphs={(paragraph, index) => 
+              this._editMember(paragraph, index)
+            }
+          />
         <div style={styles.infoContainer}>
             <Paragraph
               currentUser={this.props.currentUser}
