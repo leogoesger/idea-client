@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
-import Typography from 'material-ui/Typography';
 import Dialog from 'material-ui/Dialog';
 import MemberDialog from './MemberDialog';
 import MemberCard from './MemberCard';
@@ -42,7 +41,7 @@ export default class Layout extends React.Component {
     this.props.editMember(updatedTeam);
   }
 
-  _deleteMember(index){
+  _deleteMember(index) {
     this.setState({open: false, memberIndex: null});
     const updatedTeam = cloneDeep(this.props.members);
     updatedTeam.splice(index, 1);
@@ -54,8 +53,8 @@ export default class Layout extends React.Component {
       return (
         <div style={styles.btnContainer}>
           <Button
-            variant="raised"
-            size="small"
+            variant="flat"
+            color="primary"
             onClick={() => this._addMember()}
           >
             {'Add New Member'}
@@ -72,12 +71,11 @@ export default class Layout extends React.Component {
           member={member}
           index={index}
           key={index}
-          handleOpen={index=>this.handleOpen(index)}
+          handleOpen={index => this.handleOpen(index)}
         />
       );
     });
   }
-
 
   render() {
     return (
@@ -85,25 +83,21 @@ export default class Layout extends React.Component {
         className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
-        <Typography variant="headline" component="h3">
-          {'Team'}
-        </Typography>
         <div className="row col-lg-10 col-md-10" style={{margin: '30px auto'}}>
           {this._renderMembers(this.props.members)}
 
-          <Dialog
-            open={this.state.open}
-            onClose={() => this.handleClose()}
-          >
-            {this.state.open && <MemberDialog 
-              member={this.props.members[this.state.memberIndex]} 
-              currentUser={this.props.currentUser}
-              memberIndex={this.state.memberIndex}
-              editMember={(member, index) => this._editMember(member, index)}
-              deleteMember={index=>this._deleteMember(index)}
-            />}
+          <Dialog open={this.state.open} onClose={() => this.handleClose()}>
+            {this.state.open && (
+              <MemberDialog
+                member={this.props.members[this.state.memberIndex]}
+                currentUser={this.props.currentUser}
+                memberIndex={this.state.memberIndex}
+                editMember={(member, index) => this._editMember(member, index)}
+                deleteMember={index => this._deleteMember(index)}
+              />
+            )}
           </Dialog>
-          </div>
+        </div>
         {this._renderBtn()}
       </Paper>
     );
@@ -125,5 +119,9 @@ const styles = {
     paddingTop: '20px',
     overflow: 'scroll',
     paddingBottom: '20px',
+  },
+  btnContainer: {
+    display: 'flex',
+    justifyContent: 'space-around',
   },
 };

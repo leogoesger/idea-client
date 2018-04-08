@@ -8,27 +8,38 @@ import Paragraph from '../shared/Paragraph';
 import EditExpansion from '../shared/EditExpansion';
 
 export default class Portolio extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-    };
-  }
-
   _editPortfolios(paragraph, number, attir) {
     const portfolioData = cloneDeep(this.props.portfolioData);
+
+    if (!attir && attir !== 0) {
+      portfolioData.data[number] = paragraph;
+      return this.props.editPortfolio(portfolioData, this.props.currentSelect);
+    }
     portfolioData.data[number][attir] = paragraph;
+
     this.props.editPortfolio(portfolioData, this.props.currentSelect);
   }
 
-  _addPortfolios() {
-    const portfolioData = cloneDeep(this.props.portfolioData),
+  _addNewPortfolio() {
+    const portfolioData = cloneDeep(this.props.portfolioData);
+    let newPortfolio = {
+      title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+      url: 'https://google.com',
+    };
+    if (this.props.currentSelect === 'policiesAndProcedures') {
       newPortfolio = {
-        title: 'Lorem ipsum',
-        url: 'https://google.com',
+        title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+        subtitle: [{title: 'Services we provide...', url: 'http://google.com'}],
       };
+    }
+
     portfolioData.data.push(newPortfolio);
+    this.props.addPortfolio(portfolioData, this.props.currentSelect);
+  }
+
+  _deletePortfolio(index) {
+    const portfolioData = cloneDeep(this.props.portfolioData);
+    portfolioData.data.splice(index, 1);
     this.props.addPortfolio(portfolioData, this.props.currentSelect);
   }
 
@@ -43,7 +54,7 @@ export default class Portolio extends React.Component {
             editParagraphs={(paragraph, index) =>
               this._editPortfolios(paragraph, index, 'title')
             }
-            deleteParagraph={index => this._deleteParagraph(index)}
+            deleteParagraph={() => this._deletePortfolio(index)}
           >
             <span style={{padding: '10px 0px'}}>
               <a href={data.url} target="_blank">
@@ -81,9 +92,9 @@ export default class Portolio extends React.Component {
             variant="flat"
             color="primary"
             size="small"
-            onClick={() => this._addService()}
+            onClick={() => this._addNewPortfolio()}
           >
-            {'Add New Service'}
+            {'Add New Portfolio'}
           </Button>
         </div>
       );
@@ -99,7 +110,8 @@ export default class Portolio extends React.Component {
           titleName={'title'}
           subtitleName={'subtitle'}
           currentUser={this.props.currentUser}
-          editData={data => this._editPortfolio(data, index)}
+          editData={data => this._editPortfolios(data, index, null)}
+          deleteData={() => this._deletePortfolio(index)}
         />
       );
     });
@@ -108,7 +120,7 @@ export default class Portolio extends React.Component {
   render() {
     if (!this.props.portfolioData) {
       return null;
-    } else if (this.props.portfolioData.data[0].subtitle) {
+    } else if (this.props.currentSelect == 'policiesAndProcedures') {
       return (
         <div>
           {this._renderDataWithSubtitle()}
@@ -120,6 +132,7 @@ export default class Portolio extends React.Component {
     return (
       <div style={{padding: '20px 20px 0px 20px'}}>
         {this._renderPortfolioData()}
+        {this._renderAddNewBtn()}
       </div>
     );
   }

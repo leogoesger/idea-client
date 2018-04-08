@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import Dialog, {DialogTitle} from 'material-ui/Dialog';
 import {cloneDeep} from 'lodash';
+import Divider from 'material-ui/Divider';
 
 import Paragraph from './Paragraph';
 import TextField from 'material-ui/TextField';
@@ -10,84 +11,84 @@ import TextField from 'material-ui/TextField';
 export default class EditServiceDialog extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {description: null, services: null};
+    this.state = {title: null, subtitle: null};
   }
 
   componentDidMount() {
     this.setState({
-      services: this.props.serviceObject.services,
-      description: this.props.serviceObject.description,
+      title: this.props.dataObject.title,
+      subtitle: this.props.dataObject.subtitle,
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      services: nextProps.serviceObject.services,
-      description: nextProps.serviceObject.description,
-    });
+  _editSubtitleObject(paragraph, index, attri) {
+    const newData = cloneDeep(this.state.subtitle);
+    newData[index][attri] = paragraph;
+
+    this.setState({subtitle: newData});
   }
 
-  _handleTextChange(e, index) {
-    if (index || index === 0) {
-      const newServices = cloneDeep(this.state.services);
-      newServices[index] = e.target.value;
-      return this.setState({services: newServices});
-    }
-    this.setState({description: e.target.value});
+  _saveAction() {
+    this.props.handleClose();
+    this.props.saveObject(this.state);
   }
 
-  _editParagraphs(paragraph, index) {
-    const updatedServices = cloneDeep(this.state.services);
-    updatedServices[index] = paragraph;
-    this.setState({services: updatedServices});
-  }
-
-  _deleteParagraph(index) {
-    const updatedServices = cloneDeep(this.state.services);
-    updatedServices.splice(index, 1);
-    this.setState({services: updatedServices});
+  _handleTextChange(e) {
+    this.setState({title: e.target.value});
   }
 
   _addParagraph() {
-    const updatedServices = cloneDeep(this.state.services);
-    updatedServices.push(
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-    );
-    this.setState({services: updatedServices});
+    const newData = cloneDeep(this.state.subtitle);
+    newData.push({
+      title: 'New Data',
+      url: 'http://google.com',
+    });
+    this.setState({subtitle: newData});
   }
 
-  _isMultiline(service) {
-    return service.length > 100 ? true : false;
-  }
-
-  _handleClose() {
-    if (this.props.serviceObject.description === 'New Service Description') {
-      this.props.deleteService(this.props.number);
-      return this.props.handleClose();
+  _renderSubtitles(subtitle) {
+    if (!subtitle) {
+      return null;
     }
-    return this.props.handleClose();
-  }
-
-  _renderServices(services) {
-    if (services) {
-      return services.map((service, index) => {
-        return (
+    return subtitle.map((subtitle, index) => {
+      return (
+        <div key={index}>
           <Paragraph
-            currentUser={{name: ''}}
-            key={index}
+            currentUser={this.props.currentUser}
             number={index}
-            multiline={this._isMultiline(service)}
-            paragraph={service}
+            paragraph={subtitle.title}
             editParagraphs={(paragraph, index) =>
-              this._editParagraphs(paragraph, index)
+              this._editSubtitleObject(paragraph, index, 'title')
             }
             deleteParagraph={index => this._deleteParagraph(index)}
           >
-            <span>{service}</span>
+            <span style={{padding: '10px 0px'}}>
+              <a href={subtitle.url} target="_blank">
+                {subtitle.title}
+              </a>
+            </span>
           </Paragraph>
-        );
-      });
-    }
+          {this.props.currentUser &&
+            subtitle.url && (
+              <div>
+                <Paragraph
+                  currentUser={this.props.currentUser}
+                  number={index}
+                  paragraph={subtitle.url}
+                  editParagraphs={(paragraph, index) =>
+                    this._editSubtitleObject(paragraph, index, 'url')
+                  }
+                >
+                  <span style={{paddingLeft: '20px', color: '#64b5f6'}}>
+                    {subtitle.url}
+                  </span>
+                </Paragraph>
+                <Divider />
+              </div>
+            )}
+        </div>
+      );
+    });
   }
 
   _renderActionBtns() {
@@ -104,7 +105,7 @@ export default class EditServiceDialog extends React.Component {
           <Button
             variant="flat"
             color="primary"
-            onClick={() => this._handleClose()}
+            onClick={() => this.props.handleClose()}
           >
             Cancel
           </Button>
@@ -121,9 +122,7 @@ export default class EditServiceDialog extends React.Component {
           <Button
             style={{marginLeft: '10px'}}
             variant="raised"
-            onClick={() =>
-              this.props.editService(this.state, this.props.number)
-            }
+            onClick={() => this._saveAction()}
           >
             Save
           </Button>
@@ -133,25 +132,31 @@ export default class EditServiceDialog extends React.Component {
   }
 
   render() {
-    if (!this.props.serviceObject) {
+    if (!this.props.dataObject) {
       return null;
     }
     return (
       <Dialog
         open={this.props.open}
-        onClose={() => this._handleClose()}
+        onClose={() => this.props.handleClose()}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
           <TextField
-            value={this.state.description}
-            label="Description"
+            value={this.state.title}
+            label="Title"
             fullWidth
             onChange={e => this._handleTextChange(e, null)}
           />
         </DialogTitle>
-        <div style={{padding: '20px', width: '500px', margin: '0 auto'}}>
-          {this._renderServices(this.state.services)}
+        <div
+          style={{
+            padding: '10px 30px 10px 30px',
+            width: '500px',
+            margin: '0 auto',
+          }}
+        >
+          {this._renderSubtitles(this.state.subtitle)}
         </div>
         {this._renderActionBtns()}
       </Dialog>
@@ -160,10 +165,10 @@ export default class EditServiceDialog extends React.Component {
 }
 
 EditServiceDialog.propTypes = {
-  serviceObject: PropTypes.object,
+  currentUser: PropTypes.object,
+  dataObject: PropTypes.object,
   handleClose: PropTypes.func,
+  saveObject: PropTypes.func,
   open: PropTypes.bool,
-  editService: PropTypes.func,
-  deleteService: PropTypes.func,
   number: PropTypes.number,
 };

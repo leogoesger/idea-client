@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from 'material-ui/Avatar';
-import {withStyles} from 'material-ui/styles'
+import {withStyles} from 'material-ui/styles';
 import {cloneDeep} from 'lodash';
-import Paragraph from '../shared/Paragraph'
+import Paragraph from '../shared/Paragraph';
 import Button from 'material-ui/Button';
 
 class MemberDialog extends React.Component {
@@ -18,8 +18,8 @@ class MemberDialog extends React.Component {
     this.setState({fullDescription: true});
   }
 
-  _indexToValue(index){
-    switch(index){
+  _indexToValue(index) {
+    switch (index) {
       case 0:
         return 'name';
       case 1:
@@ -31,30 +31,30 @@ class MemberDialog extends React.Component {
     }
   }
 
-  _editMember(member, index){
+  _editMember(member, index) {
     index = this._indexToValue(index);
     const updatedMember = cloneDeep(this.props.member);
     updatedMember[index] = member;
     this.props.editMember(updatedMember, this.props.memberIndex);
   }
 
-  _deleteMember(){
-    this.props.deleteMember(this.props.memberIndex)
+  _deleteMember() {
+    this.props.deleteMember(this.props.memberIndex);
   }
 
-  _renderDescriptionParagraph(description){
+  _renderDescriptionParagraph(description) {
     return (
       <Paragraph
         currentUser={this.props.currentUser}
         number={2}
         paragraph={description}
         multiline={true}
-        editParagraphs={(paragraph, index) => 
+        editParagraphs={(paragraph, index) =>
           this._editMember(paragraph, index)
         }
       >
-        <div style={styles.description}>{description}</div>
-    </Paragraph>
+        <span style={styles.description}>{description}</span>
+      </Paragraph>
     );
   }
 
@@ -77,9 +77,9 @@ class MemberDialog extends React.Component {
       );
     } else {
       return (
-      <div style={styles.description}>
-        {this._renderDescriptionParagraph(description)}
-      </div>
+        <div style={styles.description}>
+          {this._renderDescriptionParagraph(description)}
+        </div>
       );
     }
   }
@@ -91,52 +91,56 @@ class MemberDialog extends React.Component {
     }
     const {member} = this.props;
     return (
-      <div style={{maxWidth: '600px'}}>
-        <div style={styles.btnContainer}>
-          <Button
-          onClick={()=>this._deleteMember()}
-          variant="raised"
-          size="small"
-          >
-            {"Delete Member"}
-          </Button>
-        </div>
+      <div style={{maxWidth: '600px', padding: '40px'}}>
         <div style={styles.iconContainer}>
           <Avatar src={member.image} className={classes.bigAvatar} />
         </div>
+        <Paragraph
+          currentUser={this.props.currentUser}
+          number={3}
+          paragraph={member.image}
+          editParagraphs={(paragraph, index) =>
+            this._editMember(paragraph, index)
+          }
+        >
+          {this.props.currentUser && (
+            <span style={{marginTop: '10px'}}>{'Image URL'}</span>
+          )}
+        </Paragraph>
+        <div style={styles.infoContainer}>
           <Paragraph
             currentUser={this.props.currentUser}
-            number={3}
-            paragraph={member.image}
-            editParagraphs={(paragraph, index) => 
+            number={0}
+            paragraph={member.name}
+            editParagraphs={(paragraph, index) =>
               this._editMember(paragraph, index)
             }
           >
-            {this.props.currentUser && <span>Image URL</span>}
+            <span style={styles.name}>{member.name}</span>
           </Paragraph>
-        <div style={styles.infoContainer}>
-            <Paragraph
-              currentUser={this.props.currentUser}
-              number={0}
-              paragraph={member.name}
-              editParagraphs={(paragraph, index) => 
-                this._editMember(paragraph, index)
-              }
-            >
-              <div style={styles.name}>{member.name}</div>
-            </Paragraph>        
-            <Paragraph
-              currentUser={this.props.currentUser}
-              number={0}
-              paragraph={member.name}
-              editParagraphs={(paragraph, index) => 
-                this._editMember(paragraph, index)
-              }
-            >
-              <div style={styles.title}>{`${member.title}`}</div>
-            </Paragraph>
+          <Paragraph
+            currentUser={this.props.currentUser}
+            number={0}
+            paragraph={member.name}
+            editParagraphs={(paragraph, index) =>
+              this._editMember(paragraph, index)
+            }
+          >
+            <span style={styles.title}>{`${member.title}`}</span>
+          </Paragraph>
           {this._renderDescription(member.description)}
         </div>
+        {this.props.currentUser && (
+          <div style={styles.btnContainer}>
+            <Button
+              onClick={() => this._deleteMember()}
+              variant="raised"
+              size="small"
+            >
+              {'Delete Member'}
+            </Button>
+          </div>
+        )}
       </div>
     );
   }
@@ -170,21 +174,21 @@ const styles = {
   btnContainer: {
     display: 'flex',
     justifyContent: 'flex-end',
-  }
+  },
 };
 
 const avatarStyles = {
-    row: {
-      display: 'flex',
-      justifyContent: 'center',
-    },
-    avatar: {
-      margin: 10,
-    },
-    bigAvatar: {
-      width: 200,
-      height: 200,
-    },
-  };
+  row: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  avatar: {
+    margin: 10,
+  },
+  bigAvatar: {
+    width: 200,
+    height: 200,
+  },
+};
 
 export default withStyles(avatarStyles)(MemberDialog);
