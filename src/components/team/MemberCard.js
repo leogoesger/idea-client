@@ -1,59 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card, {CardMedia, CardContent,} from 'material-ui/Card';
+import Card, {CardMedia, CardContent} from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
-import {withStyles} from 'material-ui/styles';
 
 class MemberCard extends React.Component {
-  render(){
-    const styles = {
-      card: {
-        // width: 245,
-        cursor: 'pointer',
-      },
-      media: {
-        height: 200,
-      },
-      header: {
-        paddingTop: '0px', 
-        paddingBottom: '12px', 
-        backgroundColor: 'rgba(200, 200, 200, 0.5',
-      },
-    };
-    var {member, index, classes} = this.props;
+  render() {
+    var {member, index} = this.props;
     return (
       <div
         key={index}
         className="row col-lg-4 col-md-4 col-sm-4 col-xs-12"
-        style={{
-          marginLeft: '0px',
-          marginRight: '0px',
-          marginBottom: '15px',
-          height: '100%',
-        }}
+        style={styles.container}
       >
         <Card
-          style={styles.card}
           onClick={() => this.props.handleOpen(index)}
+          style={{height: '200px', width: '200px'}}
         >
-          <CardMedia
-            image={member.image}
-            title={member.name}
-            style={styles.media}
-            className={classes.media}
-            >
-          <CardContent classes={{root: classes.content}}>
-            <Typography variant="headline" component="h2" >
-              {member.name}
-            </Typography>
-            <Typography component="p">
-              {member.title} 
-            </Typography>
-          </CardContent>
+          <CardMedia image={member.image} style={styles.media}>
+            <CardContent style={styles.content}>
+              <Typography
+                variant="headline"
+                component="h2"
+                style={{fontSize: '16px'}}
+              >
+                {member.name}
+              </Typography>
+              <Typography
+                component="p"
+                style={{fontSize: '12px', color: '#404448'}}
+              >
+                {member.title}
+              </Typography>
+            </CardContent>
           </CardMedia>
         </Card>
       </div>
-    ) 
+    );
   }
 }
 
@@ -65,14 +47,22 @@ MemberCard.propTypes = {
 };
 
 const styles = {
+  container: {
+    margin: '0px 0px 30px 0px',
+    height: '100%',
+    cursor: 'pointer',
+  },
   media: {
-    backgroundSize: 'contain',
+    height: '200px',
+    width: '200px',
     display: 'flex',
+    alignItems: 'flex-end',
   },
   content: {
-    alignSelf: 'flex-end',
+    width: '100%',
     backgroundColor: 'rgba(232, 232, 232, 0.5)',
-  }
+    padding: '10px',
+  },
 };
 
-export default withStyles(styles)(MemberCard);
+export default MemberCard;

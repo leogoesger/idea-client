@@ -1,5 +1,6 @@
 import {createMuiTheme} from 'material-ui/styles';
 import red from 'material-ui/colors/red';
+import yellow from 'material-ui/colors/yellow';
 
 const Theme = createMuiTheme({
   overrides: {
@@ -57,6 +58,35 @@ const Theme = createMuiTheme({
     },
     MuiExpansionPanelDetails: {
       root: {display: ''},
+    },
+    MuiSelect: {
+      root: {
+        margin: '0 auto',
+        color: 'white',
+        background: 'transparent',
+      },
+      icon: {
+        color: 'white',
+      },
+    },
+    MuiInput: {
+      root: {
+        backgroundColor: 'transparent',
+      },
+      underline: {
+        '&:after': {
+          backgroundColor: yellow[800],
+          background: 'transparent',
+        },
+        '&:before': {
+          backgroundColor: yellow[800],
+          background: 'transparent',
+        },
+        '&:hover:not($disabled):before': {
+          backgroundColor: yellow[900],
+          height: 2,
+        },
+      },
     },
   },
 });

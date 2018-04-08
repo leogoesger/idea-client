@@ -189,18 +189,20 @@ export default class ServiceTab extends React.Component {
   }
 
   _renderAddNewBtn() {
-    return (
-      <div style={styles.btnContainer}>
-        <Button
-          variant="flat"
-          color="primary"
-          size="small"
-          onClick={() => this._addService()}
-        >
-          {'Add New Service'}
-        </Button>
-      </div>
-    );
+    if (this.props.currentUser) {
+      return (
+        <div style={styles.btnContainer}>
+          <Button
+            variant="flat"
+            color="primary"
+            size="small"
+            onClick={() => this._addService()}
+          >
+            {'Add New Service'}
+          </Button>
+        </div>
+      );
+    }
   }
 
   _renderServiceCards() {

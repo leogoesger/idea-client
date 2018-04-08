@@ -1,0 +1,6 @@
+const PortfolioTypes = {
+  FETCH_PORTFOLIO_OBJECTS: 'FETCH_PORTFOLIO_OBJECTS',
+  UPDATE_PORTFOLIO_OBJECTS: 'UPDATE_PORTFOLIO_OBJECTS',
+};
+
+export default PortfolioTypes;

@@ -100,8 +100,9 @@ export default class Layout extends React.Component {
     return (
       <div style={styles.btnContainer}>
         <Button
-          variant="raised"
+          variant="flat"
           size="small"
+          color="primary"
           onClick={() => this._addParagraph()}
         >
           {'Add New Contract'}
