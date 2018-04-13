@@ -20,8 +20,7 @@ export class Service extends React.Component {
     return (
       <Layout
         overviewServices={this.props.overviewServices}
-        stateServices={this.props.stateServices}
-        countyServices={this.props.countyServices}
+        services={this.props.services}
         addService={(service, serviceType) =>
           this.props.addService(service, serviceType)
         }
@@ -43,8 +42,7 @@ Service.propTypes = {
   editService: PropTypes.func,
   deleteService: PropTypes.func,
   overviewServices: PropTypes.object,
-  stateServices: PropTypes.array,
-  countyServices: PropTypes.array,
+  services: PropTypes.array,
   currentUser: PropTypes.object,
 };
 
@@ -52,8 +50,7 @@ const mapStateToProps = state => {
   return {
     currentUser: state.user.currentUser,
     overviewServices: state.service.overviewServices,
-    stateServices: state.service.stateServices,
-    countyServices: state.service.countyServices,
+    services: state.service.services,
   };
 };
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import AppBar from 'material-ui/AppBar';
 import Tabs, {Tab} from 'material-ui/Tabs';
-import yellow from 'material-ui/colors/yellow';
+import red from 'material-ui/colors/red';
 
 import ServiceTab from './ServiceTab';
 
@@ -20,9 +20,7 @@ export default class Layout extends React.Component {
       case 0:
         return this.props.overviewServices;
       case 1:
-        return this.props.stateServices;
-      case 2:
-        return this.props.countyServices;
+        return this.props.services;
     }
   }
 
@@ -31,7 +29,7 @@ export default class Layout extends React.Component {
   }
 
   render() {
-    const tabs = ['overviewServices', 'stateServices', 'countyServices'];
+    const tabs = ['overviewServices', 'services'];
     return (
       <Paper
         className="col-lg-10 col-md-10 col-xs-10"
@@ -42,12 +40,11 @@ export default class Layout extends React.Component {
             <Tabs
               value={this.state.tab}
               onChange={(e, v) => this._tabChange(v)}
-              indicatorColor={yellow[700]}
+              indicatorColor={red[400]}
               fullWidth
             >
               <Tab label="Overview" />
-              <Tab label="State" />
-              <Tab label="County" />
+              <Tab label="Services" />
             </Tabs>
           </AppBar>
           <ServiceTab
@@ -69,8 +66,7 @@ Layout.propTypes = {
   editService: PropTypes.func,
   deleteService: PropTypes.func,
   overviewServices: PropTypes.object,
-  stateServices: PropTypes.array,
-  countyServices: PropTypes.array,
+  services: PropTypes.array,
   currentUser: PropTypes.object,
 };
 
@@ -78,7 +74,7 @@ const styles = {
   mainContainer: {
     height: '600px',
     paddingTop: '20px',
-    overflow: 'scroll',
+    overflow: 'auto',
     paddingBottom: '20px',
   },
 

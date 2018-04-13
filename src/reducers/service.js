@@ -5,8 +5,7 @@ type STATE = {};
 type ACTION = {};
 const initialState: STATE = {
   overviewServices: null,
-  stateServices: null,
-  countyServices: null,
+  services: null,
 };
 
 export default function(state: STATE = initialState, action: ACTION) {

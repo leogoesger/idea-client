@@ -1,6 +1,7 @@
 import {createMuiTheme} from 'material-ui/styles';
 import red from 'material-ui/colors/red';
 import yellow from 'material-ui/colors/yellow';
+import Color from './Colors'
 
 const Theme = createMuiTheme({
   overrides: {
@@ -54,7 +55,7 @@ const Theme = createMuiTheme({
     },
     MuiAppBar: {
       root: {backgroundColor: 'pink', boxShadow: 'none'},
-      colorPrimary: {backgroundColor: red[400]},
+      colorPrimary: {backgroundColor: Color.green},
     },
     MuiExpansionPanelDetails: {
       root: {display: ''},
@@ -91,4 +92,39 @@ const Theme = createMuiTheme({
   },
 });
 
+const PortfolioTheme = createMuiTheme({
+  overrides: {
+    MuiSelect: {
+      root: {
+        margin: '0 auto',
+        color: 'white',
+        background: 'transparent',
+      },
+      icon: {
+        color: 'white',
+      },
+    },
+    MuiInput: {
+      root: {
+        backgroundColor: 'transparent',
+      },
+      underline: {
+        '&:after': {
+          backgroundColor: red[400],
+          background: 'transparent',
+        },
+        '&:before': {
+          backgroundColor: red[400],
+          background: 'transparent',
+        },
+        '&:hover:not($disabled):before': {
+          backgroundColor: red[400],
+          height: 2,
+        },
+      },
+    },
+  }
+});
+
 export default Theme;
+export {PortfolioTheme};
