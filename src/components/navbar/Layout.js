@@ -6,6 +6,7 @@ import {navigateTo} from '../../utils/helpers';
 import Paper from 'material-ui/Paper';
 import red from 'material-ui/colors/red';
 import {find} from 'lodash';
+import Color from '../../styles/Colors'
 
 export default class Layout extends React.Component {
   constructor(props) {
@@ -55,8 +56,13 @@ export default class Layout extends React.Component {
           button
           onClick={() => navigateTo(tab.url)}
           style={this._getTabStyle(tab.name)}
+          divider 
         >
-          <ListItemText primary={tab.name} />
+          <ListItemText 
+            disableTypography 
+            style={styles.listText} 
+            primary={tab.name} 
+          />
         </ListItem>
       );
     });
@@ -66,7 +72,11 @@ export default class Layout extends React.Component {
     if (this.props.currentUser) {
       return (
         <ListItem button onClick={() => this.props.logOutUser()}>
-          <ListItemText primary="Log Out" />
+          <ListItemText 
+            disableTypography 
+            style={styles.listText}
+            primary="Log Out" 
+          />
         </ListItem>
       );
     }
@@ -76,7 +86,11 @@ export default class Layout extends React.Component {
         onClick={() => navigateTo('/login')}
         style={this._getTabStyle('Login')}
       >
-        <ListItemText primary="Login" />
+        <ListItemText 
+          disableTypography 
+          primary="Login" 
+          style={styles.listText}
+        />
       </ListItem>
     );
   }
@@ -109,10 +123,15 @@ const styles = {
     justifyContent: 'space-between',
     height: '600px',
     padding: '0px',
+    backgroundColor: Color.green,
   },
   activeTab: {
     borderLeftWidth: '5px',
     borderLeftStyle: 'solid',
     borderLeftColor: red[400],
   },
+  listText: {
+    color: Color.white,
+    fontWeight: 'bold',
+  }
 };
