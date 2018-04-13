@@ -4,6 +4,8 @@ import Paper from 'material-ui/Paper';
 import AppBar from 'material-ui/AppBar';
 import Select from 'material-ui/Select';
 import {MenuItem} from 'material-ui/Menu';
+import {MuiThemeProvider} from 'material-ui/styles';
+import {PortfolioTheme} from '../../styles/Theme'
 
 import Portfolio from './Portfolio';
 
@@ -44,13 +46,15 @@ export default class Layout extends React.Component {
       >
         <Paper style={{height: '550px', overflow: 'scroll'}}>
           <AppBar position="static" color="primary" style={{height: '48px'}}>
-            <Select
-              value={this.state.value}
-              onChange={e => this._handleChange(e)}
-              style={{marginTop: '10px', width: '80%', margin: '10px auto'}}
-            >
-              {this._renderMenuItem()}
-            </Select>
+            <MuiThemeProvider theme={PortfolioTheme}>
+              <Select
+                value={this.state.value}
+                onChange={e => this._handleChange(e)}
+                style={{marginTop: '10px', width: '80%', margin: '10px auto'}}
+              >
+                {this._renderMenuItem()}
+              </Select>
+            </MuiThemeProvider>
           </AppBar>
           <Portfolio
             portfolioData={this.props.data[this.state.value]}

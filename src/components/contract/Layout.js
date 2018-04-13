@@ -5,7 +5,7 @@ import AppBar from 'material-ui/AppBar';
 import Tabs, {Tab} from 'material-ui/Tabs';
 import Button from 'material-ui/Button';
 import {cloneDeep} from 'lodash';
-import yellow from 'material-ui/colors/yellow';
+import red from 'material-ui/colors/red';
 
 import Paragraph from '../shared/Paragraph';
 import ContactForm from '../shared/ContactForm';
@@ -144,7 +144,7 @@ export default class Layout extends React.Component {
               value={tab}
               onChange={(e, v) => this._tabChange(v)}
               fullWidth
-              indicatorColor={yellow[700]}
+              indicatorColor={red[400]}
             >
               <Tab label="State" />
               <Tab label="County" />

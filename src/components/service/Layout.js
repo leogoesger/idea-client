@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import AppBar from 'material-ui/AppBar';
 import Tabs, {Tab} from 'material-ui/Tabs';
-import yellow from 'material-ui/colors/yellow';
+import red from 'material-ui/colors/red';
+import {MuiThemeProvider} from 'material-ui/styles';
 
 import ServiceTab from './ServiceTab';
 
@@ -42,7 +43,7 @@ export default class Layout extends React.Component {
             <Tabs
               value={this.state.tab}
               onChange={(e, v) => this._tabChange(v)}
-              indicatorColor={yellow[700]}
+              indicatorColor={red[400]}
               fullWidth
             >
               <Tab label="Overview" />
