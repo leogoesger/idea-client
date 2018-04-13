@@ -38,7 +38,7 @@ export function fetchServices() {
         'Grant writing, implementation, administration, and evaluation.',
       ],
     },
-    stateServices: [
+    services: [
       {
         description: 'Gaps Analysis',
         services: [
@@ -116,8 +116,7 @@ export function fetchServices() {
           'Present information to promote recovery and resilience',
         ],
       },
-    ],
-    countyServices: [
+      
       {
         description: 'Mental Health Services Act (MHSA)',
         services: [

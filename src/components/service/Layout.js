@@ -20,9 +20,7 @@ export default class Layout extends React.Component {
       case 0:
         return this.props.overviewServices;
       case 1:
-        return this.props.stateServices;
-      case 2:
-        return this.props.countyServices;
+        return this.props.services;
     }
   }
 
@@ -31,7 +29,7 @@ export default class Layout extends React.Component {
   }
 
   render() {
-    const tabs = ['overviewServices', 'stateServices', 'countyServices'];
+    const tabs = ['overviewServices', 'services'];
     return (
       <Paper
         className="col-lg-10 col-md-10 col-xs-10"
@@ -46,8 +44,7 @@ export default class Layout extends React.Component {
               fullWidth
             >
               <Tab label="Overview" />
-              <Tab label="State" />
-              <Tab label="County" />
+              <Tab label="Services" />
             </Tabs>
           </AppBar>
           <ServiceTab
@@ -69,8 +66,7 @@ Layout.propTypes = {
   editService: PropTypes.func,
   deleteService: PropTypes.func,
   overviewServices: PropTypes.object,
-  stateServices: PropTypes.array,
-  countyServices: PropTypes.array,
+  services: PropTypes.array,
   currentUser: PropTypes.object,
 };
 
