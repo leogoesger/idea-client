@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
-import AppBar from 'material-ui/AppBar';
-import Tabs, {Tab} from 'material-ui/Tabs';
 import Button from 'material-ui/Button';
 import {cloneDeep} from 'lodash';
-import red from 'material-ui/colors/red';
+import Typography from 'material-ui/Typography';
 
 import Paragraph from '../shared/Paragraph';
 import ContactForm from '../shared/ContactForm';
@@ -123,45 +121,27 @@ export default class Layout extends React.Component {
         }
         deleteParagraph={index => this._deleteParagraph(index)}
       >
-        <span>{paragraph}</span>
+        <li>{paragraph}</li>
       </Paragraph>
     );
   }
 
   render() {
-    if (!this.props.state || !this.props.county) {
-      return null;
-    }
-    const {tab} = this.state;
     return (
       <Paper
         className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
-        <Paper style={{minHeight: '550px'}}>
-          <AppBar position="static" color="primary">
-            <Tabs
-              value={tab}
-              onChange={(e, v) => this._tabChange(v)}
-              fullWidth
-              indicatorColor={red[400]}
-            >
-              <Tab label="State" />
-              <Tab label="County" />
-            </Tabs>
-          </AppBar>
+        <Typography variant="headline" component="h3">
+          {'Contracts'}
+        </Typography>
           <div style={styles.paragraphContainer}>
-            {tab === 0 &&
-              this.props.state.map((paragraph, index) =>
-                this._renderParagraph(paragraph, index)
-              )}
-            {tab === 1 &&
-              this.props.county.map((paragraph, index) =>
+            {
+              this.props.contracts.map((paragraph, index) =>
                 this._renderParagraph(paragraph, index)
               )}
           </div>
           {this._renderBtn()}
-        </Paper>
         <ContactForm
           open={this.state.open}
           handleClose={() => this._handleClose()}
@@ -173,8 +153,7 @@ export default class Layout extends React.Component {
 
 Layout.propTypes = {
   currentUser: PropTypes.object,
-  state: PropTypes.array,
-  county: PropTypes.array,
+  contracts: PropTypes.array,
   editContracts: PropTypes.func,
   deleteContracts: PropTypes.func,
   addContracts: PropTypes.func,
@@ -184,7 +163,7 @@ const styles = {
   mainContainer: {
     height: '600px',
     paddingTop: '20px',
-    overflow: 'scroll',
+    overflow: 'auto',
     paddingBottom: '20px',
   },
 

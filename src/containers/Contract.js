@@ -15,14 +15,13 @@ export class Contract extends React.Component {
     this.props.fetchContracts();
   }
   render() {
-    if(!this.props.state || !this.props.county)
+    if(!this.props.contracts)
       return null;
 
     return (
       <Layout
         currentUser={this.props.currentUser}
-        state={this.props.state}
-        county={this.props.county}
+        contracts={this.props.contracts}
         editContracts={paragraphs => this.props.editContracts(paragraphs)}
         deleteContracts={paragraphs => this.props.deleteContracts(paragraphs)}
         addContracts={paragraphs => this.props.addContracts(paragraphs)}
@@ -32,8 +31,7 @@ export class Contract extends React.Component {
 }
 
 Contract.propTypes = {
-  state: PropTypes.array,
-  county: PropTypes.array,
+  contracts: PropTypes.array,
   fetchContracts: PropTypes.func,
   editContracts: PropTypes.func,
   deleteContracts: PropTypes.func,
@@ -43,8 +41,7 @@ Contract.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    state: state.contract.state,
-    county: state.contract.county,
+    contracts: state.contract.contracts,
     currentUser: state.user.currentUser,
   };
 };
