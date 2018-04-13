@@ -26,59 +26,26 @@ export default class Layout extends React.Component {
   }
 
   _editParagraphs(paragraph, index) {
-    const {tab} = this.state;
-    const {state, county} = this.props;
-    const updatedParagraphs = cloneDeep(tab === 0 ? state : county);
-    const otherParagraphs = cloneDeep(tab === 1 ? state : county);
+    const {contracts} = this.props;
+    const updatedParagraphs = cloneDeep(contracts);
     updatedParagraphs[index] = paragraph;
-    if (tab === 0)
-      this.props.editContracts({
-        state: updatedParagraphs,
-        county: otherParagraphs,
-      });
-    else
-      this.props.editContracts({
-        county: updatedParagraphs,
-        state: otherParagraphs,
-      });
+    this.props.editContracts(updatedParagraphs);
   }
 
   _deleteParagraph(index) {
-    const {tab} = this.state;
-    const {state, county} = this.props;
-    const updatedParagraphs = cloneDeep(tab === 0 ? state : county);
-    const otherParagraphs = cloneDeep(tab === 1 ? state : county);
+    const {contracts} = this.props;
+    const updatedParagraphs = cloneDeep(contracts);
     updatedParagraphs.splice(index, 1);
-    if (tab === 0)
-      this.props.deleteContracts({
-        state: updatedParagraphs,
-        county: otherParagraphs,
-      });
-    else
-      this.props.deleteContracts({
-        county: updatedParagraphs,
-        state: otherParagraphs,
-      });
+    this.props.deleteContracts(updatedParagraphs);
   }
 
   _addParagraph() {
-    const {tab} = this.state;
-    const {state, county} = this.props;
-    const updatedParagraphs = cloneDeep(tab === 0 ? state : county);
-    const otherParagraphs = cloneDeep(tab === 1 ? state : county);
+    const {contracts} = this.props;
+    const updatedParagraphs = cloneDeep(contracts);
     updatedParagraphs.push(
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
     );
-    if (tab === 0)
-      this.props.addContracts({
-        state: updatedParagraphs,
-        county: otherParagraphs,
-      });
-    else
-      this.props.addContracts({
-        county: updatedParagraphs,
-        state: otherParagraphs,
-      });
+    this.props.addContracts(updatedParagraphs);
   }
 
   _renderBtn() {
