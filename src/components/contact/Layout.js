@@ -114,7 +114,7 @@ const styles = {
   mainContainer: {
     height: '600px',
     paddingTop: '20px',
-    overflow: 'scroll',
+    overflow: 'auto',
     paddingBottom: '20px',
   },
 

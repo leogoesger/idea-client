@@ -4,7 +4,6 @@ import Paper from 'material-ui/Paper';
 import AppBar from 'material-ui/AppBar';
 import Tabs, {Tab} from 'material-ui/Tabs';
 import red from 'material-ui/colors/red';
-import {MuiThemeProvider} from 'material-ui/styles';
 
 import ServiceTab from './ServiceTab';
 
@@ -79,7 +78,7 @@ const styles = {
   mainContainer: {
     height: '600px',
     paddingTop: '20px',
-    overflow: 'scroll',
+    overflow: 'auto',
     paddingBottom: '20px',
   },
 
