@@ -1,7 +1,7 @@
 import {createMuiTheme} from 'material-ui/styles';
 import red from 'material-ui/colors/red';
 import yellow from 'material-ui/colors/yellow';
-import Color from './Colors'
+import Color from './Colors';
 
 const Theme = createMuiTheme({
   overrides: {
@@ -55,7 +55,7 @@ const Theme = createMuiTheme({
     },
     MuiAppBar: {
       root: {backgroundColor: 'pink', boxShadow: 'none'},
-      colorPrimary: {backgroundColor: Color.green},
+      colorPrimary: {backgroundColor: Color.darkGreen},
     },
     MuiExpansionPanelDetails: {
       root: {display: ''},
@@ -123,7 +123,7 @@ const PortfolioTheme = createMuiTheme({
         },
       },
     },
-  }
+  },
 });
 
 export default Theme;

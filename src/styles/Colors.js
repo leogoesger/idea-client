@@ -5,6 +5,7 @@ const Colors = {
   offBlack: '#404448',
   red: '#ef5350',
   green: '#5f8b8a',
+  darkGreen: '#5b8786',
 
   // paper
   lightGreyPaper: '#fafafa',
