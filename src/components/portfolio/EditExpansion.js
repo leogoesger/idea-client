@@ -37,11 +37,11 @@ export default class EditExpansion extends React.Component {
     return this.props.data[this.props.subtitleName].map((subtitle, index) => {
       return (
         <Typography key={index} variant="body1" component="p">
-          <span style={{padding: '10px 0px'}}>
+          <li style={{padding: '0px'}}>
             <a href={subtitle.url} target="_blank">
               {subtitle.title}
             </a>
-          </span>
+          </li>
         </Typography>
       );
     });

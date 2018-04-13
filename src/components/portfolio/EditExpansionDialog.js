@@ -4,9 +4,9 @@ import Button from 'material-ui/Button';
 import Dialog, {DialogTitle} from 'material-ui/Dialog';
 import {cloneDeep} from 'lodash';
 import Divider from 'material-ui/Divider';
-
-import Paragraph from './Paragraph';
 import TextField from 'material-ui/TextField';
+
+import Paragraph from '../shared/Paragraph';
 
 export default class EditServiceDialog extends React.Component {
   constructor(props) {

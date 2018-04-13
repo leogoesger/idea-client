@@ -6,6 +6,7 @@ import MemberDialog from './MemberDialog';
 import MemberCard from './MemberCard';
 import Button from 'material-ui/Button';
 import {cloneDeep} from 'lodash';
+import Typography from 'material-ui/Typography';
 
 export default class Layout extends React.Component {
   constructor(props) {
@@ -83,6 +84,9 @@ export default class Layout extends React.Component {
         className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
+        <Typography variant="headline" component="h3">
+          {'Our Team'}
+        </Typography>
         <div className="row col-lg-10 col-md-10" style={{margin: '30px auto'}}>
           {this._renderMembers(this.props.members)}
 

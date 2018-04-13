@@ -5,7 +5,7 @@ import Divider from 'material-ui/Divider';
 import Button from 'material-ui/Button';
 
 import Paragraph from '../shared/Paragraph';
-import EditExpansion from '../shared/EditExpansion';
+import EditExpansion from './EditExpansion';
 
 export default class Portolio extends React.Component {
   _editPortfolios(paragraph, number, attir) {
@@ -58,7 +58,7 @@ export default class Portolio extends React.Component {
           >
             <span style={{padding: '10px 0px'}}>
               <a href={data.url} target="_blank">
-                {data.title}
+                <li>{data.title}</li>
               </a>
             </span>
           </Paragraph>

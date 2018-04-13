@@ -95,7 +95,7 @@ export default class ServiceTab extends React.Component {
           }
           deleteParagraph={index => this._deleteService(index)}
         >
-          <span>{service}</span>
+          <li>{service}</li>
         </Paragraph>
       );
     });
@@ -103,11 +103,7 @@ export default class ServiceTab extends React.Component {
 
   _renderServices(services) {
     return services.map((service, index) => {
-      return (
-        <Typography key={index} variant="body1" component="p">
-          {`${service}\n`}
-        </Typography>
-      );
+      return <li key={index}>{service}</li>;
     });
   }
 
