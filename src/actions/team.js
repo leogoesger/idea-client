@@ -16,19 +16,28 @@ export function fetchTeam() {
 }
 
 export function addMember(members) {
-  return dispatch => {
+  return async dispatch => {
+    await request
+      .put(`${process.env.SERVER_ADDRESS}/members`)
+      .send({member: members});
     dispatch(updateTeamObjects(members));
   };
 }
 
 export function editMember(members) {
-  return dispatch => {
+  return async dispatch => {
+    await request
+      .put(`${process.env.SERVER_ADDRESS}/members`)
+      .send({member: members});
     dispatch(updateTeamObjects(members));
   };
 }
 
 export function deleteMember(members) {
-  return dispatch => {
+  return async dispatch => {
+    await request
+      .put(`${process.env.SERVER_ADDRESS}/members`)
+      .send({member: members});
     dispatch(updateTeamObjects(members));
   };
 }
