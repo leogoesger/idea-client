@@ -141,3 +141,8 @@ a {
 a:hover {
   text-decoration: underline;
 }
+li {
+  padding: 2px;
+  font-size: 14px;
+  color: #616161;
+}
