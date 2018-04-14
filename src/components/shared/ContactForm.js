@@ -13,6 +13,10 @@ import {FormHelperText} from 'material-ui/Form';
 import MaskedInput from 'react-text-mask';
 import request from 'superagent';
 
+import Snackbar from 'material-ui/Snackbar';
+import IconButton from 'material-ui/IconButton';
+import CloseIcon from 'material-ui-icons/Close';
+
 import {getEmailErrorMessage, getPhoneErrorMessage} from '../../utils/helpers';
 
 function TextMaskCustom(props) {
@@ -56,6 +60,7 @@ export default class ContactForm extends React.Component {
       email: '',
       phone: '(   )    -    ',
       msg: '',
+      message: '',
     };
   }
 
@@ -76,16 +81,22 @@ export default class ContactForm extends React.Component {
       });
     };
   }
+
+  handleClose() {
+    this.setState({open: false});
+    this.props.handleClose();
+  }
   
   async _submit(){
+    var message;
     try {
-      await request
+      message = await request
         .post(`${process.env.SERVER_ADDRESS}/submit`)
         .send(this.state);
     } catch (e) {
       throw e;
     }
-    this.props.handleClose();
+    this.setState({open: true, message: message.text })
   }
 
   render() {
@@ -155,6 +166,25 @@ export default class ContactForm extends React.Component {
             Submit
           </Button>
         </DialogActions>
+        <Snackbar
+          open={this.state.open}
+          autoHideDuration={3000}
+          onClose={() => this.handleClose()}
+          SnackbarContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">{this.state.message}</span>}
+          action={
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={() => this.handleClose()}
+            >
+              <CloseIcon />
+            </IconButton>
+          }
+        />
       </Dialog>
     );
   }
