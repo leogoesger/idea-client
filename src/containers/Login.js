@@ -18,7 +18,7 @@ export class Login extends React.Component {
 
 Login.propTypes = {
   loginUser: PropTypes.func,
-  error: PropTypes.object,
+  error: PropTypes.string,
 };
 
 const mapStateToProps = state => {

@@ -72,7 +72,6 @@ export default class LoginForm extends React.Component {
 
 LoginForm.propTypes = {
   loginUser: PropTypes.func,
-  error: PropTypes.object,
 };
 
 const styles = {

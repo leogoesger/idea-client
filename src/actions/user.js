@@ -32,6 +32,7 @@ const logOutUserObject = () => {
 
 export function loginUser(userInfo) {
   return async dispatch => {
+    dispatch(loginUserErrorObject());
     try {
       const loginResponse = await request
         .post(`${process.env.SERVER_ADDRESS}/login`)
@@ -40,7 +41,7 @@ export function loginUser(userInfo) {
       dispatch(loginUserObject(loginResponse.body.user));
       navigateTo('/');
     } catch (e) {
-      const message = {message: 'Login Failed'};
+      const message = 'Login Failed';
       dispatch(loginUserErrorObject(message));
     }
   };
