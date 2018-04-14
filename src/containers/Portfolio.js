@@ -8,6 +8,7 @@ import {
   editPortfolio,
   deletePortfolio,
 } from '../actions/portfolio';
+import {editActiveSub} from '../actions/navbar';
 
 import Layout from '../components/portfolio/Layout';
 
@@ -40,6 +41,8 @@ export class Portfolio extends React.Component {
         deletePortfolio={(service, serviceType) =>
           this.props.deletePortfolio(service, serviceType)
         }
+        editActiveSub={activeSub => this.props.editActiveSub(activeSub)}
+        activeSelection={this.props.activeSub}
       />
     );
   }
@@ -59,6 +62,8 @@ Portfolio.propTypes = {
   addPortfolio: PropTypes.func,
   editPortfolio: PropTypes.func,
   deletePortfolio: PropTypes.func,
+  editActiveSub: PropTypes.func,
+  activeSub: PropTypes.string,
 };
 
 const mapStateToProps = state => {
@@ -73,6 +78,7 @@ const mapStateToProps = state => {
     forms: state.portfolio.forms,
     policiesAndProcedures: state.portfolio.policiesAndProcedures,
     grants: state.portfolio.grants,
+    activeSub: state.navbar.activeSub,
   };
 };
 
@@ -85,6 +91,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(editPortfolio(portfolio, portfolioType)),
     deletePortfolio: (portfolio, portfolioType) =>
       dispatch(deletePortfolio(portfolio, portfolioType)),
+    editActiveSub: activeSub => 
+      dispatch(editActiveSub(activeSub)),
   };
 };
 

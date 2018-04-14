@@ -5,6 +5,7 @@ import ServiceTypes from './service';
 import ContactTypes from './contact';
 import TeamTypes from './team';
 import PortfolioTypes from './portfolio';
+import NavbarTypes from './navbar';
 
 export {UserTypes};
 export {HomeTypes};
@@ -13,6 +14,7 @@ export {ServiceTypes};
 export {ContactTypes};
 export {TeamTypes};
 export {PortfolioTypes};
+export {NavbarTypes};
 
 export default {
   UserTypes,
@@ -22,4 +24,5 @@ export default {
   ContactTypes,
   TeamTypes,
   PortfolioTypes,
+  NavbarTypes,
 };

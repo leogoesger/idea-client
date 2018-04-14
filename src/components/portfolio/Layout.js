@@ -13,16 +13,11 @@ export default class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
     };
   }
 
-  componentDidMount() {
-    this.setState({value: 'policiesAndProcedures'});
-  }
-
   _handleChange(event) {
-    this.setState({value: event.target.value});
+    this.props.editActiveSub(event.target.value);
   }
 
   _renderMenuItem() {
@@ -48,7 +43,7 @@ export default class Layout extends React.Component {
           <AppBar position="static" color="primary" style={{height: '48px'}}>
             <MuiThemeProvider theme={PortfolioTheme}>
               <Select
-                value={this.state.value}
+                value={this.props.activeSelection}
                 onChange={e => this._handleChange(e)}
                 style={{marginTop: '10px', width: '80%', margin: '10px auto'}}
               >
@@ -57,9 +52,9 @@ export default class Layout extends React.Component {
             </MuiThemeProvider>
           </AppBar>
           <Portfolio
-            portfolioData={this.props.data[this.state.value]}
+            portfolioData={this.props.data[this.props.activeSelection]}
             currentUser={this.props.currentUser}
-            currentSelect={this.state.value}
+            currentSelect={this.props.activeSelection}
             addPortfolio={(service, serviceType) =>
               this.props.addPortfolio(service, serviceType)
             }
@@ -82,6 +77,8 @@ Layout.propTypes = {
   addPortfolio: PropTypes.func,
   editPortfolio: PropTypes.func,
   deletePortfolio: PropTypes.func,
+  activeSelection: PropTypes.string,
+  editActiveSub: PropTypes.func,
 };
 
 const styles = {
