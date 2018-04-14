@@ -11,6 +11,7 @@ import Dialog, {
 import Input, {InputLabel} from 'material-ui/Input';
 import {FormHelperText} from 'material-ui/Form';
 import MaskedInput from 'react-text-mask';
+import request from 'superagent';
 
 import {getEmailErrorMessage, getPhoneErrorMessage} from '../../utils/helpers';
 
@@ -67,6 +68,7 @@ export default class ContactForm extends React.Component {
       getPhoneErrorMessage(this.state.phone)
     );
   }
+
   handleChange(name) {
     return event => {
       this.setState({
@@ -74,7 +76,18 @@ export default class ContactForm extends React.Component {
       });
     };
   }
-  handleSubmit() {}
+  
+  async _submit(){
+    try {
+      await request
+        .post(`${process.env.SERVER_ADDRESS}/submit`)
+        .send(this.state);
+    } catch (e) {
+      throw e;
+    }
+    this.props.handleClose();
+  }
+
   render() {
     return (
       <Dialog
@@ -125,17 +138,6 @@ export default class ContactForm extends React.Component {
             rows={4}
             fullWidth
           />
-          <form
-            style={{display: 'none'}}
-            id="contact-form"
-            action="mailto:youraddr@domain.tld"
-            method="GET"
-            encType="multipart/form-data"
-          >
-            <input name="subject" type="text" value={this.state.name} />
-            <textarea name="body" value={this.state.msg} />
-            <input type="submit" value="Send" />
-          </form>
         </DialogContent>
         <DialogActions style={{marginBottom: '25px', marginRight: '18px'}}>
           <Button
@@ -148,7 +150,7 @@ export default class ContactForm extends React.Component {
           <Button
             variant="raised"
             disabled={this._isDisabledBtn()}
-            onClick={() => document.getElementById('contact-form').submit()}
+            onClick={() => this._submit()}
           >
             Submit
           </Button>
