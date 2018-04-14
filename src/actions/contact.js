@@ -19,9 +19,11 @@ export function fetchParagraphs() {
 
 export function editParagraphs(paragraphs) {
   return async dispatch => {
+    const ideaJWT = window.localStorage.ideaJWT;
     const response = await request
       .put(`${process.env.SERVER_ADDRESS}/contacts`)
-      .send({contact: paragraphs});
+      .send({contact: paragraphs})
+      .set('ideaJWT', ideaJWT);
     dispatch(updateParagraphObjects(response.body.contact));
   };
 }

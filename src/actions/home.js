@@ -18,27 +18,33 @@ export function fetchParagraphs() {
 
 export function editParagraphs(paragraphs) {
   return async dispatch => {
+    const ideaJWT = window.localStorage.ideaJWT;
     const response = await request
       .put(`${process.env.SERVER_ADDRESS}/homes`)
-      .send({home: paragraphs});
+      .send({home: paragraphs})
+      .set('ideaJWT', ideaJWT);
     dispatch(updateParagraphObjects(response.body.home));
   };
 }
 
 export function deleteParagraph(paragraphs) {
   return async dispatch => {
+    const ideaJWT = window.localStorage.ideaJWT;
     const response = await request
       .put(`${process.env.SERVER_ADDRESS}/homes`)
-      .send({home: paragraphs});
+      .send({home: paragraphs})
+      .set('ideaJWT', ideaJWT);
     dispatch(updateParagraphObjects(response.body.home));
   };
 }
 
 export function addParagraph(paragraphs) {
   return async dispatch => {
+    const ideaJWT = window.localStorage.ideaJWT;
     const response = await request
       .put(`${process.env.SERVER_ADDRESS}/homes`)
-      .send({home: paragraphs});
+      .send({home: paragraphs})
+      .set('ideaJWT', ideaJWT);
     dispatch(updateParagraphObjects(response.body.home));
   };
 }

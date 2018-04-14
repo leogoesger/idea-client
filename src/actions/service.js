@@ -27,27 +27,33 @@ export function fetchServices() {
 
 export function addService(services, serviceType) {
   return async dispatch => {
+    const ideaJWT = window.localStorage.ideaJWT;
     await request
       .put(`${process.env.SERVER_ADDRESS}/services`)
-      .send({[serviceType]: services});
+      .send({[serviceType]: services})
+      .set('ideaJWT', ideaJWT);
     dispatch(updateServiceObject(services, serviceType));
   };
 }
 
 export function editService(services, serviceType) {
   return async dispatch => {
+    const ideaJWT = window.localStorage.ideaJWT;
     await request
       .put(`${process.env.SERVER_ADDRESS}/services`)
-      .send({[serviceType]: services});
+      .send({[serviceType]: services})
+      .set('ideaJWT', ideaJWT);
     dispatch(updateServiceObject(services, serviceType));
   };
 }
 
 export function deleteService(services, serviceType) {
   return async dispatch => {
+    const ideaJWT = window.localStorage.ideaJWT;
     await request
       .put(`${process.env.SERVER_ADDRESS}/services`)
-      .send({[serviceType]: services});
+      .send({[serviceType]: services})
+      .set('ideaJWT', ideaJWT);
     dispatch(updateServiceObject(services, serviceType));
   };
 }

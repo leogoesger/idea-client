@@ -19,27 +19,33 @@ export function fetchContracts() {
 
 export function editContracts(contracts) {
   return async dispatch => {
+    const ideaJWT = window.localStorage.ideaJWT;
     const response = await request
       .put(`${process.env.SERVER_ADDRESS}/contracts`)
-      .send({contract: contracts});
+      .send({contract: contracts})
+      .set('ideaJWT', ideaJWT);
     dispatch(updateContractObjects(response.body.contract));
   };
 }
 
 export function deleteContracts(contracts) {
   return async dispatch => {
+    const ideaJWT = window.localStorage.ideaJWT;
     const response = await request
       .put(`${process.env.SERVER_ADDRESS}/contracts`)
-      .send({contract: contracts});
+      .send({contract: contracts})
+      .set('ideaJWT', ideaJWT);
     dispatch(updateContractObjects(response.body.contract));
   };
 }
 
 export function addContracts(contracts) {
   return async dispatch => {
+    const ideaJWT = window.localStorage.ideaJWT;
     const response = await request
       .put(`${process.env.SERVER_ADDRESS}/contracts`)
-      .send({contract: contracts});
+      .send({contract: contracts})
+      .set('ideaJWT', ideaJWT);
     dispatch(updateContractObjects(response.body.contract));
   };
 }

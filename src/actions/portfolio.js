@@ -27,27 +27,33 @@ export function fetchPortfolios() {
 
 export function addPortfolio(portfolio, portfolioType) {
   return async dispatch => {
+    const ideaJWT = window.localStorage.ideaJWT;
     await request
       .put(`${process.env.SERVER_ADDRESS}/portfolios`)
-      .send({[portfolioType]: portfolio});
+      .send({[portfolioType]: portfolio})
+      .set('ideaJWT', ideaJWT);
     dispatch(updatePortfolioObject(portfolio, portfolioType));
   };
 }
 
 export function editPortfolio(portfolio, portfolioType) {
   return async dispatch => {
+    const ideaJWT = window.localStorage.ideaJWT;
     await request
       .put(`${process.env.SERVER_ADDRESS}/portfolios`)
-      .send({[portfolioType]: portfolio});
+      .send({[portfolioType]: portfolio})
+      .set('ideaJWT', ideaJWT);
     dispatch(updatePortfolioObject(portfolio, portfolioType));
   };
 }
 
 export function deletePortfolio(portfolio, portfolioType) {
   return async dispatch => {
+    const ideaJWT = window.localStorage.ideaJWT;
     await request
       .put(`${process.env.SERVER_ADDRESS}/portfolios`)
-      .send({[portfolioType]: portfolio});
+      .send({[portfolioType]: portfolio})
+      .set('ideaJWT', ideaJWT);
     dispatch(updatePortfolioObject(portfolio, portfolioType));
   };
 }
