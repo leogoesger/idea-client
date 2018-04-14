@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import List, {ListItem, ListItemText} from 'material-ui/List';
+import Collapse from 'material-ui/transitions/Collapse';
 import Divider from 'material-ui/Divider';
 import {navigateTo} from '../../utils/helpers';
 import Paper from 'material-ui/Paper';
@@ -16,12 +17,15 @@ export default class Layout extends React.Component {
         {url: '/', name: 'Home'},
         {url: '/service', name: 'Services'},
         {url: '/contract', name: 'Contracts'},
-        {url: '/portfolio', name: 'Portfolio'},
+        {url: '/portfolio', name: 'Portfolio',
+          sub: this.props.portfolioSub
+        },
         {url: '/team', name: 'Team'},
         {url: '/contact', name: 'Contact'},
       ],
       currentTab: 'Home',
     };
+
   }
 
   componentDidMount() {
@@ -48,22 +52,60 @@ export default class Layout extends React.Component {
     return null;
   }
 
+  _getSubStyle(name){
+    if(this.props.activeSub === name) {
+      return styles.activeSub;
+    }
+    return styles.sub
+  }
+
+  _changeSub(value){
+    this.props.editActiveSub(value);
+  }
+
+  _renderSubItems(tab) {
+    return (
+      <Collapse in={this.state.currentTab === tab.name} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          {tab.sub.map(tab => {
+            return (
+              <ListItem
+                key={tab.name}
+                button
+                onClick={() => this._changeSub(tab.value)}
+                style={this._getSubStyle(tab.value)}
+              >
+                <ListItemText 
+                  disableTypography 
+                  style={styles.subText} 
+                  primary={tab.name} 
+                />
+              </ListItem>
+            );
+          })}
+        </List>
+      </Collapse>
+    )
+  }
+
   _renderListItems() {
     return this.state.tabs.map(tab => {
       return (
-        <ListItem
-          key={tab.name}
-          button
-          onClick={() => navigateTo(tab.url)}
-          style={this._getTabStyle(tab.name)}
-          divider 
-        >
-          <ListItemText 
-            disableTypography 
-            style={styles.listText} 
-            primary={tab.name} 
-          />
-        </ListItem>
+        <div key={tab.name}>
+          <ListItem
+            button
+            onClick={() => navigateTo(tab.url)}
+            style={this._getTabStyle(tab.name)}
+            divider 
+          >
+            <ListItemText 
+              disableTypography 
+              style={styles.listText} 
+              primary={tab.name} 
+            />
+          </ListItem>
+          {tab.sub && this._renderSubItems(tab)}
+        </div>
       );
     });
   }
@@ -114,6 +156,9 @@ Layout.propTypes = {
   currentUser: PropTypes.object,
   path: PropTypes.string,
   logOutUser: PropTypes.func,
+  portfolioSub: PropTypes.array,
+  activeSub: PropTypes.string,
+  editActiveSub: PropTypes.func,
 };
 
 const styles = {
@@ -124,13 +169,28 @@ const styles = {
     height: '600px',
     padding: '0px',
     backgroundColor: Color.green,
+    overflow: 'auto',
   },
   activeTab: {
     borderLeftWidth: '5px',
     borderLeftStyle: 'solid',
     borderLeftColor: red[400],
   },
+  activeSub: {
+    paddingLeft: "40px",
+    borderLeftWidth: '2px',
+    borderLeftStyle: 'solid',
+    borderLeftColor: red[400],
+  },
   listText: {
+    color: Color.white,
+    fontWeight: 'bold',
+  },
+  sub: {
+    paddingLeft: "40px",
+  },
+  subText: {
+    fontSize: '12px',
     color: Color.white,
     fontWeight: 'bold',
   }
