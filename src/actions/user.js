@@ -1,3 +1,4 @@
+import request from 'superagent';
 import {set, unset} from 'lodash';
 import {navigateTo} from '../utils/helpers';
 import {UserTypes as types} from '../action-types';
@@ -32,11 +33,14 @@ const logOutUserObject = () => {
 export function loginUser(userInfo) {
   return async dispatch => {
     try {
-      set(window.localStorage, 'ideaJWT', 'abcdefgSecret');
-      dispatch(loginUserObject(userInfo));
+      const loginResponse = await request
+        .post(`${process.env.SERVER_ADDRESS}/login`)
+        .send(userInfo);
+      set(window.localStorage, 'ideaJWT', loginResponse.body.ideaJWT);
+      dispatch(loginUserObject(loginResponse.body.user));
       navigateTo('/');
     } catch (e) {
-      const message = {message: 'You suck!'};
+      const message = {message: 'Login Failed'};
       dispatch(loginUserErrorObject(message));
     }
   };
@@ -45,8 +49,11 @@ export function loginUser(userInfo) {
 export function fetchCurrentUser() {
   return async dispatch => {
     try {
-      const user = {userName: 'leogoesger', email: 'leoq91@gmail.com'};
-      dispatch(fetchCurrentUserSuccess(user));
+      const ideaJWT = window.localStorage.ideaJWT;
+      const fetchUserResponse = await request
+        .get(`${process.env.SERVER_ADDRESS}/users/me`)
+        .set('ideaJWT', ideaJWT);
+      dispatch(fetchCurrentUserSuccess(fetchUserResponse.body));
     } catch (e) {
       unset(window.localStorage, 'ideaJWT');
       navigateTo('/');
