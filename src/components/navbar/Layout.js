@@ -86,6 +86,7 @@ export default class Layout extends React.Component {
               >
                 <ChevronRight
                   style={{
+                    width: '16px',
                     color:
                       tab.value === this.props.activeSub
                         ? Color.red
@@ -214,5 +215,6 @@ const styles = {
     fontSize: '12px',
     color: Color.offWhite,
     fontWeight: 'bold',
+    paddingLeft: '3px',
   },
 };
