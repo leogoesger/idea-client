@@ -48,6 +48,7 @@ export default class Layout extends React.Component {
         editParagraphs={(paragraph, index) =>
           this._editParagraphs(paragraph, index)
         }
+        multiline
       >
         <span>
           {split.map((s, i) => (

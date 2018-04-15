@@ -9,6 +9,10 @@ import red from 'material-ui/colors/red';
 import {find} from 'lodash';
 import Color from '../../styles/Colors'
 
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import ChevronRight from '@material-ui/icons/ChevronRight'
+
 export default class Layout extends React.Component {
   constructor(props) {
     super(props);
@@ -24,6 +28,7 @@ export default class Layout extends React.Component {
         {url: '/contact', name: 'Contact'},
       ],
       currentTab: 'Home',
+      open: false,
     };
 
   }
@@ -34,6 +39,15 @@ export default class Layout extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this._updateTab(nextProps);
+  }
+
+  _handleClick(tab){
+    navigateTo(tab.url);
+    if(tab.sub)
+      this.setState({open: !this.state.open});
+    else
+      this.setState({open: false});
+    
   }
 
   _updateTab(props) {
@@ -52,20 +66,13 @@ export default class Layout extends React.Component {
     return null;
   }
 
-  _getSubStyle(name){
-    if(this.props.activeSub === name) {
-      return styles.activeSub;
-    }
-    return styles.sub
-  }
-
   _changeSub(value){
     this.props.editActiveSub(value);
   }
 
   _renderSubItems(tab) {
     return (
-      <Collapse in={this.state.currentTab === tab.name} timeout="auto" unmountOnExit>
+      <Collapse in={this.state.currentTab === tab.name && this.state.open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {tab.sub.map(tab => {
             return (
@@ -73,8 +80,9 @@ export default class Layout extends React.Component {
                 key={tab.name}
                 button
                 onClick={() => this._changeSub(tab.value)}
-                style={this._getSubStyle(tab.value)}
               >
+                <ChevronRight 
+                style={{color: tab.value === this.props.activeSub ? Color.red: Color.white}} />
                 <ListItemText 
                   disableTypography 
                   style={styles.subText} 
@@ -94,7 +102,7 @@ export default class Layout extends React.Component {
         <div key={tab.name}>
           <ListItem
             button
-            onClick={() => navigateTo(tab.url)}
+            onClick={() => this._handleClick(tab)}
             style={this._getTabStyle(tab.name)}
             divider 
           >
@@ -103,8 +111,11 @@ export default class Layout extends React.Component {
               style={styles.listText} 
               primary={tab.name} 
             />
+          {tab.sub && (this.state.open ? <ExpandLess style={{color: Color.white}} /> 
+            : <ExpandMore style={{color: Color.white}} />)}
           </ListItem>
           {tab.sub && this._renderSubItems(tab)}
+          
         </div>
       );
     });
@@ -177,7 +188,6 @@ const styles = {
     borderLeftColor: red[400],
   },
   activeSub: {
-    paddingLeft: "40px",
     borderLeftWidth: '2px',
     borderLeftStyle: 'solid',
     borderLeftColor: red[400],
@@ -185,9 +195,6 @@ const styles = {
   listText: {
     color: Color.white,
     fontWeight: 'bold',
-  },
-  sub: {
-    paddingLeft: "40px",
   },
   subText: {
     fontSize: '12px',
