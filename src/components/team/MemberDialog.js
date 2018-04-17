@@ -120,8 +120,8 @@ class MemberDialog extends React.Component {
           </Paragraph>
           <Paragraph
             currentUser={this.props.currentUser}
-            number={0}
-            paragraph={member.name}
+            number={1}
+            paragraph={member.title}
             editParagraphs={(paragraph, index) =>
               this._editMember(paragraph, index)
             }
