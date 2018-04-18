@@ -74,7 +74,24 @@ export default class ServiceTab extends React.Component {
     const length = serviceInfo.length,
       newService = {
         description: 'New Service Description',
-        services: ['New Service Item 1', 'New Service Item 2'],
+        services: [
+          {
+            description: 'Service Description 1',
+            url: 'https://google.com',
+            subServices: [
+              {name: 'Report 1', url: 'https://google.com'},
+              {name: 'Report 2', url: 'https://google.com'},
+            ],
+          },
+          {
+            description: 'Service Description 2',
+            url: 'https://google.com',
+            subServices: [
+              {name: 'Report 1', url: 'https://google.com'},
+              {name: 'Report 2', url: 'https://google.com'},
+            ],
+          },
+        ],
       };
     serviceInfo.push(newService);
     this.props.addService(serviceInfo, this.props.tab);
@@ -95,7 +112,7 @@ export default class ServiceTab extends React.Component {
           }
           deleteParagraph={index => this._deleteService(index)}
         >
-          <li>{service}</li>
+          <li style={{float: 'left'}}>{service}</li>
         </Paragraph>
       );
     });
@@ -103,7 +120,14 @@ export default class ServiceTab extends React.Component {
 
   _renderServices(services) {
     return services.map((service, index) => {
-      return <li key={index}>{service}</li>;
+      if (service.url) {
+        return (
+          <a href={service.url} target="_blank" key={index}>
+            <li>{service.description}</li>
+          </a>
+        );
+      }
+      return <li key={index}>{service.description}</li>;
     });
   }
 

@@ -36,9 +36,9 @@ export default class EditServiceDialog extends React.Component {
     this.setState({description: e.target.value});
   }
 
-  _editParagraphs(paragraph, index) {
+  _editParagraphs(paragraph, index, attribute) {
     const updatedServices = cloneDeep(this.state.services);
-    updatedServices[index] = paragraph;
+    updatedServices[index][attribute] = paragraph;
     this.setState({services: updatedServices});
   }
 
@@ -72,19 +72,33 @@ export default class EditServiceDialog extends React.Component {
     if (services) {
       return services.map((service, index) => {
         return (
-          <Paragraph
-            currentUser={{name: ''}}
-            key={index}
-            number={index}
-            multiline={this._isMultiline(service)}
-            paragraph={service}
-            editParagraphs={(paragraph, index) =>
-              this._editParagraphs(paragraph, index)
-            }
-            deleteParagraph={index => this._deleteParagraph(index)}
-          >
-            <span>{service}</span>
-          </Paragraph>
+          <React.Fragment key={index}>
+            <Paragraph
+              currentUser={{name: ''}}
+              number={index}
+              multiline={this._isMultiline(service.description)}
+              paragraph={service.description}
+              editParagraphs={(paragraph, index) =>
+                this._editParagraphs(paragraph, index, 'description')
+              }
+              deleteParagraph={index => this._deleteParagraph(index)}
+            >
+              <span>{service.description}</span>
+            </Paragraph>
+            <Paragraph
+              currentUser={{name: ''}}
+              number={index}
+              multiline={this._isMultiline(service.url)}
+              paragraph={service.url}
+              editParagraphs={(paragraph, index) =>
+                this._editParagraphs(paragraph, index, 'url')
+              }
+            >
+              <span style={{paddingLeft: '20px', color: '#64b5f6'}}>
+                {service.url}
+              </span>
+            </Paragraph>
+          </React.Fragment>
         );
       });
     }

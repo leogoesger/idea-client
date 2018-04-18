@@ -88,7 +88,9 @@ export default class Layout extends React.Component {
         }
         deleteParagraph={index => this._deleteParagraph(index)}
       >
-        <li>{paragraph}</li>
+        <span style={{float: 'left'}}>
+          <li>{paragraph}</li>
+        </span>
       </Paragraph>
     );
   }
@@ -102,13 +104,12 @@ export default class Layout extends React.Component {
         <Typography variant="headline" component="h3">
           {'Contracts'}
         </Typography>
-          <div style={styles.paragraphContainer}>
-            {
-              this.props.contracts.map((paragraph, index) =>
-                this._renderParagraph(paragraph, index)
-              )}
-          </div>
-          {this._renderBtn()}
+        <div style={styles.paragraphContainer}>
+          {this.props.contracts.map((paragraph, index) =>
+            this._renderParagraph(paragraph, index)
+          )}
+        </div>
+        {this._renderBtn()}
         <ContactForm
           open={this.state.open}
           handleClose={() => this._handleClose()}
