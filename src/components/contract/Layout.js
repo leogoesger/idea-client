@@ -88,9 +88,7 @@ export default class Layout extends React.Component {
         }
         deleteParagraph={index => this._deleteParagraph(index)}
       >
-        <span style={{float: 'left'}}>
-          <li>{paragraph}</li>
-        </span>
+        <li>{paragraph}</li>
       </Paragraph>
     );
   }

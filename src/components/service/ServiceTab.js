@@ -98,12 +98,51 @@ export default class ServiceTab extends React.Component {
     this.setState({isDialogOpen: true, number: length, service: newService});
   }
 
+  _renderSubservices(subServices) {
+    return subServices.map(subService => {
+      if (subService.url) {
+        return (
+          <a href={subService.url} key={subService.name} target="_blank">
+            <li type="circle">{subService.name}</li>
+          </a>
+        );
+      }
+      return (
+        <li type="circle" key={subService.name}>
+          {subService.name}
+        </li>
+      );
+    });
+  }
+
+  _renderServices(services) {
+    return services.map((service, index) => {
+      if (service.url) {
+        return (
+          <div key={index} style={{marginBottom: '10px'}}>
+            <a href={service.url} target="_blank">
+              <li>{service.description}</li>
+            </a>
+            <div style={{marginLeft: '20px'}}>
+              {this._renderSubservices(service.subServices)}
+            </div>
+          </div>
+        );
+      }
+      return (
+        <div key={index} style={{marginBottom: '10px'}}>
+          <li>{service.description}</li>
+        </div>
+      );
+    });
+  }
+
   _renderOverviewServices(services) {
     return services.map((service, index) => {
       return (
         <Paragraph
-          currentUser={this.props.currentUser}
           key={index}
+          currentUser={this.props.currentUser}
           number={index}
           multiline={false}
           paragraph={service}
@@ -115,19 +154,6 @@ export default class ServiceTab extends React.Component {
           <li style={{float: 'left'}}>{service}</li>
         </Paragraph>
       );
-    });
-  }
-
-  _renderServices(services) {
-    return services.map((service, index) => {
-      if (service.url) {
-        return (
-          <a href={service.url} target="_blank" key={index}>
-            <li>{service.description}</li>
-          </a>
-        );
-      }
-      return <li key={index}>{service.description}</li>;
     });
   }
 

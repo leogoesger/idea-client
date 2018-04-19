@@ -56,11 +56,9 @@ export default class Portolio extends React.Component {
             }
             deleteParagraph={() => this._deletePortfolio(index)}
           >
-            <span style={{padding: '10px 0px'}}>
-              <a href={data.url} target="_blank">
-                <li>{data.title}</li>
-              </a>
-            </span>
+            <a href={data.url} target="_blank">
+              <li>{data.title}</li>
+            </a>
           </Paragraph>
           {this.props.currentUser &&
             data.url && (

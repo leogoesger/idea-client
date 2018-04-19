@@ -74,21 +74,21 @@ export default class Paragraph extends React.Component {
       return null;
     }
     return (
-      <span style={{marginLeft: '5px'}}>
+      <div style={{marginLeft: '5px', display: 'flex', alignItems: 'center'}}>
         <Tooltip title="Edit">
           <IconButton style={styles.iconBtn} onClick={() => this._handleEdit()}>
             <EditIcon style={styles.editIcon} />
           </IconButton>
         </Tooltip>
         {this._renderDeleteBtn()}
-      </span>
+      </div>
     );
   }
 
   _renderText() {
     if (!this.state.edit) {
       return (
-        <Typography variant="body1" component="div">
+        <Typography variant="body1" component="div" style={{display: 'flex'}}>
           {this.props.children}
           {this._renderBtns()}
         </Typography>

@@ -36,6 +36,29 @@ export default class EditServiceDialog extends React.Component {
     this.setState({description: e.target.value});
   }
 
+  _editSubService(info, serviceIndex, subServiceIndex, attribute) {
+    const updatedServices = cloneDeep(this.state.services);
+    updatedServices[serviceIndex].subServices[subServiceIndex][
+      attribute
+    ] = info;
+    this.setState({services: updatedServices});
+  }
+
+  _addSubService(serviceIndex) {
+    const updatedServices = cloneDeep(this.state.services);
+    updatedServices[serviceIndex].subServices.push({
+      name: 'New Report',
+      url: 'https://google.com',
+    });
+    this.setState({services: updatedServices});
+  }
+
+  _deleteSubService(serviceIndex, subServiceIndex) {
+    const updatedServices = cloneDeep(this.state.services);
+    updatedServices[serviceIndex].subServices.splice(subServiceIndex, 1);
+    this.setState({services: updatedServices});
+  }
+
   _editParagraphs(paragraph, index, attribute) {
     const updatedServices = cloneDeep(this.state.services);
     updatedServices[index][attribute] = paragraph;
@@ -50,9 +73,11 @@ export default class EditServiceDialog extends React.Component {
 
   _addParagraph() {
     const updatedServices = cloneDeep(this.state.services);
-    updatedServices.push(
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-    );
+    updatedServices.push({
+      description: 'New Description',
+      url: 'https://google.com',
+      subServices: [{name: 'New Report', url: 'https://google.com'}],
+    });
     this.setState({services: updatedServices});
   }
 
@@ -66,6 +91,44 @@ export default class EditServiceDialog extends React.Component {
       return this.props.handleClose();
     }
     return this.props.handleClose();
+  }
+
+  _renderSubservices(subServices, serviceIndex) {
+    return subServices.map((subService, index) => {
+      return (
+        <React.Fragment key={index}>
+          <Paragraph
+            currentUser={{name: ''}}
+            number={index}
+            multiline={this._isMultiline(subService.name)}
+            paragraph={subService.name}
+            editParagraphs={(paragraph, index) =>
+              this._editSubService(paragraph, serviceIndex, index, 'name')
+            }
+            deleteParagraph={index =>
+              this._deleteSubService(serviceIndex, index)
+            }
+          >
+            <span style={{float: 'left'}}>
+              <li>{subService.name}</li>
+            </span>
+          </Paragraph>
+          <Paragraph
+            currentUser={{name: ''}}
+            number={index}
+            multiline={this._isMultiline(subService.url)}
+            paragraph={subService.url}
+            editParagraphs={(paragraph, index) =>
+              this._editSubService(paragraph, serviceIndex, index, 'url')
+            }
+          >
+            <span style={{paddingLeft: '20px', color: '#64b5f6'}}>
+              {subService.url}
+            </span>
+          </Paragraph>
+        </React.Fragment>
+      );
+    });
   }
 
   _renderServices(services) {
@@ -94,10 +157,24 @@ export default class EditServiceDialog extends React.Component {
                 this._editParagraphs(paragraph, index, 'url')
               }
             >
-              <span style={{paddingLeft: '20px', color: '#64b5f6'}}>
-                {service.url}
-              </span>
+              <span style={{color: '#64b5f6'}}>{service.url}</span>
             </Paragraph>
+            <div style={{paddingLeft: '20px'}}>
+              {this._renderSubservices(service.subServices, index)}
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-around',
+                cursor: 'pointer',
+                padding: '5px',
+                fontSize: '14px',
+                color: '#ef5350',
+              }}
+              onClick={() => this._addSubService(index)}
+            >
+              {'Add New Report'}
+            </div>
           </React.Fragment>
         );
       });
