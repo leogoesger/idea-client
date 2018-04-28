@@ -47,7 +47,6 @@ export default class LoginForm extends React.Component {
         />
         <TextField
           fullWidth
-          value={this.state.password}
           type="password"
           label="Password"
           placeholder="Password"
