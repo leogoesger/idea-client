@@ -1,5 +1,5 @@
-import request from 'superagent';
-import {ServiceTypes as types} from '../action-types';
+import request from "superagent";
+import { ServiceTypes as types } from "../action-types";
 
 const fetchServiceObjects = services => {
   return {
@@ -30,8 +30,8 @@ export function addService(services, serviceType) {
     const ideaJWT = window.localStorage.ideaJWT;
     await request
       .put(`${process.env.SERVER_ADDRESS}/services`)
-      .send({[serviceType]: services})
-      .set('ideaJWT', ideaJWT);
+      .send({ [serviceType]: services })
+      .set("ideaJWT", ideaJWT);
     dispatch(updateServiceObject(services, serviceType));
   };
 }
@@ -41,8 +41,8 @@ export function editService(services, serviceType) {
     const ideaJWT = window.localStorage.ideaJWT;
     await request
       .put(`${process.env.SERVER_ADDRESS}/services`)
-      .send({[serviceType]: services})
-      .set('ideaJWT', ideaJWT);
+      .send({ [serviceType]: services })
+      .set("ideaJWT", ideaJWT);
     dispatch(updateServiceObject(services, serviceType));
   };
 }
@@ -52,8 +52,8 @@ export function deleteService(services, serviceType) {
     const ideaJWT = window.localStorage.ideaJWT;
     await request
       .put(`${process.env.SERVER_ADDRESS}/services`)
-      .send({[serviceType]: services})
-      .set('ideaJWT', ideaJWT);
+      .send({ [serviceType]: services })
+      .set("ideaJWT", ideaJWT);
     dispatch(updateServiceObject(services, serviceType));
   };
 }
