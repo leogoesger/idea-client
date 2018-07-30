@@ -1,16 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Button from 'material-ui/Button';
-import Dialog, {DialogTitle} from 'material-ui/Dialog';
-import {cloneDeep} from 'lodash';
+import React from "react";
+import PropTypes from "prop-types";
+import Button from "material-ui/Button";
+import Dialog, { DialogTitle } from "material-ui/Dialog";
+import { cloneDeep } from "lodash";
 
-import Paragraph from '../shared/Paragraph';
-import TextField from 'material-ui/TextField';
+import Tooltip from "material-ui/Tooltip";
+import Paragraph from "../shared/Paragraph";
+import TextField from "material-ui/TextField";
+import Divider from "material-ui/Divider";
+import ArrowUp from "material-ui-icons/KeyboardArrowUp";
 
 export default class EditServiceDialog extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {description: null, services: null};
+    this.state = { description: null, services: null };
   }
 
   componentDidMount() {
@@ -31,9 +34,9 @@ export default class EditServiceDialog extends React.Component {
     if (index || index === 0) {
       const newServices = cloneDeep(this.state.services);
       newServices[index] = e.target.value;
-      return this.setState({services: newServices});
+      return this.setState({ services: newServices });
     }
-    this.setState({description: e.target.value});
+    this.setState({ description: e.target.value });
   }
 
   _editSubService(info, serviceIndex, subServiceIndex, attribute) {
@@ -41,44 +44,44 @@ export default class EditServiceDialog extends React.Component {
     updatedServices[serviceIndex].subServices[subServiceIndex][
       attribute
     ] = info;
-    this.setState({services: updatedServices});
+    this.setState({ services: updatedServices });
   }
 
   _addSubService(serviceIndex) {
     const updatedServices = cloneDeep(this.state.services);
     updatedServices[serviceIndex].subServices.push({
-      name: 'New Report',
-      url: 'https://google.com',
+      name: "New Report",
+      url: "https://google.com",
     });
-    this.setState({services: updatedServices});
+    this.setState({ services: updatedServices });
   }
 
   _deleteSubService(serviceIndex, subServiceIndex) {
     const updatedServices = cloneDeep(this.state.services);
     updatedServices[serviceIndex].subServices.splice(subServiceIndex, 1);
-    this.setState({services: updatedServices});
+    this.setState({ services: updatedServices });
   }
 
   _editParagraphs(paragraph, index, attribute) {
     const updatedServices = cloneDeep(this.state.services);
     updatedServices[index][attribute] = paragraph;
-    this.setState({services: updatedServices});
+    this.setState({ services: updatedServices });
   }
 
   _deleteParagraph(index) {
     const updatedServices = cloneDeep(this.state.services);
     updatedServices.splice(index, 1);
-    this.setState({services: updatedServices});
+    this.setState({ services: updatedServices });
   }
 
   _addParagraph() {
     const updatedServices = cloneDeep(this.state.services);
     updatedServices.push({
-      description: 'New Description',
-      url: 'https://google.com',
-      subServices: [{name: 'New Report', url: 'https://google.com'}],
+      description: "New Description",
+      url: "https://google.com",
+      subServices: [{ name: "New Report", url: "https://google.com" }],
     });
-    this.setState({services: updatedServices});
+    this.setState({ services: updatedServices });
   }
 
   _isMultiline(service) {
@@ -86,11 +89,21 @@ export default class EditServiceDialog extends React.Component {
   }
 
   _handleClose() {
-    if (this.props.serviceObject.description === 'New Service Description') {
+    if (this.props.serviceObject.description === "New Service Description") {
       this.props.deleteService(this.props.number);
       return this.props.handleClose();
     }
     return this.props.handleClose();
+  }
+
+  _handleSwap(index) {
+    if (index) {
+      const { services } = this.state;
+      const holder = services[index - 1];
+      services[index - 1] = services[index];
+      services[index] = holder;
+      this.setState({ services });
+    }
   }
 
   _renderSubservices(subServices, serviceIndex) {
@@ -98,31 +111,31 @@ export default class EditServiceDialog extends React.Component {
       return (
         <React.Fragment key={index}>
           <Paragraph
-            currentUser={{name: ''}}
+            currentUser={{ name: "" }}
             number={index}
             multiline={this._isMultiline(subService.name)}
             paragraph={subService.name}
             editParagraphs={(paragraph, index) =>
-              this._editSubService(paragraph, serviceIndex, index, 'name')
+              this._editSubService(paragraph, serviceIndex, index, "name")
             }
             deleteParagraph={index =>
               this._deleteSubService(serviceIndex, index)
             }
           >
-            <span style={{float: 'left'}}>
+            <span style={{ float: "left" }}>
               <li>{subService.name}</li>
             </span>
           </Paragraph>
           <Paragraph
-            currentUser={{name: ''}}
+            currentUser={{ name: "" }}
             number={index}
             multiline={this._isMultiline(subService.url)}
             paragraph={subService.url}
             editParagraphs={(paragraph, index) =>
-              this._editSubService(paragraph, serviceIndex, index, 'url')
+              this._editSubService(paragraph, serviceIndex, index, "url")
             }
           >
-            <span style={{paddingLeft: '20px', color: '#64b5f6'}}>
+            <span style={{ paddingLeft: "20px", color: "#64b5f6" }}>
               {subService.url}
             </span>
           </Paragraph>
@@ -136,45 +149,72 @@ export default class EditServiceDialog extends React.Component {
       return services.map((service, index) => {
         return (
           <React.Fragment key={index}>
-            <Paragraph
-              currentUser={{name: ''}}
-              number={index}
-              multiline={this._isMultiline(service.description)}
-              paragraph={service.description}
-              editParagraphs={(paragraph, index) =>
-                this._editParagraphs(paragraph, index, 'description')
-              }
-              deleteParagraph={index => this._deleteParagraph(index)}
-            >
-              <span>{service.description}</span>
-            </Paragraph>
-            <Paragraph
-              currentUser={{name: ''}}
-              number={index}
-              multiline={this._isMultiline(service.url)}
-              paragraph={service.url}
-              editParagraphs={(paragraph, index) =>
-                this._editParagraphs(paragraph, index, 'url')
-              }
-            >
-              <span style={{color: '#64b5f6'}}>{service.url}</span>
-            </Paragraph>
-            <div style={{paddingLeft: '20px'}}>
+            <div>
+              <div style={{ display: "flex" }}>
+                <Tooltip title={"Move Up"}>
+                  <ArrowUp
+                    style={{
+                      paddingTop: "3px",
+                      cursor: index == 0 ? "not-allowed" : "pointer",
+                    }}
+                    onClick={() => this._handleSwap(index)}
+                  />
+                </Tooltip>
+                <Paragraph
+                  currentUser={{ name: "" }}
+                  number={index}
+                  multiline={this._isMultiline(service.description)}
+                  paragraph={service.description}
+                  editParagraphs={(paragraph, index) =>
+                    this._editParagraphs(paragraph, index, "description")
+                  }
+                  deleteParagraph={index => this._deleteParagraph(index)}
+                >
+                  <span style={{ width: "400px" }}>{service.description}</span>
+                </Paragraph>
+              </div>
+              <div style={{ paddingLeft: "24px" }}>
+                <Paragraph
+                  currentUser={{ name: "" }}
+                  number={index}
+                  multiline={this._isMultiline(service.url)}
+                  paragraph={service.url}
+                  editParagraphs={(paragraph, index) =>
+                    this._editParagraphs(paragraph, index, "url")
+                  }
+                >
+                  <span style={{ color: "#64b5f6" }}>{service.url}</span>
+                </Paragraph>
+              </div>
+            </div>
+            <div style={{ paddingLeft: "40px" }}>
               {this._renderSubservices(service.subServices, index)}
             </div>
             <div
               style={{
-                display: 'flex',
-                justifyContent: 'space-around',
-                cursor: 'pointer',
-                padding: '5px',
-                fontSize: '14px',
-                color: '#ef5350',
+                display: "flex",
+                justifyContent: "space-around",
+                cursor: "pointer",
+                padding: "5px",
+                fontSize: "14px",
+                color: "#ef5350",
+                marginBottom: "20px",
               }}
               onClick={() => this._addSubService(index)}
             >
-              {'Add New Report'}
+              <Button
+                variant="outlined"
+                color="primary"
+                style={{
+                  borderStyle: "solid",
+                  borderWidth: "1px",
+                  borderColor: "#e0e0e0",
+                }}
+              >
+                Add New Report
+              </Button>
             </div>
+            <Divider />
           </React.Fragment>
         );
       });
@@ -185,10 +225,10 @@ export default class EditServiceDialog extends React.Component {
     return (
       <div
         style={{
-          width: '95%',
-          display: 'flex',
-          justifyContent: 'space-between',
-          margin: '10px auto 20px auto',
+          width: "95%",
+          display: "flex",
+          justifyContent: "space-between",
+          margin: "10px auto 60px auto",
         }}
       >
         <div>
@@ -210,7 +250,7 @@ export default class EditServiceDialog extends React.Component {
           </Button>
 
           <Button
-            style={{marginLeft: '10px'}}
+            style={{ marginLeft: "10px" }}
             variant="raised"
             onClick={() =>
               this.props.editService(this.state, this.props.number)
@@ -241,7 +281,7 @@ export default class EditServiceDialog extends React.Component {
             onChange={e => this._handleTextChange(e, null)}
           />
         </DialogTitle>
-        <div style={{padding: '20px', width: '500px', margin: '0 auto'}}>
+        <div style={{ padding: "20px", width: "500px", margin: "0 auto" }}>
           {this._renderServices(this.state.services)}
         </div>
         {this._renderActionBtns()}
