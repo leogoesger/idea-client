@@ -1,52 +1,52 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Typography from 'material-ui/Typography';
-import IconButton from 'material-ui/IconButton';
-import EditIcon from 'material-ui-icons/Edit';
-import DeleteIcon from 'material-ui-icons/Delete';
-import Tooltip from 'material-ui/Tooltip';
-import TextField from 'material-ui/TextField';
+import React from "react";
+import PropTypes from "prop-types";
+import Typography from "material-ui/Typography";
+import IconButton from "material-ui/IconButton";
+import EditIcon from "material-ui-icons/Edit";
+import DeleteIcon from "material-ui-icons/Delete";
+import Tooltip from "material-ui/Tooltip";
+import TextField from "material-ui/TextField";
 
-import {InputAdornment} from 'material-ui/Input';
-import SaveIcon from 'material-ui-icons/Save';
-import UndoIcon from 'material-ui-icons/Undo';
+import { InputAdornment } from "material-ui/Input";
+import SaveIcon from "material-ui-icons/Save";
+import UndoIcon from "material-ui-icons/Undo";
 
 export default class Paragraph extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {edit: false, paragraph: null};
+    this.state = { edit: false, paragraph: null };
   }
 
   componentDidMount() {
     if (
-      this.props.paragraph.includes('Lorem ipsum') &&
+      this.props.paragraph.includes("Lorem ipsum") &&
       this.props.currentUser
     ) {
-      this.setState({paragraph: this.props.paragraph, edit: true});
+      this.setState({ paragraph: this.props.paragraph, edit: true });
     }
-    this.setState({paragraph: this.props.paragraph});
+    this.setState({ paragraph: this.props.paragraph });
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({paragraph: nextProps.paragraph});
+    this.setState({ paragraph: nextProps.paragraph });
   }
 
   _handleTextChange(e) {
-    this.setState({paragraph: e.target.value});
+    this.setState({ paragraph: e.target.value });
   }
 
   _handleEdit() {
-    this.setState({edit: true});
+    this.setState({ edit: true });
   }
 
   _handleSave() {
-    this.setState({edit: false});
+    this.setState({ edit: false });
     this.props.editParagraphs(this.state.paragraph, this.props.number);
   }
 
   _handleRedo() {
-    this.setState({edit: false});
-    this.setState({paragraph: this.props.paragraph});
+    this.setState({ edit: false });
+    this.setState({ paragraph: this.props.paragraph });
   }
 
   _handleDelete() {
@@ -74,7 +74,7 @@ export default class Paragraph extends React.Component {
       return null;
     }
     return (
-      <div style={{marginLeft: '5px', display: 'flex', alignItems: 'center'}}>
+      <div style={{ marginLeft: "5px", display: "flex", alignItems: "center" }}>
         <Tooltip title="Edit">
           <IconButton style={styles.iconBtn} onClick={() => this._handleEdit()}>
             <EditIcon style={styles.editIcon} />
@@ -88,7 +88,7 @@ export default class Paragraph extends React.Component {
   _renderText() {
     if (!this.state.edit) {
       return (
-        <Typography variant="body1" component="div" style={{display: 'flex'}}>
+        <Typography variant="body1" component="div" style={{ display: "flex" }}>
           {this.props.children}
           {this._renderBtns()}
         </Typography>
@@ -108,8 +108,8 @@ export default class Paragraph extends React.Component {
             <InputAdornment position="end" style={{}}>
               <div
                 style={{
-                  display: 'flex',
-                  justifyContent: 'space-around',
+                  display: "flex",
+                  justifyContent: "space-around",
                 }}
               >
                 <Tooltip title="Undo Changes">
@@ -117,7 +117,7 @@ export default class Paragraph extends React.Component {
                     onClick={() => this._handleRedo()}
                     style={styles.iconBtn}
                   >
-                    <UndoIcon style={{width: '20px'}} />
+                    <UndoIcon style={{ width: "20px" }} />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Save">
@@ -125,7 +125,7 @@ export default class Paragraph extends React.Component {
                     onClick={() => this._handleSave()}
                     style={styles.iconBtn}
                   >
-                    <SaveIcon style={{width: '20px'}} />
+                    <SaveIcon style={{ width: "20px" }} />
                   </IconButton>
                 </Tooltip>
               </div>
@@ -152,11 +152,11 @@ Paragraph.propTypes = {
 
 const styles = {
   iconBtn: {
-    height: '25px',
-    width: '25px',
+    height: "25px",
+    width: "25px",
   },
   editIcon: {
     fontSize: 20,
-    marginTop: '-5px',
+    marginTop: "-5px",
   },
 };

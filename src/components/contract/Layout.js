@@ -1,12 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Paper from 'material-ui/Paper';
-import Button from 'material-ui/Button';
-import {cloneDeep} from 'lodash';
-import Typography from 'material-ui/Typography';
+import React from "react";
+import PropTypes from "prop-types";
+import { Paper, Button, Typography, Divider } from "material-ui";
+import { cloneDeep } from "lodash";
 
-import Paragraph from '../shared/Paragraph';
-import ContactForm from '../shared/ContactForm';
+import Paragraph from "../shared/Paragraph";
+import ContactForm from "../shared/ContactForm";
 
 export default class Layout extends React.Component {
   constructor(props) {
@@ -18,46 +16,43 @@ export default class Layout extends React.Component {
   }
 
   _handleClose() {
-    this.setState({open: false});
+    this.setState({ open: false });
   }
 
   _tabChange(v) {
-    this.setState({tab: v});
+    this.setState({ tab: v });
   }
 
-  _editParagraphs(paragraph, index) {
-    const {contracts} = this.props;
-    const updatedParagraphs = cloneDeep(contracts);
-    updatedParagraphs[index] = paragraph;
-    this.props.editContracts(updatedParagraphs);
+  _editParagraphs(paragraph, index, type) {
+    const contracts = cloneDeep(this.props[type]);
+    contracts[index] = paragraph;
+    this.props.editContracts(contracts, type);
   }
 
-  _deleteParagraph(index) {
-    const {contracts} = this.props;
-    const updatedParagraphs = cloneDeep(contracts);
-    updatedParagraphs.splice(index, 1);
-    this.props.deleteContracts(updatedParagraphs);
+  _deleteParagraph(index, type) {
+    const contracts = cloneDeep(this.props[type]);
+    contracts.splice(index, 1);
+    this.props.deleteContracts(contracts, type);
   }
 
-  _addParagraph() {
-    const {contracts} = this.props;
-    const updatedParagraphs = cloneDeep(contracts);
-    updatedParagraphs.push(
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+  _addParagraph(type) {
+    const contracts = cloneDeep(this.props[type]);
+    contracts.push(
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
     );
-    this.props.addContracts(updatedParagraphs);
+    this.props.addContracts(contracts, type);
   }
 
-  _renderBtn() {
+  _renderBtn(type) {
     if (!this.props.currentUser) {
       return (
         <div style={styles.btnContainer}>
           <Button
             variant="raised"
             size="small"
-            onClick={() => this.setState({open: true})}
+            onClick={() => this.setState({ open: true })}
           >
-            {'Contact Us'}
+            {"Contact Us"}
           </Button>
         </div>
       );
@@ -68,15 +63,17 @@ export default class Layout extends React.Component {
           variant="flat"
           size="small"
           color="primary"
-          onClick={() => this._addParagraph()}
+          onClick={() => this._addParagraph(type)}
         >
-          {'Add New Contract'}
+          {type === "stateContracts"
+            ? "Add State Contract"
+            : "Add County Contract"}
         </Button>
       </div>
     );
   }
 
-  _renderParagraph(paragraph, index) {
+  _renderParagraph(paragraph, index, type) {
     return (
       <Paragraph
         currentUser={this.props.currentUser}
@@ -84,9 +81,9 @@ export default class Layout extends React.Component {
         number={index}
         paragraph={paragraph}
         editParagraphs={(paragraph, index) =>
-          this._editParagraphs(paragraph, index)
+          this._editParagraphs(paragraph, index, type)
         }
-        deleteParagraph={index => this._deleteParagraph(index)}
+        deleteParagraph={index => this._deleteParagraph(index, type)}
       >
         <li>{paragraph}</li>
       </Paragraph>
@@ -100,14 +97,30 @@ export default class Layout extends React.Component {
         style={styles.mainContainer}
       >
         <Typography variant="headline" component="h3">
-          {'Contracts'}
+          {"State Contracts"}
         </Typography>
         <div style={styles.paragraphContainer}>
-          {this.props.contracts.map((paragraph, index) =>
-            this._renderParagraph(paragraph, index)
+          {this.props.stateContracts.map((paragraph, index) =>
+            this._renderParagraph(paragraph, index, "stateContracts")
           )}
         </div>
-        {this._renderBtn()}
+        {this.props.currentUser && this._renderBtn("stateContracts")}
+
+        <Divider />
+
+        <Typography
+          variant="headline"
+          component="h3"
+          style={{ marginTop: "20px" }}
+        >
+          {"County Contracts"}
+        </Typography>
+        <div style={styles.paragraphContainer}>
+          {this.props.countyContracts.map((paragraph, index) =>
+            this._renderParagraph(paragraph, index, "countyContracts")
+          )}
+        </div>
+        {this._renderBtn("countyContracts")}
         <ContactForm
           open={this.state.open}
           handleClose={() => this._handleClose()}
@@ -119,7 +132,8 @@ export default class Layout extends React.Component {
 
 Layout.propTypes = {
   currentUser: PropTypes.object,
-  contracts: PropTypes.array,
+  stateContracts: PropTypes.array,
+  countyContracts: PropTypes.array,
   editContracts: PropTypes.func,
   deleteContracts: PropTypes.func,
   addContracts: PropTypes.func,
@@ -127,16 +141,20 @@ Layout.propTypes = {
 
 const styles = {
   mainContainer: {
-    height: '600px',
-    paddingTop: '20px',
-    overflow: 'auto',
-    paddingBottom: '20px',
+    height: "600px",
+    paddingTop: "20px",
+    overflow: "auto",
+    paddingBottom: "20px",
   },
 
   btnContainer: {
-    display: 'flex',
-    justifyContent: 'space-around',
+    display: "flex",
+    justifyContent: "space-around",
+    marginBottom: "10px",
   },
 
-  paragraphContainer: {marginTop: '10px', padding: '20px', minHeight: '170px'},
+  paragraphContainer: {
+    marginTop: "10px",
+    padding: "20px 20px 0px 20px",
+  },
 };

@@ -162,12 +162,14 @@ export default class ServiceTab extends React.Component {
             deleteParagraph={index => this._deleteService(index)}
           >
             <div>
-              <Tooltip title={"Move Up"}>
-                <ArrowUp
-                  onClick={() => this._handleSwap(index)}
-                  style={{ cursor: index === 0 ? "not-allowed" : "pointer" }}
-                />
-              </Tooltip>
+              {this.props.currentUser && (
+                <Tooltip title={"Move Up"}>
+                  <ArrowUp
+                    onClick={() => this._handleSwap(index)}
+                    style={{ cursor: index === 0 ? "not-allowed" : "pointer" }}
+                  />
+                </Tooltip>
+              )}
               <li style={{ float: "left" }}>{service}</li>
             </div>
           </Paragraph>

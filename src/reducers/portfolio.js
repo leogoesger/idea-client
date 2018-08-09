@@ -1,5 +1,5 @@
-import {PortfolioTypes as types} from '../action-types';
-import objectAssign from 'object-assign';
+import { PortfolioTypes as types } from "../action-types";
+import objectAssign from "object-assign";
 
 type STATE = {};
 type ACTION = {};

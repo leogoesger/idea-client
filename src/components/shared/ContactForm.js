@@ -1,48 +1,51 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import TextField from 'material-ui/TextField';
-import Button from 'material-ui/Button';
+import React from "react";
+import PropTypes from "prop-types";
+import TextField from "material-ui/TextField";
+import Button from "material-ui/Button";
 import Dialog, {
   DialogActions,
   DialogContent,
   // DialogContentText,
   DialogTitle,
-} from 'material-ui/Dialog';
-import Input, {InputLabel} from 'material-ui/Input';
-import {FormHelperText} from 'material-ui/Form';
-import MaskedInput from 'react-text-mask';
-import request from 'superagent';
+} from "material-ui/Dialog";
+import Input, { InputLabel } from "material-ui/Input";
+import { FormHelperText } from "material-ui/Form";
+import MaskedInput from "react-text-mask";
+import request from "superagent";
 
-import Snackbar from 'material-ui/Snackbar';
-import IconButton from 'material-ui/IconButton';
-import CloseIcon from 'material-ui-icons/Close';
+import Snackbar from "material-ui/Snackbar";
+import IconButton from "material-ui/IconButton";
+import CloseIcon from "material-ui-icons/Close";
 
-import {getEmailErrorMessage, getPhoneErrorMessage} from '../../utils/helpers';
+import {
+  getEmailErrorMessage,
+  getPhoneErrorMessage,
+} from "../../utils/helpers";
 
 function TextMaskCustom(props) {
-  const {inputRef, ...other} = props;
+  const { inputRef, ...other } = props;
 
   return (
     <MaskedInput
       {...other}
       ref={inputRef}
       mask={[
-        '(',
+        "(",
         /[1-9]/,
         /\d/,
         /\d/,
-        ')',
-        ' ',
+        ")",
+        " ",
         /\d/,
         /\d/,
         /\d/,
-        '-',
+        "-",
         /\d/,
         /\d/,
         /\d/,
         /\d/,
       ]}
-      placeholderChar={'\u2000'}
+      placeholderChar={"\u2000"}
       showMask
     />
   );
@@ -56,11 +59,11 @@ export default class ContactForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      email: '',
-      phone: '(   )    -    ',
-      msg: '',
-      message: '',
+      name: "",
+      email: "",
+      phone: "(   )    -    ",
+      msg: "",
+      message: "",
     };
   }
 
@@ -83,11 +86,11 @@ export default class ContactForm extends React.Component {
   }
 
   handleClose() {
-    this.setState({open: false});
+    this.setState({ open: false });
     this.props.handleClose();
   }
-  
-  async _submit(){
+
+  async _submit() {
     var message;
     try {
       message = await request
@@ -96,7 +99,7 @@ export default class ContactForm extends React.Component {
     } catch (e) {
       throw e;
     }
-    this.setState({open: true, message: message.text })
+    this.setState({ open: true, message: message.text });
   }
 
   render() {
@@ -114,7 +117,7 @@ export default class ContactForm extends React.Component {
             label="Name"
             type="text"
             value={this.state.name}
-            onChange={this.handleChange('name')}
+            onChange={this.handleChange("name")}
             fullWidth
           />
           <TextField
@@ -123,7 +126,7 @@ export default class ContactForm extends React.Component {
             label="Email"
             type="email"
             value={this.state.email}
-            onChange={this.handleChange('email')}
+            onChange={this.handleChange("email")}
             fullWidth
             helperText={getEmailErrorMessage(this.state.email)}
           />
@@ -131,7 +134,7 @@ export default class ContactForm extends React.Component {
           <Input
             id="phone"
             value={this.state.phone}
-            onChange={this.handleChange('phone')}
+            onChange={this.handleChange("phone")}
             inputComponent={TextMaskCustom}
             fullWidth
           />
@@ -144,13 +147,13 @@ export default class ContactForm extends React.Component {
             label="Message"
             type="text"
             value={this.state.msg}
-            onChange={this.handleChange('msg')}
+            onChange={this.handleChange("msg")}
             multiline
             rows={4}
             fullWidth
           />
         </DialogContent>
-        <DialogActions style={{marginBottom: '25px', marginRight: '18px'}}>
+        <DialogActions style={{ marginBottom: "25px", marginRight: "18px" }}>
           <Button
             variant="flat"
             color="primary"
@@ -171,7 +174,7 @@ export default class ContactForm extends React.Component {
           autoHideDuration={3000}
           onClose={() => this.handleClose()}
           SnackbarContentProps={{
-            'aria-describedby': 'message-id',
+            "aria-describedby": "message-id",
           }}
           message={<span id="message-id">{this.state.message}</span>}
           action={

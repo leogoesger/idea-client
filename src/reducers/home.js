@@ -1,5 +1,5 @@
-import {HomeTypes as types} from '../action-types';
-import objectAssign from 'object-assign';
+import { HomeTypes as types } from "../action-types";
+import objectAssign from "object-assign";
 
 type STATE = {};
 type ACTION = {};
@@ -10,7 +10,7 @@ const initialState: STATE = {
 export default function(state: STATE = initialState, action: ACTION) {
   switch (action.type) {
     case types.UPDATE_PARAGRAPH_OBJECTS:
-      return objectAssign({}, state, {paragraphs: action.paragraphs});
+      return objectAssign({}, state, { paragraphs: action.paragraphs });
 
     default:
       return state;

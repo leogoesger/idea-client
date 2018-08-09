@@ -1,15 +1,15 @@
-import {history} from '../store/configureStore';
-import {detect} from 'detect-browser';
+import { history } from "../store/configureStore";
+import { detect } from "detect-browser";
 
 export function navigateTo(pathname, query) {
-  history.push({pathname, query});
+  history.push({ pathname, query });
 }
 
 function _getBrowserMajorVersion(version) {
   if (version) {
-    const versionNumbers = version.split('.');
+    const versionNumbers = version.split(".");
     if (versionNumbers.length) {
-      return parseInt(versionNumbers[0].replace(/[^0-9]/g, ''), 10);
+      return parseInt(versionNumbers[0].replace(/[^0-9]/g, ""), 10);
     }
   }
   return null;
@@ -21,27 +21,27 @@ export function isFlexNotSupported() {
     const majorVersion = _getBrowserMajorVersion(browser.version);
     if (majorVersion) {
       switch (browser.name) {
-        case 'chrome':
+        case "chrome":
           if (majorVersion <= 20) {
             return true;
           }
           return false;
-        case 'firefox':
+        case "firefox":
           if (majorVersion <= 27) {
             return true;
           }
           return false;
-        case 'safari':
+        case "safari":
           if (majorVersion <= 6) {
             return true;
           }
           return false;
-        case 'ie':
+        case "ie":
           if (majorVersion <= 11) {
             return true;
           }
           return false;
-        case 'edge':
+        case "edge":
           if (majorVersion <= 11) {
             return true;
           }
@@ -76,21 +76,21 @@ export function validatePhone(phone) {
 
 export function getEmailErrorMessage(email) {
   if (email && !validateEmail(email)) {
-    return 'Invalid Email address';
+    return "Invalid Email address";
   }
 }
 
 export function getPhoneErrorMessage(phone) {
-  if (phone !== '(   )    -    '  && !validatePhone(phone)) {
-    return 'Invalid Phone';
+  if (phone !== "(   )    -    " && !validatePhone(phone)) {
+    return "Invalid Phone";
   }
 }
 
 export function getPasswordErrorMessage(password) {
   if (!password || validatePassword(password)) {
-    return '';
+    return "";
   }
   if (!validatePassword(password)) {
-    return 'Should be between 4 to 20 characters';
+    return "Should be between 4 to 20 characters";
   }
 }

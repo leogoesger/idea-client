@@ -1,5 +1,5 @@
-import request from 'superagent';
-import {ContractTypes as types} from '../action-types';
+import request from "superagent";
+import { ContractTypes as types } from "../action-types";
 
 const updateContractObjects = contracts => {
   return {
@@ -17,35 +17,38 @@ export function fetchContracts() {
   };
 }
 
-export function editContracts(contracts) {
+export function editContracts(contracts, type) {
   return async dispatch => {
     const ideaJWT = window.localStorage.ideaJWT;
     const response = await request
       .put(`${process.env.SERVER_ADDRESS}/contracts`)
-      .send({contract: contracts})
-      .set('ideaJWT', ideaJWT);
-    dispatch(updateContractObjects(response.body.contract));
+      .send({ [type]: contracts })
+      .set("ideaJWT", ideaJWT);
+    const { stateContracts, countyContracts } = response.body;
+    dispatch(updateContractObjects({ stateContracts, countyContracts }));
   };
 }
 
-export function deleteContracts(contracts) {
+export function deleteContracts(contracts, type) {
   return async dispatch => {
     const ideaJWT = window.localStorage.ideaJWT;
     const response = await request
       .put(`${process.env.SERVER_ADDRESS}/contracts`)
-      .send({contract: contracts})
-      .set('ideaJWT', ideaJWT);
-    dispatch(updateContractObjects(response.body.contract));
+      .send({ [type]: contracts })
+      .set("ideaJWT", ideaJWT);
+    const { stateContracts, countyContracts } = response.body;
+    dispatch(updateContractObjects({ stateContracts, countyContracts }));
   };
 }
 
-export function addContracts(contracts) {
+export function addContracts(contracts, type) {
   return async dispatch => {
     const ideaJWT = window.localStorage.ideaJWT;
     const response = await request
       .put(`${process.env.SERVER_ADDRESS}/contracts`)
-      .send({contract: contracts})
-      .set('ideaJWT', ideaJWT);
-    dispatch(updateContractObjects(response.body.contract));
+      .send({ [type]: contracts })
+      .set("ideaJWT", ideaJWT);
+    const { stateContracts, countyContracts } = response.body;
+    dispatch(updateContractObjects({ stateContracts, countyContracts }));
   };
 }
