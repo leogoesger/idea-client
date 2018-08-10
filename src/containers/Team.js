@@ -1,18 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import {
   fetchTeam,
   addMember,
   editMember,
   deleteMember,
-} from '../actions/team';
+} from "../actions/team";
 
-import Layout from '../components/team/Layout';
-
-
-
+import Layout from "../components/team/Layout";
+import Loader from "../components/shared/Loader";
 
 export class Team extends React.Component {
   componentWillMount() {
@@ -21,7 +19,7 @@ export class Team extends React.Component {
 
   render() {
     if (!this.props.members) {
-      return null;
+      return <Loader loading={true} />;
     }
 
     return (
@@ -61,4 +59,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Team);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Team);

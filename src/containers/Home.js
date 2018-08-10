@@ -1,14 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import {
   fetchParagraphs,
   editParagraphs,
   deleteParagraph,
   addParagraph,
-} from '../actions/home';
-import Layout from '../components/home/Layout';
+} from "../actions/home";
+import Layout from "../components/home/Layout";
+import Loader from "../components/shared/Loader";
 
 export class Home extends React.Component {
   componentWillMount() {
@@ -17,7 +18,7 @@ export class Home extends React.Component {
 
   render() {
     if (!this.props.paragraphs) {
-      return null;
+      return <Loader loading={true} />;
     }
 
     return (
@@ -57,4 +58,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);

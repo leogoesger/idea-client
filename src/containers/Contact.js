@@ -1,13 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-import {
-  fetchParagraphs,
-  editParagraphs,
-} from '../actions/contact';
+import { fetchParagraphs, editParagraphs } from "../actions/contact";
 
-import Layout from '../components/contact/Layout';
+import Layout from "../components/contact/Layout";
+import Loader from "../components/shared/Loader";
 
 export class Contact extends React.Component {
   componentWillMount() {
@@ -16,7 +14,7 @@ export class Contact extends React.Component {
 
   render() {
     if (!this.props.paragraphs) {
-      return null;
+      return <Loader loading={true} />;
     }
 
     return (
@@ -50,4 +48,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Contact);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Contact);

@@ -97,7 +97,7 @@ export default class EditServiceDialog extends React.Component {
   }
 
   _handleSwap(index, type) {
-    const { services } = this.state;
+    const { services } = cloneDeep(this.state);
     const holderIndex = type === "plus" ? index - 1 : index + 1;
     if (holderIndex < 0 || holderIndex > services.length - 1) {
       return null;
