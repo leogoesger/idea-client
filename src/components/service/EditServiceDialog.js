@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "material-ui/Button";
-import Dialog, { DialogTitle } from "material-ui/Dialog";
+import { Button, Dialog, DialogTitle } from "material-ui";
 import { cloneDeep } from "lodash";
 
 import Tooltip from "material-ui/Tooltip";
@@ -9,6 +8,7 @@ import Paragraph from "../shared/Paragraph";
 import TextField from "material-ui/TextField";
 import Divider from "material-ui/Divider";
 import ArrowUp from "material-ui-icons/KeyboardArrowUp";
+import ArrowDown from "material-ui-icons/KeyboardArrowDown";
 
 export default class EditServiceDialog extends React.Component {
   constructor(props) {
@@ -96,14 +96,16 @@ export default class EditServiceDialog extends React.Component {
     return this.props.handleClose();
   }
 
-  _handleSwap(index) {
-    if (index) {
-      const { services } = this.state;
-      const holder = services[index - 1];
-      services[index - 1] = services[index];
-      services[index] = holder;
-      this.setState({ services });
+  _handleSwap(index, type) {
+    const { services } = this.state;
+    const holderIndex = type === "plus" ? index - 1 : index + 1;
+    if (holderIndex < 0 || holderIndex > services.length - 1) {
+      return null;
     }
+    const holder = services[holderIndex];
+    services[holderIndex] = services[index];
+    services[index] = holder;
+    this.setState({ services });
   }
 
   _renderSubservices(subServices, serviceIndex) {
@@ -157,7 +159,19 @@ export default class EditServiceDialog extends React.Component {
                       paddingTop: "3px",
                       cursor: index == 0 ? "not-allowed" : "pointer",
                     }}
-                    onClick={() => this._handleSwap(index)}
+                    onClick={() => this._handleSwap(index, "plus")}
+                  />
+                </Tooltip>
+                <Tooltip title={"Move Up"}>
+                  <ArrowDown
+                    style={{
+                      paddingTop: "3px",
+                      cursor:
+                        index === services.length - 1
+                          ? "not-allowed"
+                          : "pointer",
+                    }}
+                    onClick={() => this._handleSwap(index, "minus")}
                   />
                 </Tooltip>
                 <Paragraph
@@ -203,7 +217,7 @@ export default class EditServiceDialog extends React.Component {
               onClick={() => this._addSubService(index)}
             >
               <Button
-                variant="outlined"
+                variant="flat"
                 color="primary"
                 style={{
                   borderStyle: "solid",

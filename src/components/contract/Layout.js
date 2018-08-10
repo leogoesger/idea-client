@@ -154,7 +154,7 @@ const styles = {
   },
 
   paragraphContainer: {
-    marginTop: "10px",
+    margin: "10px auto 20px auto",
     padding: "20px 20px 0px 20px",
   },
 };

@@ -14,8 +14,10 @@ import { cloneDeep } from "lodash";
 import Button from "material-ui/Button";
 
 import ArrowUp from "material-ui-icons/KeyboardArrowUp";
+import ArrowDown from "material-ui-icons/KeyboardArrowDown";
 import Paragraph from "../shared/Paragraph";
 import EditServiceDialog from "./EditServiceDialog";
+import Loader from "../shared/Loader";
 
 export default class ServiceTab extends React.Component {
   constructor(props) {
@@ -137,14 +139,18 @@ export default class ServiceTab extends React.Component {
     });
   }
 
-  _handleSwap(index) {
-    if (index) {
-      const serviceInfo = cloneDeep(this.props.serviceInfo);
-      const holder = serviceInfo.services[index - 1];
-      serviceInfo.services[index - 1] = serviceInfo.services[index];
-      serviceInfo.services[index] = holder;
-      this.props.editService(serviceInfo, this.props.tab);
+  _handleSwap(index, type) {
+    const serviceInfo = cloneDeep(this.props.serviceInfo);
+
+    const holderIndex = type === "plus" ? index - 1 : index + 1;
+    if (holderIndex < 0 || holderIndex > serviceInfo.services.length - 1) {
+      return null;
     }
+    const holder = serviceInfo.services[holderIndex];
+
+    serviceInfo.services[holderIndex] = serviceInfo.services[index];
+    serviceInfo.services[index] = holder;
+    this.props.editService(serviceInfo, this.props.tab);
   }
 
   _renderOverviewServices(services) {
@@ -165,11 +171,25 @@ export default class ServiceTab extends React.Component {
               {this.props.currentUser && (
                 <Tooltip title={"Move Up"}>
                   <ArrowUp
-                    onClick={() => this._handleSwap(index)}
+                    onClick={() => this._handleSwap(index, "plus")}
                     style={{ cursor: index === 0 ? "not-allowed" : "pointer" }}
                   />
                 </Tooltip>
               )}
+              {this.props.currentUser && (
+                <Tooltip title={"Move Down"}>
+                  <ArrowDown
+                    onClick={() => this._handleSwap(index, "minus")}
+                    style={{
+                      cursor:
+                        index === services.length - 1
+                          ? "not-allowed"
+                          : "pointer",
+                    }}
+                  />
+                </Tooltip>
+              )}
+
               <li style={{ float: "left" }}>{service}</li>
             </div>
           </Paragraph>
@@ -297,7 +317,7 @@ export default class ServiceTab extends React.Component {
   }
   render() {
     if (!this.props.serviceInfo) {
-      return null;
+      return <Loader loading={true} />;
     }
     return (
       <div style={styles.mainContainer}>
