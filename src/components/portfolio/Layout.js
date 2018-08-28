@@ -1,19 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Paper from 'material-ui/Paper';
-import AppBar from 'material-ui/AppBar';
-import Select from 'material-ui/Select';
-import {MenuItem} from 'material-ui/Menu';
-import {MuiThemeProvider} from 'material-ui/styles';
-import {PortfolioTheme} from '../../styles/Theme'
+import React from "react";
+import PropTypes from "prop-types";
+import Paper from "material-ui/Paper";
+import AppBar from "material-ui/AppBar";
+import Select from "material-ui/Select";
+import { MenuItem } from "material-ui/Menu";
+import { MuiThemeProvider } from "material-ui/styles";
+import { PortfolioTheme } from "../../styles/Theme";
 
-import Portfolio from './Portfolio';
+import Portfolio from "./Portfolio";
 
 export default class Layout extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
 
   _handleChange(event) {
@@ -39,13 +38,13 @@ export default class Layout extends React.Component {
         className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
-        <Paper style={{height: '550px', overflow: 'scroll'}}>
-          <AppBar position="static" color="primary" style={{height: '48px'}}>
+        <Paper style={{ height: "550px", overflow: "scroll" }}>
+          <AppBar position="static" color="primary" style={{ height: "48px" }}>
             <MuiThemeProvider theme={PortfolioTheme}>
               <Select
                 value={this.props.activeSelection}
                 onChange={e => this._handleChange(e)}
-                style={{marginTop: '10px', width: '80%', margin: '10px auto'}}
+                style={{ marginTop: "10px", width: "80%", margin: "10px auto" }}
               >
                 {this._renderMenuItem()}
               </Select>
@@ -83,7 +82,7 @@ Layout.propTypes = {
 
 const styles = {
   mainContainer: {
-    minHeight: '600px',
-    paddingTop: '20px',
+    minHeight: "600px",
+    paddingTop: "20px",
   },
 };

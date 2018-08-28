@@ -44,7 +44,6 @@ export default class Layout extends React.Component {
               fullWidth
             >
               <Tab label="Overview" />
-              <Tab label="Reports" />
             </Tabs>
           </AppBar>
           <ServiceTab

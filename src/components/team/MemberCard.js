@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Card, {CardMedia, CardContent} from 'material-ui/Card';
-import Typography from 'material-ui/Typography';
+import React from "react";
+import PropTypes from "prop-types";
+import Card, { CardMedia, CardContent } from "material-ui/Card";
+import Typography from "material-ui/Typography";
 
 class MemberCard extends React.Component {
   render() {
-    var {member, index} = this.props;
+    var { member, index } = this.props;
     return (
       <div
         key={index}
@@ -14,20 +14,27 @@ class MemberCard extends React.Component {
       >
         <Card
           onClick={() => this.props.handleOpen(index)}
-          style={{height: '200px', width: '200px'}}
+          style={{ height: "200px", width: "200px" }}
         >
-          <CardMedia image={member.image} style={styles.media}>
+          <CardMedia
+            image={
+              member.image
+                ? member.image
+                : "https://blog.stylingandroid.com/wp-content/themes/lontano-pro/images/no-image-slide.png"
+            }
+            style={styles.media}
+          >
             <CardContent style={styles.content}>
               <Typography
                 variant="headline"
                 component="h2"
-                style={{fontSize: '16px'}}
+                style={{ fontSize: "16px" }}
               >
                 {member.name}
               </Typography>
               <Typography
                 component="p"
-                style={{fontSize: '12px', color: '#404448'}}
+                style={{ fontSize: "12px", color: "#404448" }}
               >
                 {member.title}
               </Typography>
@@ -48,20 +55,20 @@ MemberCard.propTypes = {
 
 const styles = {
   container: {
-    margin: '0px 0px 30px 0px',
-    height: '100%',
-    cursor: 'pointer',
+    margin: "0px 0px 30px 0px",
+    height: "100%",
+    cursor: "pointer",
   },
   media: {
-    height: '200px',
-    width: '200px',
-    display: 'flex',
-    alignItems: 'flex-end',
+    height: "200px",
+    width: "200px",
+    display: "flex",
+    alignItems: "flex-end",
   },
   content: {
-    width: '100%',
-    backgroundColor: 'rgba(232, 232, 232, 0.5)',
-    padding: '10px',
+    width: "100%",
+    backgroundColor: "rgba(232, 232, 232, 0.5)",
+    padding: "10px",
   },
 };
 

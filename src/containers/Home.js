@@ -12,7 +12,10 @@ import Layout from "../components/home/Layout";
 import Loader from "../components/shared/Loader";
 
 export class Home extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
+    document.title = "Innovative Development & Evaluation Associates";
+    document.getElementsByTagName("META")[3].content =
+      "I.D.E.A. Consulting provides exemplary leadership to county and state-level systems, assisting them in designing programs, evaluating services, complying with federal and state regulations, and transforming systems to achieve positive outcomes.";
     this.props.fetchParagraphs();
   }
 

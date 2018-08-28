@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-import {fetchCurrentUser, logOutUser} from '../actions/user';
-import {editActiveSub} from '../actions/navbar';
-import Layout from '../components/navbar/Layout';
+import { fetchCurrentUser, logOutUser } from "../actions/user";
+import { editActiveSub } from "../actions/navbar";
+import Layout from "../components/navbar/Layout";
 
 export class Navbar extends React.Component {
   componentDidMount() {
@@ -16,29 +16,44 @@ export class Navbar extends React.Component {
   render() {
     const data = [
       {
-        name: 'Research and Evaluation Reports',
-        value: 'researchAndEvaluation'
-      },{
-        name: 'Mental Health Services Act Materials',
-        value: 'mentalHealthService'
-      },{
-        name: 'Data Models',
-        value: 'dataModels'
-      },{
-        name: 'Logic Models',
-        value: 'logicModels'
-      },{
-        name: 'Plans',
-        value: 'plans'
-      },{
-        name: 'Forms',
-        value: 'forms'
-      },{
-        name: 'Policies and Procedures',
-        value: 'policiesAndProcedures'
-      },{
-        name: 'Grants',
-        value: 'grants'
+        name: "Research and Evaluation Reports",
+        value: "researchAndEvaluation",
+      },
+      {
+        name: "Mental Health Services Act Materials",
+        value: "mentalHealthService",
+      },
+      {
+        name: "Data Models",
+        value: "dataModels",
+      },
+      {
+        name: "Logic Models",
+        value: "logicModels",
+      },
+      {
+        name: "Plans",
+        value: "plans",
+      },
+      {
+        name: "Forms",
+        value: "forms",
+      },
+      {
+        name: "Policies and Procedures",
+        value: "policiesAndProcedures",
+      },
+      {
+        name: "Grants",
+        value: "grants",
+      },
+      {
+        name: "Brochures",
+        value: "brochures",
+      },
+      {
+        name: "Presentations",
+        value: "presentations",
       },
     ];
     return (
@@ -78,4 +93,7 @@ Navbar.propTypes = {
   activeSub: PropTypes.string,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Navbar);

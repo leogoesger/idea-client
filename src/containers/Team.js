@@ -13,7 +13,7 @@ import Layout from "../components/team/Layout";
 import Loader from "../components/shared/Loader";
 
 export class Team extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchTeam();
   }
 

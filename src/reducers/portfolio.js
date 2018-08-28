@@ -12,6 +12,8 @@ const initialState: STATE = {
   forms: null,
   policiesAndProcedures: null,
   grants: null,
+  brochures: null,
+  presentations: null,
 };
 
 export default function(state: STATE = initialState, action: ACTION) {

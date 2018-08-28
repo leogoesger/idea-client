@@ -1,18 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import {
   fetchServices,
   addService,
   editService,
   deleteService,
-} from '../actions/service';
+} from "../actions/service";
 
-import Layout from '../components/service/Layout';
+import Layout from "../components/service/Layout";
 
 export class Service extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
+    document.title =
+      "Innovative Development & Evaluation Associates - Services";
+    document.getElementsByTagName("META")[3].content =
+      "I.D.E.A. Consulting provides exemplary leadership to county and state-level systems, assisting them in designing programs, evaluating services, complying with federal and state regulations, and transforming systems to achieve positive outcomes.";
+
     this.props.fetchServices();
   }
 
@@ -66,4 +71,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Service);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Service);

@@ -1,19 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import {
   fetchPortfolios,
   addPortfolio,
   editPortfolio,
   deletePortfolio,
-} from '../actions/portfolio';
-import {editActiveSub} from '../actions/navbar';
+} from "../actions/portfolio";
+import { editActiveSub } from "../actions/navbar";
 
-import Layout from '../components/portfolio/Layout';
+import Layout from "../components/portfolio/Layout";
 
 export class Portfolio extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
+    document.title =
+      "Innovative Development & Evaluation Associates - Portfolio";
+    document.getElementsByTagName("META")[3].content =
+      "I.D.E.A. Consulting has over twenty years of experience in developing outcome measures and performance indicators.  We analyze and utilize data to develop models for understanding access, quality, cost-effectiveness, and outcomes for mental health and substance abuse service systems.";
+
     this.props.fetchPortfolios();
   }
 
@@ -27,6 +32,8 @@ export class Portfolio extends React.Component {
       forms: this.props.forms,
       policiesAndProcedures: this.props.policiesAndProcedures,
       grants: this.props.grants,
+      brochures: this.props.brochures,
+      presentations: this.props.presentations,
     };
     return (
       <Layout
@@ -58,6 +65,8 @@ Portfolio.propTypes = {
   forms: PropTypes.object,
   policiesAndProcedures: PropTypes.object,
   grants: PropTypes.object,
+  brochures: PropTypes.object,
+  presentations: PropTypes.object,
   fetchPortfolios: PropTypes.func,
   addPortfolio: PropTypes.func,
   editPortfolio: PropTypes.func,
@@ -78,6 +87,8 @@ const mapStateToProps = state => {
     forms: state.portfolio.forms,
     policiesAndProcedures: state.portfolio.policiesAndProcedures,
     grants: state.portfolio.grants,
+    brochures: state.portfolio.brochures,
+    presentations: state.portfolio.presentations,
     activeSub: state.navbar.activeSub,
   };
 };
@@ -91,9 +102,11 @@ const mapDispatchToProps = dispatch => {
       dispatch(editPortfolio(portfolio, portfolioType)),
     deletePortfolio: (portfolio, portfolioType) =>
       dispatch(deletePortfolio(portfolio, portfolioType)),
-    editActiveSub: activeSub => 
-      dispatch(editActiveSub(activeSub)),
+    editActiveSub: activeSub => dispatch(editActiveSub(activeSub)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Portfolio);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Portfolio);
