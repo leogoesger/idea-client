@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Paper from 'material-ui/Paper';
-import AppBar from 'material-ui/AppBar';
-import Tabs, {Tab} from 'material-ui/Tabs';
-import red from 'material-ui/colors/red';
+import React from "react";
+import PropTypes from "prop-types";
+import Paper from "material-ui/Paper";
+import AppBar from "material-ui/AppBar";
+import Tabs, { Tab } from "material-ui/Tabs";
+import red from "material-ui/colors/red";
 
-import ServiceTab from './ServiceTab';
+import ServiceTab from "./ServiceTab";
 
 export default class Layout extends React.Component {
   constructor(props) {
@@ -25,17 +25,17 @@ export default class Layout extends React.Component {
   }
 
   _tabChange(v) {
-    this.setState({tab: v});
+    this.setState({ tab: v });
   }
 
   render() {
-    const tabs = ['overviewServices', 'services'];
+    const tabs = ["overviewServices", "services"];
     return (
       <Paper
         className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
-        <Paper style={{minHeight: '550px'}}>
+        <Paper style={{ minHeight: "550px" }}>
           <AppBar position="static" color="primary">
             <Tabs
               value={this.state.tab}
@@ -71,14 +71,14 @@ Layout.propTypes = {
 
 const styles = {
   mainContainer: {
-    height: '600px',
-    paddingTop: '20px',
-    overflow: 'auto',
-    paddingBottom: '20px',
+    height: "600px",
+    paddingTop: "20px",
+    overflow: "auto",
+    paddingBottom: "20px",
   },
 
   btnContainer: {
-    display: 'flex',
-    justifyContent: 'space-around',
+    display: "flex",
+    justifyContent: "space-around",
   },
 };

@@ -114,5 +114,5 @@ EditExpansion.propTypes = {
 };
 
 const styles = {
-  mainContainer: { height: "500px", overflow: "scroll" },
+  mainContainer: { height: "500px", overflow: "auto" },
 };

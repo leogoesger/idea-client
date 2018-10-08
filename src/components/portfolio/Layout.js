@@ -38,7 +38,7 @@ export default class Layout extends React.Component {
         className="col-lg-10 col-md-10 col-xs-10"
         style={styles.mainContainer}
       >
-        <Paper style={{ height: "550px", overflow: "scroll" }}>
+        <Paper style={{ height: "550px", overflow: "auto" }}>
           <AppBar position="static" color="primary" style={{ height: "48px" }}>
             <MuiThemeProvider theme={PortfolioTheme}>
               <Select
@@ -84,5 +84,6 @@ const styles = {
   mainContainer: {
     minHeight: "600px",
     paddingTop: "20px",
+    overflow: "auto",
   },
 };
